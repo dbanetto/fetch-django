@@ -7,6 +7,8 @@ TEMPLATE_DEBUG = False
 
 SECRET_KEY = os.environ['DJANGO_FETCH_SECRET_KEY']
 
+ALLOWED_HOSTS = ['*']
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
