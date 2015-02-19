@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load bootstrap3 %}
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="{% static 'style.css' %}">
+	{% bootstrap_css %}
+	<title>{% block title %}title{% endblock title %}</title>
+</head>
+
+
+<div id="content">
+{% block content %}
+	<h1>base</h1>
+{% endblock content %}
+</div>
+
+{% bootstrap_javascript %}
+</html>
