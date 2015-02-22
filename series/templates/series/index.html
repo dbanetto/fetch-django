@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Providers
+{% endblock title %}
+
+{% block content %}
+<h1>Series - Index</h1>
+{% endblock content %}
+
+
+{% block navbar_items %}
+<li><a href="{% url 'fetch:index' %}">Home</a></li>
+<li class="active"><a href="{% url 'series:index' %}">Series</a></li>
+<li><a href="{% url 'provider:index' %}">Providers</a></li>
+{% endblock navbar_items %}

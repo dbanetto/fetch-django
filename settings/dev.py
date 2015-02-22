@@ -1,5 +1,6 @@
 from .defaults import *
 
+URL_ROOT = ''
 
 DATABASES = {
     'default': {

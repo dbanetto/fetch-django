@@ -5,6 +5,7 @@ from .defaults import *
 DEBUG = False
 TEMPLATE_DEBUG = False
 
+URL_ROOT = os.environ['DJANGO_FETCH_URL_ROOT']
 SECRET_KEY = os.environ['DJANGO_FETCH_SECRET_KEY']
 
 ALLOWED_HOSTS = ['*']

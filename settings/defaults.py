@@ -35,10 +35,13 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'select_multiple_field',
     'bootstrap3',
 
     'app',
     'fetch',
+    'provider',
+    'series',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -73,6 +76,10 @@ USE_I18N = True
 
 USE_L10N = True
 
+# Used for sub-directories:
+# add URL_ROOT to ROOT_URLCONF's urlpatterns
+# Should end with a /
+URL_ROOT = ''
 
 
 # Static files (CSS, JavaScript, Images)
