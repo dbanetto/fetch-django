@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from provider.models import Provider, BaseProvider
+
+
+admin.site.register(Provider)
+admin.site.register(BaseProvider)

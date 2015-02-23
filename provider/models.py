@@ -19,7 +19,7 @@ class BaseProvider(models.Model):
         (COMIC,   _('Comic')),
         (UNKNOWN, _('Unknown')),
     )
-    media_types = SelectMultipleField(max_length=len(MEDIA_TYPE_CHOICES),
+    media_types = SelectMultipleField(max_length=len(MEDIA_TYPE_CHOICES)*2,
                                       choices=MEDIA_TYPE_CHOICES,
                                       default=UNKNOWN,
                                       verbose_name="Media types")

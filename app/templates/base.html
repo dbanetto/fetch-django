@@ -33,12 +33,13 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="#">Fetch</a>
+    <div>
+      <a class="navbar-brand" href="{% url 'fetch:index' %}">Fetch</a>
+    </div>
   </div>
   <div id="navbar" class="collapse navbar-collapse">
     <ul class="nav navbar-nav">
       {% block navbar_items %}
-      <li class="active"><a href="{% url 'fetch:index' %}">Home</a></li>
       <li><a href="{% url 'series:index' %}">Series</a></li>
       <li><a href="{% url 'provider:index' %}">Providers</a></li>
       {% endblock navbar_items %}

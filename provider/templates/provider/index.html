@@ -1,16 +1,21 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Providers
+Providers - Index
 {% endblock title %}
 
-{% block content %}
-<h1>Providers - Index</h1>
-{% endblock content %}
-
-
 {% block navbar_items %}
-<li><a href="{% url 'fetch:index' %}">Home</a></li>
 <li><a href="{% url 'series:index' %}">Series</a></li>
 <li class="active"><a href="{% url 'provider:index' %}">Providers</a></li>
 {% endblock navbar_items %}
+
+{% block content %}
+<div class="page-header">
+  <h1>Providers</h1>
+</div>
+<ul>
+{% for provider in providers %}
+<li><a href="{% url 'provider:view' provider.id  %}">{{ provider }}</a></li>
+{% endfor %}
+<ul>
+{% endblock content %}

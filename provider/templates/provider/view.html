@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Providers - {{ provider.name }}
+{% endblock title %}
+
+{% block navbar_items %}
+<li><a href="{% url 'series:index' %}">Series</a></li>
+<li><a href="{% url 'provider:index' %}">Providers</a></li>
+{% endblock navbar_items %}
+
+{% block content %}
+<ol class="breadcrumb">
+  <li ><a href="{% url 'provider:index' %}">Providers</a></li>
+  <li class="active">{{ provider.name }}</li>
+</ol>
+<div class="page-header">
+  <h1>
+    {{ provider.name }}
+    <small>({{ provider.base_provider.name|capfirst }})</small>
+  </h1>
+</div>
+<ul>
+  <li>Website: <a href="{{ provider.website }}">{{ provider.website }}</a></li>
+</ul>
+{% endblock content %}
