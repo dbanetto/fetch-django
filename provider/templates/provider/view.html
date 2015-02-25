@@ -14,33 +14,57 @@ Providers - {{ provider.name }}
   <li ><a href="{% url 'provider:index' %}">Providers</a></li>
   <li class="active">{{ provider.name }}</li>
 </ol>
+
 <div class="page-header">
   <h1>
     {{ provider.name }}
     <small>({{ provider.base_provider.name|capfirst }})</small>
-
-    <form action="{% url 'provider:delete' provider.id %}" method="post" class="pull-right">
-    {% csrf_token %}
-      <button type="submit" class="btn btn-danger">
-        Delete
-      </button>
-    </form>
   </h1>
 </div>
+
 <ul>
   <li>Website: <a href="{{ provider.website }}">{{ provider.website }}</a></li>
+  <li>Count Regex: <code>{{ provider.regex_find_count }}</code></li>
 </ul>
 
 <div class="row" id="view-controls">
-  <form action="{% url 'provider:edit' provider.id %}" class="col-xs-1">
-    <button type="submit" class="btn btn-warning">
-      Edit
-    </button>
-  </form>
   <form action="{% url 'provider:index' %}" class="col-xs-1">
     <button type="submit" class="btn">
       Back
     </button>
   </form>
+  <form action="{% url 'provider:edit' provider.id %}" class="col-xs-1">
+    <button type="submit" class="btn btn-warning">
+      Edit
+    </button>
+  </form>
+  <button type="button" class="btn btn-danger btn-sm pull-right btn-delete" data-toggle="modal" data-target="#modal-delete">
+    Delete
+  </button>
+</div>
+
+
+<div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Are you sure?</h3>
+      </div>
+      <div class="modal-body">
+        <p>
+          Are you sure you want to delete {{ provider.name }}?
+        </p>
+      </div>
+      <div class="modal-footer">
+        <form action="{% url 'provider:delete' provider.id %}" method="post">
+          {% csrf_token %}
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal" >Close</button>
+          <button type="submit" class="btn btn-danger">
+            Delete
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock content %}

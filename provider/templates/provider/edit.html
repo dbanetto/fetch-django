@@ -7,6 +7,12 @@ Providers - Edit {{ provider.name }}
 
 
 {% block content %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'provider:index' %}">Providers</a></li>
+  <li><a href="{% url 'provider:view' provider.id %}">{{ provider.name }}</a></li>
+  <li class="active">Edit</li>
+</ol>
+
 <div class="page-header">
   <h1>Edit Provider: {{ provider.name }}</h1>
 </div>
