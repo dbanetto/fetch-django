@@ -11,11 +11,23 @@ Providers - Index
 
 {% block content %}
 <div class="page-header">
-  <h1>Providers</h1>
+  <h1>Providers
+
+    <form action="{% url 'provider:new' %}" class="pull-right">
+      <button type="submit" class="btn btn-success">
+        Create
+      </button>
+    </form>
+  </h1>
 </div>
+{% if providers|length == 0 %}
+<h4>No Providers avaiable</h4>
+<p>Please add some</p>
+{% else %}
 <ul>
-{% for provider in providers %}
-<li><a href="{% url 'provider:view' provider.id  %}">{{ provider }}</a></li>
-{% endfor %}
-<ul>
+  {% for provider in providers %}
+  <li><a href="{% url 'provider:view' provider.id  %}">{{ provider }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
 {% endblock content %}

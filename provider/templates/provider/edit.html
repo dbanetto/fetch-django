@@ -1,0 +1,28 @@
+{% extends 'provider/new.html' %}
+{% load bootstrap3 %}
+
+{% block title %}
+Providers - Edit {{ form.provider_name }}
+{% endblock title %}
+
+
+{% block content %}
+<div class="page-header">
+  <h1>Edit Provider: {{ provider.name }}</h1>
+</div>
+<div class="row col-lg-6">
+  <form action="{% url 'provider:edit' provider.id  %}" method="post" class="form well">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+
+    <button type="submit" class="btn btn-primary">
+        Sumbit
+      </button>
+  </form>
+  <form action="{% url 'provider:view' provider.id %}">
+    <button type="submit" class="btn">
+      Back
+    </button>
+  </form>
+</div>
+{% endblock content %}

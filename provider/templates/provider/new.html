@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}
+Providers - New
+{% endblock title %}
+
+{% block extra_head %}
+<link media="all" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css">
+{% endblock extra_head %}
+
+{% block extra_script %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+{% endblock extra_script %}
+
+{% block navbar_items %}
+<li><a href="{% url 'series:index' %}">Series</a></li>
+<li class="active"><a href="{% url 'provider:index' %}">Providers</a></li>
+{% endblock navbar_items %}
+
+
+{% block content %}
+<div class="page-header">
+  <h1>Create Provider</h1>
+</div>
+<div class="row col-lg-6">
+  <form action="{% url 'provider:new' %}" method="post" class="form well">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+
+    <button type="submit" class="btn btn-primary">
+        Sumbit
+      </button>
+  </form>
+  <form action="{% url 'provider:index' %}">
+    <button type="submit" class="btn">
+      Back
+    </button>
+  </form>
+</div>
+{% endblock content %}

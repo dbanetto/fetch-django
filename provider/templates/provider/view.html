@@ -18,9 +18,29 @@ Providers - {{ provider.name }}
   <h1>
     {{ provider.name }}
     <small>({{ provider.base_provider.name|capfirst }})</small>
+
+    <form action="{% url 'provider:delete' provider.id %}" method="post" class="pull-right">
+    {% csrf_token %}
+      <button type="submit" class="btn btn-danger">
+        Delete
+      </button>
+    </form>
   </h1>
 </div>
 <ul>
   <li>Website: <a href="{{ provider.website }}">{{ provider.website }}</a></li>
 </ul>
+
+<div class="row" id="view-controls">
+  <form action="{% url 'provider:edit' provider.id %}" class="col-xs-1">
+    <button type="submit" class="btn btn-warning">
+      Edit
+    </button>
+  </form>
+  <form action="{% url 'provider:index' %}" class="col-xs-1">
+    <button type="submit" class="btn">
+      Back
+    </button>
+  </form>
+</div>
 {% endblock content %}
