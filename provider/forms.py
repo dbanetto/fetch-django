@@ -17,7 +17,7 @@ class ProviderForm(forms.Form):
     provider_website = forms.URLField(label="Webiste",
                                       validators=[URLValidator])
 
-    CHOICE_BASE_PROVIDERS = tuple(((b.id, b))
+    CHOICE_BASE_PROVIDERS = tuple((b.id, b)
                                   for b in BaseProvider.objects.all())
     base_provider_id = forms.ChoiceField(label="Base Provider",
                                          choices=CHOICE_BASE_PROVIDERS,
