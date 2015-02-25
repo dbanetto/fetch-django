@@ -21,28 +21,38 @@ def view(request, provider_id):
 
 def new(request):
     if request.method == 'POST':
-        form = ProviderForm(request.POST)
-        form.full_clean()
-        if form.is_valid():
-            new_provider = Provider(name=form.cleaned_data['provider_name'],
-                                    website=form.cleaned_data['website'],
-                                    base_provider=form.base_provider(),
-                                    regex_find_count=form.cleaned_data
-                                    ['regex_find_count'])
-            new_provider.save()
-            messages.add_message(request,
-                                 messages.SUCCESS,
-                                 "<strong>Success</strong> Created {}"
-                                 .format(new_provider.name))
-            return HttpResponseRedirect(reverse('provider:view',
-                                                args=[new_provider.id]))
-        else:
-            messages.add_message(request,
-                                 messages.ERROR,
-                                 "<strong>Error:</strong>"
-                                 "Invalid form")
-            return render(request, 'provider/new.html',
-                          {'form': form})
+        try:
+            form = ProviderForm(request.POST)
+            form.full_clean()
+            if form.is_valid():
+                new_provider = Provider(name=form.cleaned_data
+                                        ['provider_name'],
+                                        website=form.cleaned_data
+                                        ['provider_website'],
+                                        base_provider=form.base_provider(),
+                                        regex_find_count=form.cleaned_data
+                                        ['regex_find_count'])
+                new_provider.save()
+                messages.add_message(request,
+                                     messages.SUCCESS,
+                                     "<strong>Success</strong> Created {}"
+                                     .format(new_provider.name))
+                return HttpResponseRedirect(reverse('provider:view',
+                                                    args=[new_provider.id]))
+            else:
+                messages.add_message(request,
+                                     messages.ERROR,
+                                     "<strong>Error:</strong>"
+                                     "Invalid form")
+                return render(request, 'provider/new.html',
+                              {'form': form})
+        except Exception as e:
+                messages.add_message(request,
+                                     messages.ERROR,
+                                     "<strong>Error:</strong>"
+                                     "{}".format(e))
+                return render(request, 'provider/new.html',
+                              {'form': ProviderForm})
     else:
         return render(request, 'provider/new.html',
                       {'form': ProviderForm})
