@@ -1,4 +1,5 @@
 *.pyc
 __pyccahe__/
+/static
 *.sqlite3
 fabfile.py

@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'select_multiple_field',
+    'static_precompiler',
     'bootstrap3',
 
     'app',
@@ -57,6 +58,7 @@ MIDDLEWARE_CLASSES = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'static_precompiler.finders.StaticPrecompilerFinder',
 )
 
 ROOT_URLCONF = 'app.urls'
@@ -89,51 +91,21 @@ STATIC_ROOT = 'static'
 
 # Bootstrap
 BOOTSTRAP3 = {
-
-    # The URL to the jQuery JavaScript file
-    'jquery_url': '//code.jquery.com/jquery.min.js',
-
-    # The Bootstrap base URL
-    'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.3.1/',
-
-    # The complete URL to the Bootstrap CSS file (None means derive it from base_url)
-    'css_url': None,
-
-    # The complete URL to the Bootstrap CSS file (None means no theme)
+    'jquery_url': '/static/js/jquery.min.js',
+    'base_url': '/static/bootstrap/',
+    'css_url': '/static/bootstrap/less/bootstrap.css',
     'theme_url': None,
-
-    # The complete URL to the Bootstrap JavaScript file (None means derive it from base_url)
     'javascript_url': None,
-
-    # Put JavaScript in the HEAD section of the HTML document (only relevant if you use bootstrap3.html)
     'javascript_in_head': False,
-
-    # Include jQuery with Bootstrap JavaScript (affects django-bootstrap3 template tags)
-    'include_jquery': False,
-
-    # Label class to use in horizontal forms
+    'include_jquery': True,
     'horizontal_label_class': 'col-md-2',
-
-    # Field class to use in horizontal forms
     'horizontal_field_class': 'col-md-4',
-
-    # Set HTML required attribute on required fields
     'set_required': True,
-
-    # Set placeholder attributes to label if no placeholder is provided
     'set_placeholder': True,
-
-    # Class to indicate required (better to set this in your Django form)
     'required_css_class': '',
-
-    # Class to indicate error (better to set this in your Django form)
     'error_css_class': 'has-error',
-
-    # Class to indicate success, meaning the field has valid input (better to set this in your Django form)
     'success_css_class': 'has-success',
-
-    # Renderers (only set these if you have studied the source and understand the inner workings)
-    'formset_renderers':{
+    'formset_renderers': {
         'default': 'bootstrap3.renderers.FormsetRenderer',
     },
     'form_renderers': {
@@ -144,3 +116,20 @@ BOOTSTRAP3 = {
         'inline': 'bootstrap3.renderers.InlineFieldRenderer',
     },
 }
+
+
+# static_precompiler
+STATIC_PRECOMPILER_COMPILERS = (
+    'static_precompiler.compilers.CoffeeScript',
+    'static_precompiler.compilers.LESS',
+)
+
+STATIC_PRECOMPILER_COMPILERS = (
+    ('static_precompiler.compilers.CoffeeScript',
+     {"executable": "/usr/bin/coffee"}),
+    ('static_precompiler.compilers.LESS',
+     {"executable": "/usr/bin/lessc"}),
+)
+
+STATIC_PRECOMPILER_OUTPUT_DIR = ""
+STATIC_PRECOMPILER_PREPEND_STATIC_URL = True

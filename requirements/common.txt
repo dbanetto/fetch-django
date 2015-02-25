@@ -1,3 +1,4 @@
 Django==1.7.4
 django-bootstrap3==5.1.1
 django-select-multiple-field==0.4.0
+django-static-precompiler==0.9

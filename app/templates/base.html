@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 {% load bootstrap3 %}
+{% load static compile_static %}
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {% bootstrap_css %}
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    {% block bootstrap_theme %}
-    {% endblock bootstrap_theme %}
+    <link rel="stylesheet" href="{% compile 'bootstrap/less/bootstrap.less' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -18,12 +18,15 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <title>{% block title %}title{% endblock title %}</title>
-    {% block extra_head %}{% endblock extra_head %}
+    {% block head_extra %}{% endblock head_extra %}
+
+    <title>
+      {% block title %}title{% endblock title %}
+    </title>
   </head>
 
   <body>
-    <nav class="navbar navbar-invert navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -59,8 +62,7 @@
       </div>
     </div>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     {% bootstrap_javascript %}
-    {% block extra_script %}{% endblock extra_script %}
+    {% block script_extra %}{% endblock script_extra %}
   </body>
 </html>
