@@ -9,17 +9,18 @@ Providers - Index
 <li class="active"><a href="{% url 'provider:index' %}">Providers</a></li>
 {% endblock navbar_items %}
 
-{% block content %}
-<div class="page-header">
-  <h1>Providers
+{% block header %}
+<h1>Providers
 
-    <form action="{% url 'provider:new' %}" class="pull-right">
-      <button type="submit" class="btn btn-success">
-        Create
-      </button>
-    </form>
-  </h1>
-</div>
+  <form action="{% url 'provider:new' %}" class="pull-right">
+    <button type="submit" class="btn btn-success">
+      Create
+    </button>
+  </form>
+</h1>
+{% endblock header %}
+
+{% block content %}
 {% if providers|length == 0 %}
 <h4>No Providers avaiable</h4>
 <p>Please add some</p>

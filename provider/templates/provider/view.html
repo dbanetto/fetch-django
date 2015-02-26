@@ -9,19 +9,21 @@ Providers - {{ provider.name }}
 <li><a href="{% url 'provider:index' %}">Providers</a></li>
 {% endblock navbar_items %}
 
-{% block content %}
+{% block breadcrumb %}
 <ol class="breadcrumb">
   <li ><a href="{% url 'provider:index' %}">Providers</a></li>
   <li class="active">{{ provider.name }}</li>
 </ol>
+{% endblock breadcrumb %}
 
-<div class="page-header">
-  <h1>
-    {{ provider.name }}
-    <small>({{ provider.base_provider.name|capfirst }})</small>
-  </h1>
-</div>
+{% block header %}
+<h1>
+  {{ provider.name }}
+  <small>({{ provider.base_provider.name|capfirst }})</small>
+</h1>
+{% endblock header %}
 
+{% block content %}
 <ul>
   <li>Website: <a href="{{ provider.website }}">{{ provider.website }}</a></li>
   <li>Count Regex: <code>{{ provider.regex_find_count }}</code></li>

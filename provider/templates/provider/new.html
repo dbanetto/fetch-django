@@ -19,23 +19,33 @@ Providers - New
 {% endblock navbar_items %}
 
 
-{% block content %}
-<div class="page-header">
-  <h1>Create Provider</h1>
-</div>
-<div class="row col-lg-6">
-  <form action="{% url 'provider:new' %}" method="post" class="form well">
-    {% csrf_token %}
-    {% bootstrap_form form %}
+{% block breadcrumb %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'provider:index' %}">Providers</a></li>
+  <li class="active">New</li>
+</ol>
+{% endblock breadcrumb %}
 
-    <button type="submit" class="btn btn-primary">
+{% block header %}
+<h1>Create Provider</h1>
+{% endblock header %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6">
+    <form action="{% url 'provider:new' %}" method="post" class="form well">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+
+      <button type="submit" class="btn btn-primary">
         Sumbit
       </button>
-  </form>
-  <form action="{% url 'provider:index' %}">
-    <button type="submit" class="btn">
-      Back
-    </button>
-  </form>
+    </form>
+    <form action="{% url 'provider:index' %}">
+      <button type="submit" class="btn">
+        Back
+      </button>
+    </form>
+  </div>
 </div>
 {% endblock content %}
