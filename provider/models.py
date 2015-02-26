@@ -10,9 +10,12 @@ class BaseProvider(models.Model):
     name = models.CharField(max_length=160,
                             verbose_name="Base Provider's name")
 
-    avaiable_options = models.TextField(default="quality",
-                                        help_text="A CSV list of options that "
-                                        "the base provider allows")
+    available_options = models.TextField(default="quality",
+                                         help_text="A CSV list of options that"
+                                         " the base provider allows")
+
+    def get_available_options(self):
+        return self.available_options.split(',')
 
     def __str__(self):
         return self.name

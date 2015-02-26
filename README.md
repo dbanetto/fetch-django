@@ -9,6 +9,15 @@ weekly/monthly release media.
 
 ## Setting up
 
+### Requirements
+
+Python 3.4+
+
+Pre-compilers
+
+- [less](http://lesscss.org)
+- [coffeescript](http://coffeescript.org)
+
 ### Development
 
 - install `requirements/core.txt` and `requirements/dev.txt`
@@ -16,7 +25,6 @@ weekly/monthly release media.
 - update database `./manage.py migrate`
 
 - run `./manage.py runserver`
-
 
 ## License
 
