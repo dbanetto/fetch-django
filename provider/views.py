@@ -29,7 +29,8 @@ def new(request):
                                         ['provider_name'],
                                         website=form.cleaned_data
                                         ['provider_website'],
-                                        base_provider=form.base_provider(),
+                                        base_provider=form.cleaned_data
+                                        ['base_provider'],
                                         regex_find_count=form.cleaned_data
                                         ['regex_find_count'])
                 new_provider.save()
@@ -66,8 +67,7 @@ def edit(request, provider_id):
         if form.is_valid():
             provider.name = form.cleaned_data['provider_name']
             provider.website = form.cleaned_data['provider_website']
-            provider.base_provider = BaseProvider.objects.get(
-                pk=form.cleaned_data['base_provider_id'])
+            provider.base_provider = form.cleaned_data['base_provider']
             provider.regex_find_count = form.cleaned_data['regex_find_count']
 
             provider.save()
