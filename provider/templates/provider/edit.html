@@ -17,3 +17,23 @@ Providers - Edit {{ provider.name }}
 {% block header %}
 <h1>Edit Provider: {{ provider.name }}</h1>
 {% endblock header %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6">
+    <form action="{% url 'provider:edit' provider.id  %}" method="post" class="form well">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+
+      <button type="submit" class="btn btn-primary">
+        Sumbit
+      </button>
+    </form>
+    <form action="{% url 'provider:view' provider.id %}">
+      <button type="submit" class="btn">
+        Back
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock content %}
