@@ -1,13 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'provider/index.html' %}
 
 {% block title %}
 Providers - {{ provider.name }}
 {% endblock title %}
-
-{% block navbar_items %}
-<li><a href="{% url 'series:index' %}">Series</a></li>
-<li><a href="{% url 'provider:index' %}">Providers</a></li>
-{% endblock navbar_items %}
 
 {% block breadcrumb %}
 <ol class="breadcrumb">
