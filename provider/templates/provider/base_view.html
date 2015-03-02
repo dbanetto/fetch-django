@@ -1,0 +1,20 @@
+{% extends 'provider/index.html' %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+  <li ><a href="{% url 'provider:base_index' %}">Base Providers</a></li>
+  <li class="active">{{ base_provider.name }}</li>
+</ol>
+{% endblock breadcrumb %}
+
+{% block header %}
+<h1>
+  {{ base_provider.name }}
+</h1>
+{% endblock header %}
+
+{% block content %}
+<ul>
+  <li>Available Options: <code>{{ base_provider.get_available_options }}</code></a></li>
+</ul>
+{% endblock content %}

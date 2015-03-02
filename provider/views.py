@@ -105,3 +105,13 @@ def delete(request, provider_id):
     else:
         return HttpResponseRedirect(reverse('provider:view',
                                             args=(provider_id)))
+
+
+def base_index(request):
+    return render(request, 'provider/base_index.html',
+                  {'base_providers': BaseProvider.objects.all()})
+
+def base_view(request, base_provider_id):
+    base_provider = get_object_or_404(BaseProvider, pk=base_provider_id)
+    return render(request, 'provider/base_view.html',
+                  {'base_provider': base_provider})

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Providers - Base - Index
+{% endblock title %}
+
+{% block navbar_items %}
+<li><a href="{% url 'series:index' %}">Series</a></li>
+<li class="active"><a href="{% url 'provider:index' %}">Providers</a></li>
+{% endblock navbar_items %}
+
+{% block header %}
+<h1>Base Provider</h1>
+{% endblock header %}
+
+{% block content %}
+{% if base_providers|length == 0 %}
+<h4>No Base Providers avaiable</h4>
+<p>Please add some</p>
+{% else %}
+<ul>
+  {% for base_provider in base_providers %}
+  <li><a href="{% url 'provider:base_view' base_provider.id  %}">{{ base_provider }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock content %}
