@@ -1,0 +1,9 @@
+{
+	"name": "{{ base_provider.name }}",
+	"id" : {{ base_provider.id }},
+	"options" : [
+{% for opt in base_provider.get_available_options %}
+		"{{ opt }}"
+{% if forloop.last == False %},{% endif %}{% endfor %}
+	]
+}

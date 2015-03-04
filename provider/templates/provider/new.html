@@ -21,7 +21,7 @@ Providers - New
   <div class="col-md-6">
     <form action="{% url 'provider:new' %}" method="post" class="form well">
       {% csrf_token %}
-      {% bootstrap_form form %}
+      {% include 'provider/form_provider.html' %}
 
       <button type="submit" class="btn btn-primary">
         Sumbit

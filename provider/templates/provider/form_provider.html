@@ -1,0 +1,38 @@
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% bootstrap_form_errors form %}
+<div class="fieldWrapper">
+  {{ form.provider_name.errors }}
+  {% bootstrap_field  form.provider_name %}
+</div>
+<div class="fieldWrapper">
+  {{ form.provider_website.errors }}
+  {% bootstrap_field form.provider_website %}
+</div>
+<div class="fieldWrapper">
+  {{ form.regex_find_count.errors }}
+  {% bootstrap_field form.regex_find_count %}
+</div>
+<div class="fieldWrapper">
+  {{ form.base_provider.errors }}
+  {% bootstrap_field  form.base_provider %}
+</div>
+<div id="extra_options">
+  {% comment %} TODO: Pre-bake Javascript dynamic output with values {% endcomment %}
+</div>
+
+<script type="text/javascript" src="{% static 'js/options.js' %}"></script>
+<script type="text/javascript">
+$('#id_base_provider').change(function() {
+	$.ajax({
+		type: 'GET',
+		url: '{% url "provider:base_index" %}' + $('#id_base_provider')[0].value + '.json',
+		success: function(data) {
+			genOptions(data, "extra_options");
+		}
+	})
+});
+
+$('#id_base_provider').change();
+</script>

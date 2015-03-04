@@ -111,7 +111,21 @@ def base_index(request):
     return render(request, 'provider/base_index.html',
                   {'base_providers': BaseProvider.objects.all()})
 
+
 def base_view(request, base_provider_id):
     base_provider = get_object_or_404(BaseProvider, pk=base_provider_id)
     return render(request, 'provider/base_view.html',
                   {'base_provider': base_provider})
+
+
+def base_index_json(request):
+    return render(request, 'provider/base_index.json',
+                  {'base_providers': BaseProvider.objects.all()},
+                  content_type='application/json')
+
+
+def base_view_json(request, base_provider_id):
+    base_provider = get_object_or_404(BaseProvider, pk=base_provider_id)
+    return render(request, 'provider/base_view.json',
+                  {'base_provider': base_provider},
+                  content_type='application/json')

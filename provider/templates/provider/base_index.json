@@ -1,0 +1,8 @@
+[
+	{% for provider in base_providers %}
+	{
+		"id":{{ provider.id }},
+		"name": {{provider.name}}
+	}{% if forloop.last == False %},{% endif %}
+	{% endfor %}
+]

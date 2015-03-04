@@ -16,10 +16,10 @@ class ProviderForm(forms.Form):
                                        label="Count Regex",
                                        validators=[RegexValidator])
 
-    def from_provider(provider):
+    def from_provider(provider, initial=None):
         return ProviderForm({
             'provider_name': provider.name,
             'provider_website': provider.website,
             'regex_find_count': provider.regex_find_count,
             'base_provider': provider.base_provider.id,
-        })
+        }, initial=initial)
