@@ -20,6 +20,14 @@
 </div>
 <div id="extra_options">
   {% comment %} TODO: Pre-bake Javascript dynamic output with values {% endcomment %}
+  {% if provider %}
+  {% for option in provider.base_provider.get_available_options  %}
+  <div class="form-group has-success">
+    <label class="control-label" for="id_porivder_{{ option }}">{{ option|capfirst }}</label>
+    <input id="id_provider_{{ option }}" class="form-control" type="text" value="" title="{{ option }}" name="option_{{ option }}"></input>
+  </div>
+  {% endfor %}
+  {% endif %}
 </div>
 
 <script type="text/javascript" src="{% static 'js/options.js' %}"></script>
@@ -33,6 +41,7 @@ $('#id_base_provider').change(function() {
 		}
 	})
 });
-
+{% if not provider %}
 $('#id_base_provider').change();
+{% endif%}
 </script>
