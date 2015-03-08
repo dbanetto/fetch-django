@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from series.models import MediaType, Series
+
+admin.site.register(MediaType)
+admin.site.register(Series)

@@ -20,3 +20,5 @@ DATABASES = {
         'PORT': os.environ['DJANGO_FETCH_POSTGRES_PORT'],
     }
 }
+
+MEDIA_ROOT = os.environ['DJANGO_FETCH_MEDIA_ROOT']

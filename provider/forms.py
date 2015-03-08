@@ -26,7 +26,6 @@ class ProviderForm(forms.Form):
         }, initial=initial)
 
     def clean(self):
-        print(self)
         clean_data = super(ProviderForm, self).clean()
         options = {}
         for extra in clean_data['base_provider'].get_available_options():
