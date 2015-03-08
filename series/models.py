@@ -13,6 +13,7 @@ class MediaType(models.Model):
     name = models.CharField(max_length=80,
                             help_text="Name of the media type")
     available_options = models.TextField(default="id",
+                                         blank=True,
                                          help_text="A CSV list of options that"
                                          " the media type allows")
 
