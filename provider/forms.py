@@ -1,5 +1,6 @@
 from django import forms
-from django.core.validators import RegexValidator, URLValidator
+from django.core.validators import RegexValidator, URLValidator, ValidationError
+from django.utils.translation import ugettext as _
 
 from provider.models import BaseProvider
 
@@ -23,3 +24,21 @@ class ProviderForm(forms.Form):
             'regex_find_count': provider.regex_find_count,
             'base_provider': provider.base_provider.id,
         }, initial=initial)
+
+    def clean(self):
+        print(self)
+        clean_data = super(ProviderForm, self).clean()
+        options = {}
+        for extra in clean_data['base_provider'].get_available_options():
+            try:
+                options[extra] = str(self.data['extra_options_' + extra])
+                if options[extra] == "":
+                    raise ValidationError(_('Invalid value: %(value)s '
+                                            'cannot be null'),
+                                          code='invalid',
+                                          params={'value': str(extra)},
+                                          )
+            except KeyError:
+                options[extra] = ""
+
+        self.cleaned_data['options'] = options

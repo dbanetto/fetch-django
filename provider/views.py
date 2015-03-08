@@ -32,7 +32,9 @@ def new(request):
                                         base_provider=form.cleaned_data
                                         ['base_provider'],
                                         regex_find_count=form.cleaned_data
-                                        ['regex_find_count'])
+                                        ['regex_find_count'],
+                                        options=form.cleaned_data
+                                        ['options'])
                 new_provider.save()
                 messages.add_message(request,
                                      messages.SUCCESS,
@@ -69,6 +71,7 @@ def edit(request, provider_id):
             provider.website = form.cleaned_data['provider_website']
             provider.base_provider = form.cleaned_data['base_provider']
             provider.regex_find_count = form.cleaned_data['regex_find_count']
+            provider.options = form.cleaned_data['options']
 
             provider.save()
 

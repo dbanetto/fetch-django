@@ -23,13 +23,11 @@ Providers - New
       {% csrf_token %}
       {% include 'provider/form_provider.html' %}
 
-      <button type="submit" class="btn btn-primary">
-        Sumbit
-      </button>
-    </form>
-    <form action="{% url 'provider:index' %}">
-      <button type="submit" class="btn">
+      <a href="{% url 'provider:index' %}" class="btn btn-default">
         Back
+      </a>
+      <button type="submit" class="btn btn-primary pull-right">
+        Sumbit
       </button>
     </form>
   </div>

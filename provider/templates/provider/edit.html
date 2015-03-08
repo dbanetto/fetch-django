@@ -25,13 +25,11 @@ Providers - Edit {{ provider.name }}
       {% csrf_token %}
       {% include 'provider/form_provider.html' %}
 
-      <button type="submit" class="btn btn-primary">
-        Sumbit
-      </button>
-    </form>
-    <form action="{% url 'provider:view' provider.id %}">
-      <button type="submit" class="btn">
+      <a class="btn btn-default" href="{% url 'provider:view' provider.id %}" >
         Back
+      </a>
+      <button type="submit" class="btn btn-primary pull-right">
+        Sumbit
       </button>
     </form>
   </div>

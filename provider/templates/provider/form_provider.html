@@ -13,20 +13,25 @@
 <div class="fieldWrapper">
   {{ form.regex_find_count.errors }}
   {% bootstrap_field form.regex_find_count %}
+  {% comment %}
+  TODO: Add regex test bed for regex options
+  {% endcomment %}
 </div>
 <div class="fieldWrapper">
   {{ form.base_provider.errors }}
   {% bootstrap_field  form.base_provider %}
 </div>
 <div id="extra_options">
-  {% comment %} TODO: Pre-bake Javascript dynamic output with values {% endcomment %}
-  {% if provider %}
-  {% for option in provider.base_provider.get_available_options  %}
+  {% if provider and not provider.options == None %}
+  <h3>Additional options for {{ provider.base_provider.name }}</h3>
+  {% for opt, val in provider.options.items %}
   <div class="form-group has-success">
-    <label class="control-label" for="id_porivder_{{ option }}">{{ option|capfirst }}</label>
-    <input id="id_provider_{{ option }}" class="form-control" type="text" value="" title="{{ option }}" name="option_{{ option }}"></input>
+    <label class="control-label" for="id_porivder_{{ opt }}">{{ opt }}</label>
+    <input id="id_provider_{{ opt }}" class="form-control" type="text" value="{{ val }}" placeholder="{{ opt }}" title="{{ opt }}" name="extra_options_{{ opt }}"></input>
   </div>
   {% endfor %}
+  {% else %}
+  <p>Loading additional options</p>
   {% endif %}
 </div>
 
@@ -38,10 +43,12 @@ $('#id_base_provider').change(function() {
 		url: '{% url "provider:base_index" %}' + $('#id_base_provider')[0].value + '.json',
 		success: function(data) {
 			genOptions(data, "extra_options");
-		}
-	})
+    }
+  })
 });
-{% if not provider %}
-$('#id_base_provider').change();
+{% if not provider or povider.options|length == 0 %}
+  $('#id_base_provider').ready(function() {
+    $('#id_base_provider').change();
+  });
 {% endif%}
 </script>

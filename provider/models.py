@@ -1,4 +1,5 @@
 from django.db import models
+from json_field import JSONField
 
 
 class BaseProvider(models.Model):
@@ -10,7 +11,7 @@ class BaseProvider(models.Model):
     name = models.CharField(max_length=160,
                             verbose_name="Base Provider's name")
 
-    available_options = models.TextField(default="quality",
+    available_options = models.TextField(default="id",
                                          help_text="A CSV list of options that"
                                          " the base provider allows")
 
@@ -39,6 +40,12 @@ class Provider(models.Model):
                                         "client side "
                                         "to extract the episode/chapter count "
                                         "from a file name")
+    options = JSONField(help_text="JSON Object filled of BaseProvider's"
+                                  " available_options with data")
+
+    available_options = models.TextField(default="quality",
+                                         help_text="A CSV list of options that"
+                                         " the provider allows")
 
     def __str__(self):
         return "{} ({})".format(self.name, self.base_provider.name)

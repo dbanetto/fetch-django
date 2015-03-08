@@ -18,3 +18,11 @@
 .btn-delete {
 	margin-right: 15px;
 }
+
+.well hr {
+	border-color: #D8D8D8;
+}
+
+.well a {
+	border-color: #D8D8D8;
+}
