@@ -1,3 +1,5 @@
+import os
+
 from django.utils import timezone
 from django.db import models
 from json_field import JSONField
@@ -24,6 +26,19 @@ class MediaType(models.Model):
         return self.available_options.split(',')
 
 
+def poster_path(instance, filename):
+    path = 'series/poster'
+    ext = filename.split('.')[-1]
+    # get filename
+    if instance.pk:
+        filename = '{}/{}.{}'.format(instance.provider.name, instance.name, ext)
+    else:
+        # set filename as random string
+        filename = '{}.{}'.format(uuid4().hex, ext)
+    # return the whole path to the file
+    return os.path.join(path, filename)
+
+
 class Series(models.Model):
     provider = models.ForeignKey(Provider)
     name = models.CharField(max_length=160,
@@ -35,7 +50,8 @@ class Series(models.Model):
     total_count = models.PositiveSmallIntegerField(default=0)
 
     poster = models.ImageField(blank=True,
-                               upload_to='series/posters')
+                               editable=True,
+                               upload_to=poster_path)
 
     provider_options = JSONField(blank=True,
                                  help_text="A JSON object of options"
@@ -48,7 +64,8 @@ class Series(models.Model):
                                    default=None,
                                    help_text="Series' media type")
 
-    def next_release():
+
+    def next_release(self):
         " Return a Date object of the next release "
         pass
 

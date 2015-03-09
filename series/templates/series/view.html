@@ -1,0 +1,24 @@
+{% extends 'series/index.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Series - {{ series.name }}
+{% endblock title %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+  <li ><a href="{% url 'series:index' %}">Series</a></li>
+  <li class="active">{{ series.name }}</li>
+</ol>
+{% endblock breadcrumb %}
+
+{% block header %}
+<h1>
+  {{ series.name }}
+  <small>({{ series.provider.name }})</small>
+</h1>
+{% endblock header %}
+
+{% block content %}
+<img src="{{ series.poster.url }}">
+{% endblock content %}
