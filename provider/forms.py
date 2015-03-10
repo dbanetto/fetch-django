@@ -23,6 +23,7 @@ class ProviderForm(forms.Form):
             'provider_website': provider.website,
             'regex_find_count': provider.regex_find_count,
             'base_provider': provider.base_provider.id,
+            'options': provider.options,
         }, initial=initial)
 
     def clean(self):
