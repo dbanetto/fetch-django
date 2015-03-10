@@ -20,5 +20,49 @@ Series - {{ series.name }}
 {% endblock header %}
 
 {% block content %}
-<img src="{{ series.poster.url }}">
+<div class="row">
+	<div class="col-md-3">
+		<img src="{{ series.poster.url }}">
+	</div>
+	<div class="col-md-6">
+		<table>
+			<tr>
+				<td><strong>Media Type</strong></td>
+				<td>{{ series.media_type }}</td>
+			</tr>
+			<tr>
+				<td><strong>Start Date</strong></td>
+				<td>{{ series.start_date }}</td>
+			</tr>
+			<tr>
+				<td><strong>End Date</strong></td>
+				<td>{{ series.end_date }}</td>
+			</tr>
+			<tr>
+				<td><strong>Is Airing</strong></td>
+				<td>{{ series.series_airing }}</td>
+			</tr>
+			<tr>
+				<td><strong>Has ended</strong></td>
+				<td>{{ series.series_ended }}</td>
+			</tr>
+			<tr>
+				<td><strong>Next Release</strong></td>
+				<td>{{ series.next_release }}</td>
+			</tr>
+			<tr>
+				<td><strong>Episode Count</strong></td>
+				<td>{{ series.current_count }}/{{ series.total_count }}</td>
+			</tr>
+			<tr>
+				<td><strong>Provider Options</strong></td>
+				<td><code>{{ series.provider_options }}</code></td>
+			</tr>
+			<tr>
+				<td><strong>Media Type Options</strong></td>
+				<td><code>{{ series.media_type_options }}</code></td>
+			</tr>
+		</table>
+	</div>
+</div>
 {% endblock content %}

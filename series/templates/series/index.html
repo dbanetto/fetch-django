@@ -12,3 +12,11 @@ Series - Index
 {% block header %}
 <h1>Series</h1>
 {% endblock header %}
+
+{% block content %}
+<ul>
+	{% for s in series %}
+		<li><a href="{% url 'series:view' s.id %}">{{ s }}</a></li>
+	{% endfor %}
+</ul>
+{% endblock content %}

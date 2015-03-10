@@ -71,11 +71,11 @@ class Series(models.Model):
 
     def series_ended(self):
         " Boolean of if the series has ended airing/publishing "
-        pass
+        return timezone.now().date() > self.end_date
 
     def series_airing(self):
         " Boolean of if the series is currently airing/publishing "
-        pass
+        return timezone.now().date() < self.end_date and timezone.now().date() > self.start_date
 
     def __str__(self):
         return "{} ({})".format(self.name, self.provider.name)
