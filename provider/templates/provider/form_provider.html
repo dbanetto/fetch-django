@@ -21,6 +21,7 @@
   {{ form.base_provider.errors }}
   {% bootstrap_field  form.base_provider %}
 </div>
+  {% bootstrap_field  form.options %}
 <div id="extra_options">
   {% if provider and not provider.options == None %}
   <h3>Additional options for {{ provider.base_provider.name }}</h3>
@@ -38,11 +39,13 @@
 <script type="text/javascript" src="{% static 'js/options.js' %}"></script>
 <script type="text/javascript">
 $('#id_base_provider').change(function() {
-	$.ajax({
+  id_base = $('#id_base_provider')[0]
+  if (id_base.value === "") { $("#extra_options").empty(); return; }
+  $.ajax({
 		type: 'GET',
 		url: '{% url "provider:base_index" %}' + $('#id_base_provider')[0].value + '.json',
 		success: function(data) {
-			genOptions(data, "extra_options");
+			genOptions(data, "extra_options", "id_options");
     }
   })
 });

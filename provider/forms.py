@@ -1,5 +1,5 @@
 from django import forms
-from django.core.validators import RegexValidator, URLValidator, ValidationError
+from django.core.validators import ValidationError
 from django.utils.translation import ugettext as _
 
 from provider.models import BaseProvider
@@ -7,15 +7,15 @@ from provider.models import BaseProvider
 
 class ProviderForm(forms.Form):
     provider_name = forms.CharField(label='Provider Name')
-    provider_website = forms.URLField(label="Webiste",
-                                      validators=[URLValidator])
+    provider_website = forms.URLField(label="Webiste")
 
-    base_provider = forms.ModelChoiceField(empty_label=None,
+    base_provider = forms.ModelChoiceField(empty_label="---",
                                            queryset=BaseProvider.objects,
                                            label="Base Provider")
     regex_find_count = forms.CharField(max_length=256,
-                                       label="Count Regex",
-                                       validators=[RegexValidator])
+                                       label="Count Regex")
+
+    options = forms.CharField(widget=forms.HiddenInput()) # TODO: Validator for JSON
 
     def from_provider(provider, initial=None):
         return ProviderForm({
@@ -27,17 +27,4 @@ class ProviderForm(forms.Form):
 
     def clean(self):
         clean_data = super(ProviderForm, self).clean()
-        options = {}
-        for extra in clean_data['base_provider'].get_available_options():
-            try:
-                options[extra] = str(self.data['extra_options_' + extra])
-                if options[extra] == "":
-                    raise ValidationError(_('Invalid value: %(value)s '
-                                            'cannot be null'),
-                                          code='invalid',
-                                          params={'value': str(extra)},
-                                          )
-            except KeyError:
-                options[extra] = ""
-
-        self.cleaned_data['options'] = options
+        # TODO: verify JSON is valid for the Base Provider
