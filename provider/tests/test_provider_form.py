@@ -25,6 +25,8 @@ class ProviderFormTest(TestCase):
                          form.cleaned_data['regex_find_count'])
         self.assertEqual(p.base_provider,
                          form.cleaned_data['base_provider'])
+        self.assertEqual(p.options,
+                         form.cleaned_data['options'])
 
     def test_all_filled_valid(self):
         form = ProviderForm({
@@ -32,6 +34,7 @@ class ProviderFormTest(TestCase):
             'provider_website': "http://e.com",
             'regex_find_count': "\\d+",
             'base_provider': self.base.id,
+            'options': '{"opt":"1"}',
         })
         self.assertEqual(True,
                          form.is_valid())
@@ -42,6 +45,7 @@ class ProviderFormTest(TestCase):
             'provider_website': "http://e.com",
             'regex_find_count': "\\d+",
             'base_provider': self.base.id,
+            'options': '{"opt":"1"}',
         })
         self.assertEqual(False,
                          form.is_valid())
@@ -52,6 +56,7 @@ class ProviderFormTest(TestCase):
             'provider_website': "",
             'regex_find_count': "\\d+",
             'base_provider': self.base.id,
+            'options': '{"opt":"1"}',
         })
         self.assertEqual(False,
                          form.is_valid())
@@ -60,6 +65,7 @@ class ProviderFormTest(TestCase):
             'provider_website': "not a url",
             'regex_find_count': "\\d+",
             'base_provider': self.base.id,
+            'options': '{"opt":"1"}',
         })
         self.assertEqual(False,
                          form.is_valid())
@@ -70,16 +76,37 @@ class ProviderFormTest(TestCase):
             'provider_website': "http://e.com",
             'regex_find_count': "",
             'base_provider': self.base.id,
+            'options': '{"opt":"1"}',
         })
         self.assertEqual(False,
                          form.is_valid())
 
+    def test_options_not_valid(self):
+        form = ProviderForm({
+            'provider_name': "test",
+            'provider_website': "http://e.com",
+            'regex_find_count': "\d+",
+            'base_provider': self.base.id,
+            'options': 'not json',
+        })
+        self.assertEqual(False,
+                         form.is_valid())
+        form = ProviderForm({
+            'provider_name': "test",
+            'provider_website': "http://e.com",
+            'regex_find_count': "\d+",
+            'base_provider': self.base.id,
+            'options': "10 things",
+        })
+        self.assertEqual(False,
+                         form.is_valid())
     def test_base_provider_not_valid(self):
         form = ProviderForm({
             'provider_name': "test",
             'provider_website': "http://e.com",
             'regex_find_count': "\\d+",
             'base_provider': "",
+            'options': '{"opt":"1"}',
         })
         self.assertEqual(False,
                          form.is_valid())
@@ -88,6 +115,7 @@ class ProviderFormTest(TestCase):
             'provider_website': "http://e.com",
             'regex_find_count': "\\d+",
             'base_provider': -1,
+            'options': '{"opt":"1"}',
         })
         self.assertEqual(False,
                          form.is_valid())
