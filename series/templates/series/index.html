@@ -10,7 +10,13 @@ Series - Index
 {% endblock navbar_items %}
 
 {% block header %}
-<h1>Series</h1>
+<h1>Series
+  <div class="pull-right">
+    <a href="{% url 'series:new' %}" class="btn btn-success">
+      Create
+    </a>
+  </div>
+</h1>
 {% endblock header %}
 
 {% block content %}
