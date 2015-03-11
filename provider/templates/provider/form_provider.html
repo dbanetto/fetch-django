@@ -43,7 +43,7 @@
     if (id_base.value === "") { $("#extra_options").empty(); return; }
     $.ajax({
       type: 'GET',
-      url: '{% url "provider:base_index" %}' + $('#id_base_provider')[0].value + '.json',
+      url: '{% url "provider:base_index" "/" %}' + $('#id_base_provider')[0].value + '.json',
       success: function(data) {
         genOptions(data, "extra_options", "id_options");
       }

@@ -11,10 +11,7 @@ urlpatterns = patterns(
     url(r'^(?P<provider_id>\d+)/delete/$', views.delete, name='delete'),
 
     # Base Provider
-    url(r'^base/$', views.base_index, name='base_index'),
-    url(r'^base.json$', views.base_index_json, name='base_index_json'),
-    url(r'^base/(?P<base_provider_id>\d+)/$', views.base_view,
-        name='base_view'),
-    url(r'^base/(?P<base_provider_id>\d+).json$', views.base_view_json,
-        name='base_view_json'),
+    url(r'^base(/|\.json)$', views.base_index, name='base_index'),
+    url(r'^base/(?P<base_provider_id>\d+)(?P<postfix>/|\.json)$',
+        views.base_view, name='base_view'),
 )

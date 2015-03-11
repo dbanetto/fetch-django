@@ -1,18 +1,19 @@
-{% extends 'base.html' %}
+{% extends 'provider/index.html' %}
 
 {% block title %}
 Providers - Base - Index
 {% endblock title %}
 
-{% block navbar_items %}
-<li><a href="{% url 'series:index' %}">Series</a></li>
-<li class="active"><a href="{% url 'provider:index' %}">Providers</a></li>
-{% endblock navbar_items %}
-
 {% block header %}
 <h1>Base Provider</h1>
 {% endblock header %}
 
+{% block breadcrumb %}
+<ol class="breadcrumb">
+  <li ><a href="{% url 'provider:index' %}">Provider</a></li>
+  <li class="active">Base Provider</li>
+</ol>
+{% endblock breadcrumb %}
 {% block content %}
 {% if base_providers|length == 0 %}
 <h4>No Base Providers avaiable</h4>
@@ -20,7 +21,7 @@ Providers - Base - Index
 {% else %}
 <ul>
   {% for base_provider in base_providers %}
-  <li><a href="{% url 'provider:base_view' base_provider.id  %}">{{ base_provider }}</a></li>
+  <li><a href="{% url 'provider:base_view' base_provider.id '/' %}">{{ base_provider }}</a></li>
   {% endfor %}
 </ul>
 {% endif %}
