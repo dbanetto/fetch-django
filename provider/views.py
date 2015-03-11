@@ -64,21 +64,22 @@ def new(request):
 def edit(request, provider_id):
     provider = get_object_or_404(Provider, pk=provider_id)
     if request.method == 'POST':
-        form = ProviderForm(request.POST)
+        form = ProviderForm(request.POST, initial=provider.as_dict())
         form.full_clean()
         if form.is_valid():
-            provider.name = form.cleaned_data['provider_name']
-            provider.website = form.cleaned_data['provider_website']
-            provider.base_provider = form.cleaned_data['base_provider']
-            provider.regex_find_count = form.cleaned_data['regex_find_count']
-            provider.options = form.cleaned_data['options']
+            if form.has_changed():
+                provider.name = form.cleaned_data['name']
+                provider.website = form.cleaned_data['website']
+                provider.base_provider = form.cleaned_data['base_provider']
+                provider.regex_find_count = form.cleaned_data['regex_find_count']
+                provider.options = form.cleaned_data['options']
 
-            provider.save()
+                provider.save()
 
-            messages.add_message(request,
-                                 messages.SUCCESS,
-                                 "<strong>Success</strong> Edited {}"
-                                 .format(provider.name))
+                messages.add_message(request,
+                                     messages.SUCCESS,
+                                     "<strong>Success</strong> Edited {}"
+                                     .format(provider.name))
             return HttpResponseRedirect(reverse('provider:view',
                                                 args=[provider.id]))
         else:
@@ -90,7 +91,7 @@ def edit(request, provider_id):
                           {'form': form,
                            'provider': provider})
     else:
-        form = ProviderForm.from_provider(provider)
+        form = ProviderForm(provider.as_dict())
         return render(request, 'provider/edit.html',
                       {'form': form,
                        'provider': provider})

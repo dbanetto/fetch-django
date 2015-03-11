@@ -9,8 +9,8 @@ from provider.models import BaseProvider
 from app.validators import json_validator
 
 class ProviderForm(forms.Form):
-    provider_name = forms.CharField(label='Provider Name')
-    provider_website = forms.URLField(label="Webiste")
+    name = forms.CharField(label='Provider Name')
+    website = forms.URLField(label="Webiste")
 
     base_provider = forms.ModelChoiceField(empty_label="---",
                                            queryset=BaseProvider.objects,
@@ -20,15 +20,6 @@ class ProviderForm(forms.Form):
 
     options = forms.CharField(widget=forms.HiddenInput(),
                               validators=[json_validator])
-
-    def from_provider(provider, initial=None):
-        return ProviderForm({
-            'provider_name': provider.name,
-            'provider_website': provider.website,
-            'regex_find_count': provider.regex_find_count,
-            'base_provider': provider.base_provider.id,
-            'options': json.dumps(provider.options),
-        }, initial=initial)
 
     def clean_options(self):
         clean_data = self.cleaned_data
