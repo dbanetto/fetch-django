@@ -1,10 +1,11 @@
 ValuesDict = {};
 
-function genJSON(id_json, id_div_inputs) {
-	var inputs = $('#' + id_div_inputs + ' input');
+function genJSON(id_inputs,id_json) {
+	var inputs = $('#' + id_inputs + ' input');
 	var out = '{';
 	for (var i =0; i < inputs.length; i++) {
-		out += "\"" + inputs[i].getAttribute('data_name') + "\": \"" + inputs[i].value + "\"";
+		console.log(inputs[i]);
+		out += JSON.stringify(inputs[i].getAttribute('data_name')) + ": " + JSON.stringify(inputs[i].value);
 		if (i != inputs.length - 1) {
 			out += ',';
 		}
@@ -37,7 +38,7 @@ function genOptions(data, id, id_json) {
 												.attr('required', 'required')
 												.attr('placeholder', options[i])
 												.attr('value', ValuesDict[input_id]) // apply saved values
-												.change(function () {genJSON(id_json, id);});
+												.change(function () {genJSON(id, id_json);});
 		obj.append($('<div>').attr('class', 'form-group').append(label).append(input));
 	}
 }
