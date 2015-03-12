@@ -3,22 +3,18 @@
 
 {% bootstrap_form_errors form %}
 <div class="fieldWrapper">
-  {{ form.name.errors }}
   {% bootstrap_field  form.name %}
 </div>
 <div class="fieldWrapper">
-  {{ form.website.errors }}
   {% bootstrap_field form.website %}
 </div>
 <div class="fieldWrapper">
-  {{ form.regex_find_count.errors }}
   {% bootstrap_field form.regex_find_count %}
   {% comment %}
   TODO: Add regex test bed for regex options
   {% endcomment %}
 </div>
 <div class="fieldWrapper">
-  {{ form.base_provider.errors }}
   {% bootstrap_field  form.base_provider %}
 </div>
 {% bootstrap_field  form.options %}

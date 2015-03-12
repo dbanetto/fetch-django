@@ -23,7 +23,8 @@ class SeriesForm(forms.ModelForm):
                   'total_count',
                   'release_schedule',
                   'media_type_options',
-                  'release_schedule_options',]
+                  'release_schedule_options'
+                  ]
         exclude = ()
 
     name = forms.CharField(label="Series Name")
@@ -54,9 +55,11 @@ class SeriesForm(forms.ModelForm):
                 return json.loads(options)
             except ValueError as e:
                 raise ValidationError(
-                    _('Invalid JSON'
-                      '%(e)s'),
-                    params={'e': e}
+                    _('Invalid JSON in %(owner)s : \"%(option)s\" '
+                      '%(e)s '),
+                    params={'e': e,
+                            'owner': key,
+                            'option': options}
                 )
         elif type(options) is dict:
             return options
@@ -88,11 +91,15 @@ class SeriesForm(forms.ModelForm):
                                         ' Start Date must have a value'),
                                       code='invalid'
                                       )
+            if clean_data['start_date'] > clean_data['end_date']:
+                msg = _('Invalid start and end dates start date must be before '
+                        'the end')
+                self.add_error('start_date', msg)
+                self.add_error('end_date', msg)
 
-        if clean_data['total_count'] is not None and \
-           clean_data['current_count'] > clean_data['total_count']:
-            raise ValidationError(_('Invalid combination of total and current'
-                                    ' counts. current must be equal or less'
-                                    ' than total count'),
-                                  code='invalid'
-                                  )
+        if 'total_count' in clean_data and 'current_count' in clean_data:
+            if clean_data['total_count'] != 0 and \
+               clean_data['current_count'] > clean_data['total_count']:
+                msg = _('Must be lesser or equal to total count, '
+                        'unless total count is zero')
+                self.add_error('current_count', msg)

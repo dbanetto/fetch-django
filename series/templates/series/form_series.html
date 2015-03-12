@@ -3,37 +3,28 @@
 
 {% bootstrap_form_errors form %}
 <div class="fieldWrapper">
-  {{ form.name.errors }}
   {% bootstrap_field  form.name %}
 </div>
 <div class="fieldWrapper">
-  {{ form.provider.errors }}
   {% bootstrap_field form.provider %}
 </div>
 <div class="fieldWrapper">
-  {% if series %}
-  <img src="{{ series.poster.url }}" width="120" height="192">
-  {% endif %}
   {{ form.poster }}
+  {{ form.poster.errors }}
 </div>
 <div class="fieldWrapper">
-  {{ form.start_date.errors }}
   {% bootstrap_field  form.start_date %}
 </div>
 <div class="fieldWrapper">
-  {{ form.end_date.errors }}
   {% bootstrap_field  form.end_date %}
 </div>
 <div class="fieldWrapper">
-  {{ form.current_count.errors }}
   {% bootstrap_field  form.current_count %}
 </div>
 <div class="fieldWrapper">
-  {{ form.total_count.errors }}
   {% bootstrap_field  form.total_count %}
 </div>
 <div class="fieldWrapper">
-  {{ form.release_schedule.errors }}
   {% bootstrap_field  form.release_schedule %}
 </div>
 <div id="release_schedule_options">

@@ -20,6 +20,7 @@ def view(request, series_id):
 
 
 def new(request):
+    form = SeriesForm()
     if request.method == 'POST':
         form = SeriesForm(request.POST, request.FILES)
         if form.is_valid():
@@ -33,18 +34,15 @@ def new(request):
             return HttpResponseRedirect(reverse('series:view',
                                         args=[series.id]))
 
-        messages.add_message(request,
-                             messages.ERROR,
-                             "<strong>Error:</strong> "
-                             "{}".format(str(form.errors)))
     return render(request, 'series/new.html',
-                  {'form': SeriesForm})
+                  {'form': form})
 
 
 def edit(request, series_id):
     series = get_object_or_404(Series, pk=series_id)
+    form = SeriesForm(instance=series)
     if request.method == 'POST':
-        form = SeriesForm(request.POST, instance=series)
+        form = SeriesForm(request.POST, request.FILES, instance=series)
         if form.is_valid():
             if form.has_changed():
                 form.save()
@@ -54,14 +52,9 @@ def edit(request, series_id):
                                      .format(series.name))
             return HttpResponseRedirect(reverse('series:view',
                                                 args=[series.id]))
-        else:
-            messages.add_message(request,
-                                 messages.ERROR,
-                                 "<strong>Error:</strong>"
-                                 "Invalid form")
     return render(request, 'series/edit.html',
                   {'series': series,
-                   'form': SeriesForm(instance=series)})
+                   'form': form})
 
 
 def delete(request, series_id):

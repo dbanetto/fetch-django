@@ -20,39 +20,26 @@ def view(request, provider_id):
 
 
 def new(request):
+    form = ProviderForm()
     if request.method == 'POST':
-        try:
-            form = ProviderForm(request.POST)
-            form.full_clean()
-            if form.is_valid():
-                new_provider = form.save()
-                messages.add_message(request,
-                                     messages.SUCCESS,
-                                     "<strong>Success</strong> Created {}"
-                                     .format(new_provider.name))
-                return HttpResponseRedirect(reverse('provider:view',
-                                                    args=[new_provider.id]))
-            else:
-                messages.add_message(request,
-                                     messages.ERROR,
-                                     "<strong>Error:</strong> "
-                                     "Invalid form " + str(form.errors))
-                return render(request, 'provider/new.html',
-                              {'form': form})
-        except Exception as e:
-                messages.add_message(request,
-                                     messages.ERROR,
-                                     "<strong>Error:</strong> "
-                                     "{}".format(e))
-                return render(request, 'provider/new.html',
-                              {'form': ProviderForm})
+        form = ProviderForm(request.POST)
+        form.full_clean()
+        if form.is_valid():
+            new_provider = form.save()
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 "<strong>Success</strong> Created {}"
+                                 .format(new_provider.name))
+            return HttpResponseRedirect(reverse('provider:view',
+                                                args=[new_provider.id]))
     else:
         return render(request, 'provider/new.html',
-                      {'form': ProviderForm})
+                      {'form': form})
 
 
 def edit(request, provider_id):
     provider = get_object_or_404(Provider, pk=provider_id)
+    form = ProviderForm(instance=provider)
     if request.method == 'POST':
         form = ProviderForm(request.POST, instance=provider)
         if form.is_valid():
@@ -65,12 +52,6 @@ def edit(request, provider_id):
                                      .format(provider.name))
             return HttpResponseRedirect(reverse('provider:view',
                                                 args=[provider.id]))
-        else:
-            messages.add_message(request,
-                                 messages.ERROR,
-                                 "<strong>Error:</strong>"
-                                 "Invalid form")
-    form = ProviderForm(instance=provider)
     return render(request, 'provider/edit.html',
                   {'form': form,
                    'provider': provider})
