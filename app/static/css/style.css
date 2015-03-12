@@ -10,9 +10,8 @@
 	margin-top: 40px;
 }
 
-#view-controls form {
-	width: auto;
-	padding-right: 0;
+#view-controls {
+	padding-top: 10px;
 }
 
 .btn-delete {
@@ -25,4 +24,29 @@
 
 .well a {
 	border-color: #D8D8D8;
+}
+
+img.poster {
+	max-width: 240px;
+	max-height: 360px;
+	padding: 0;
+	margin: 0;
+}
+
+div.poster-area {
+	width: auto;
+	height: 360px;
+}
+
+ul.series-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.series-list li {
+  display: inline-block;
+  margin-right: 8px;
+  vertical-align: top;
+  height: auto;
 }

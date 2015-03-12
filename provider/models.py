@@ -49,21 +49,5 @@ class Provider(models.Model):
     options = JSONField(help_text="JSON Object filled of BaseProvider's"
                                   " available_options with data")
 
-    available_options = models.TextField(default="quality",
-                                         help_text="A CSV list of options that"
-                                         " the provider allows")
-
     def __str__(self):
         return "{} ({})".format(self.name, self.base_provider.name)
-
-    def get_available_options(self):
-        return self.available_options.split(',')
-
-    def as_dict(self):
-        return {'name': self.name,
-                'website': self.website,
-                'base_provider': self.base_provider.id,
-                'regex_find_count': self.regex_find_count,
-                'options': json.dumps(self.options),
-                'available_options': self.get_available_options()
-                }

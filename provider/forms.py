@@ -3,12 +3,22 @@ import json
 from django import forms
 from django.core.validators import ValidationError
 from django.utils.translation import ugettext as _
-from json_field import JSONField
 
-from provider.models import BaseProvider
+from provider.models import BaseProvider, Provider
 from app.validators import json_validator
 
-class ProviderForm(forms.Form):
+
+class ProviderForm(forms.ModelForm):
+
+    class Meta:
+        model = Provider
+        fields = ['name',
+                  'website',
+                  'base_provider',
+                  'regex_find_count',
+                  'options']
+        exclude = ()
+
     name = forms.CharField(label='Provider Name')
     website = forms.URLField(label="Webiste")
 

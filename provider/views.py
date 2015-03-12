@@ -25,17 +25,7 @@ def new(request):
             form = ProviderForm(request.POST)
             form.full_clean()
             if form.is_valid():
-                new_provider = Provider(name=form.cleaned_data
-                                        ['provider_name'],
-                                        website=form.cleaned_data
-                                        ['provider_website'],
-                                        base_provider=form.cleaned_data
-                                        ['base_provider'],
-                                        regex_find_count=form.cleaned_data
-                                        ['regex_find_count'],
-                                        options=form.cleaned_data
-                                        ['options'])
-                new_provider.save()
+                new_provider = form.save()
                 messages.add_message(request,
                                      messages.SUCCESS,
                                      "<strong>Success</strong> Created {}"
@@ -45,14 +35,14 @@ def new(request):
             else:
                 messages.add_message(request,
                                      messages.ERROR,
-                                     "<strong>Error:</strong>"
-                                     "Invalid form")
+                                     "<strong>Error:</strong> "
+                                     "Invalid form " + str(form.errors))
                 return render(request, 'provider/new.html',
                               {'form': form})
         except Exception as e:
                 messages.add_message(request,
                                      messages.ERROR,
-                                     "<strong>Error:</strong>"
+                                     "<strong>Error:</strong> "
                                      "{}".format(e))
                 return render(request, 'provider/new.html',
                               {'form': ProviderForm})
@@ -64,17 +54,10 @@ def new(request):
 def edit(request, provider_id):
     provider = get_object_or_404(Provider, pk=provider_id)
     if request.method == 'POST':
-        form = ProviderForm(request.POST, initial=provider.as_dict())
-        form.full_clean()
+        form = ProviderForm(request.POST, instance=provider)
         if form.is_valid():
             if form.has_changed():
-                provider.name = form.cleaned_data['name']
-                provider.website = form.cleaned_data['website']
-                provider.base_provider = form.cleaned_data['base_provider']
-                provider.regex_find_count = form.cleaned_data['regex_find_count']
-                provider.options = form.cleaned_data['options']
-
-                provider.save()
+                form.save()
 
                 messages.add_message(request,
                                      messages.SUCCESS,
@@ -87,14 +70,10 @@ def edit(request, provider_id):
                                  messages.ERROR,
                                  "<strong>Error:</strong>"
                                  "Invalid form")
-            return render(request, 'provider/new.html',
-                          {'form': form,
-                           'provider': provider})
-    else:
-        form = ProviderForm(provider.as_dict())
-        return render(request, 'provider/edit.html',
-                      {'form': form,
-                       'provider': provider})
+    form = ProviderForm(instance=provider)
+    return render(request, 'provider/edit.html',
+                  {'form': form,
+                   'provider': provider})
 
 
 def delete(request, provider_id):

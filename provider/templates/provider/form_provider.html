@@ -3,11 +3,11 @@
 
 {% bootstrap_form_errors form %}
 <div class="fieldWrapper">
-  {{ form.provider_name.errors }}
+  {{ form.name.errors }}
   {% bootstrap_field  form.name %}
 </div>
 <div class="fieldWrapper">
-  {{ form.provider_website.errors }}
+  {{ form.website.errors }}
   {% bootstrap_field form.website %}
 </div>
 <div class="fieldWrapper">
@@ -22,13 +22,13 @@
   {% bootstrap_field  form.base_provider %}
 </div>
 {% bootstrap_field  form.options %}
-<div id="extra_options">
+<div id="base_provider_options">
   {% if provider and not provider.options == None %}
   <h3>Additional options for {{ provider.base_provider.name }}</h3>
   {% for opt, val in provider.options.items %}
-  <div class="form-group has-success">
+  <div class="form-group">
     <label class="control-label" for="id_porivder_{{ opt }}">{{ opt }}</label>
-    <input onChange="genJSON('extra_options','id_options');" data_name="{{ opt }}" class="form-control" type="text" value="{{ val }}" placeholder="{{ opt }}" title="{{ opt }}" name="extra_options_{{ opt }}"></input>
+    <input onChange="genJSON('#base_provider_options','#id_options');" data_name="{{ opt }}" class="form-control" type="text" value="{{ val }}" placeholder="{{ opt }}" title="{{ opt }}" name="base_provider_options_{{ opt }}"></input>
   </div>
   {% endfor %}
   {% else %}
@@ -38,20 +38,11 @@
 
 <script type="text/javascript" src="{% static 'js/options.js' %}"></script>
 <script type="text/javascript">
-  $('#id_base_provider').change(function() {
-    id_base = $('#id_base_provider')[0]
-    if (id_base.value === "") { $("#extra_options").empty(); return; }
-    $.ajax({
-      type: 'GET',
-      url: '{% url "provider:base_index" "/" %}' + $('#id_base_provider')[0].value + '.json',
-      success: function(data) {
-        genOptions(data, "extra_options", "id_options");
-      }
-    })
-  });
-  {% if not provider or povider.options|length == 0 %}
+  change_trigger('#id_base_provider', '{% url "provider:base_index" "/" %}', '#base_provider_options', '#id_base_provider_options')
+
+{% if not provider or povider.options|length == 0 %}
     $('#id_base_provider').ready(function() {
       $('#id_base_provider').change();
     });
-    {% endif %}
-  </script>
+{% endif %}
+</script>
