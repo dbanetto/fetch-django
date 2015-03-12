@@ -3,8 +3,9 @@ import os
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.db import models
-from json_field import JSONField
+from app.storage import OverwriteStorage
 
+from json_field import JSONField
 from provider.models import Provider
 
 class MediaType(models.Model):
@@ -46,12 +47,8 @@ def poster_path(instance, filename):
     path = 'series/poster'
     ext = filename.split('.')[-1]
     # get filename
-    if instance.pk:
-        filename = '{}/{}.{}'.format(instance.provider.name,
-                                     instance.name,
-                                     ext)
-    else:
-        pass  # TODO: Raise exception
+    if instance:
+        filename = '{}.{}'.format(instance.id, ext)
     # return the whole path to the file
     return os.path.join(path, filename)
 
@@ -68,12 +65,14 @@ class Series(models.Model):
     total_count = models.PositiveSmallIntegerField(default=0)
 
     poster = models.ImageField(editable=True,
-                               upload_to=poster_path)
+                               upload_to=poster_path,
+                               storage=OverwriteStorage())
 
     media_type = models.ForeignKey(MediaType,
                                    help_text="Series' media type")
 
-    media_type_options = JSONField(help_text="A JSON object of options"
+    media_type_options = JSONField(blank=True,
+                                   help_text="A JSON object of options"
                                    " made available from the media type")
 
     NONE = 'N'
@@ -91,7 +90,8 @@ class Series(models.Model):
     release_schedule = models.CharField(max_length=1,
                                         default=WEEKLY,
                                         choices=RELEASE_SCHEDULE_CHOICES)
-    release_schedule_options = JSONField(help_text="A JSON object of needed"
+    release_schedule_options = JSONField(blank=True,
+                                         help_text="A JSON object of needed"
                                          " info for each type of release schedule")
 
     def next_release(self):

@@ -64,7 +64,7 @@ def delete(request, series_id):
                              messages.INFO,
                              "{} has been deleted"
                              .format(series.name))
-        # series.delete() FIXME
+        series.delete()
         return HttpResponseRedirect(reverse('series:index'))
     else:
         return HttpResponseRedirect(reverse('series:view',
