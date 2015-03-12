@@ -1,0 +1,8 @@
+[
+	{% for media_type in media_types %}
+	{
+		"id":{{ media_type.id }},
+		"name": {{media_type.name}}
+	}{% if forloop.last == False %},{% endif %}
+	{% endfor %}
+]

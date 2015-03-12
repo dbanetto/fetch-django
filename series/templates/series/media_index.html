@@ -1,0 +1,29 @@
+{% extends 'series/index.html' %}
+
+{% block title %}
+Series - Media Type - Index
+{% endblock title %}
+
+{% block header %}
+<h1>Media Type</h1>
+{% endblock header %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+  <li ><a href="{% url 'series:index' %}">Series</a></li>
+  <li class="active">Media Type</li>
+</ol>
+{% endblock breadcrumb %}
+
+{% block content %}
+{% if media_types|length == 0 %}
+<h4>No Media Types avaiable</h4>
+<p>Please add some</p>
+{% else %}
+<ul>
+  {% for media_type in media_types %}
+  <li><a href="{% url 'series:media_view' media_type.id '/' %}">{{ media_type }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,9 @@
+{
+	"name": "{{ media_type.name }}",
+	"id" : {{ media_type.id }},
+	"options" : [
+{% for opt in media_type.get_available_options %}
+		"{{ opt }}"
+{% if forloop.last == False %},{% endif %}{% endfor %}
+	]
+}

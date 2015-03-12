@@ -1,0 +1,21 @@
+{% extends 'series/index.html' %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+  <li ><a href="{% url 'series:index' %}">Series</a></li>
+  <li ><a href="{% url 'series:media_index' '/' %}">Media Type</a></li>
+  <li class="active">{{ media_type.name }}</li>
+</ol>
+{% endblock breadcrumb %}
+
+{% block header %}
+<h1>
+  {{ media_type.name }}
+</h1>
+{% endblock header %}
+
+{% block content %}
+<ul>
+  <li>Available Options: <code>{{ media_type.get_available_options }}</code></a></li>
+</ul>
+{% endblock content %}

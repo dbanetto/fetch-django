@@ -20,9 +20,28 @@ Series - Index
 {% endblock header %}
 
 {% block content %}
-<ul>
-	{% for s in series %}
-		<li><a href="{% url 'series:view' s.id %}">{{ s }}</a></li>
-	{% endfor %}
-</ul>
+<div class="container-fluid">
+  <ul class="series-list">
+    {% for s in series %}
+    <li>
+      <div class="panel panel-default">
+        <div class="panel-body poster-area">
+          <a href="{% url 'series:view' s.id %}" >
+            <img src="{{ s.poster.url }}" class="poster">
+          </a>
+        </div>
+        <div class="panel-footer">
+          <p><h4>{{ s.name }}<small> {{ s.provider.name }} </small></h4></p>
+          <p> {{ s.current_count }} / {{ s.total_count }}</p>
+          <div class="progress">
+            <div class="progress-bar progress-bar-success active" role="progressbar" aria-valuenow="{{ s.current_count }}" aria-valuemin="0" aria-valuemax="{{ s.total_count }}" style="width: 5%">
+              <span class="sr-only">45% Complete</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
 {% endblock content %}

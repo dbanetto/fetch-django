@@ -1,0 +1,82 @@
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% bootstrap_form_errors form %}
+<div class="fieldWrapper">
+  {{ form.name.errors }}
+  {% bootstrap_field  form.name %}
+</div>
+<div class="fieldWrapper">
+  {{ form.provider.errors }}
+  {% bootstrap_field form.provider %}
+</div>
+<div class="fieldWrapper">
+  {% if series %}
+  <img src="{{ series.poster.url }}" width="120" height="192">
+  {% endif %}
+  {{ form.poster }}
+</div>
+<div class="fieldWrapper">
+  {{ form.start_date.errors }}
+  {% bootstrap_field  form.start_date %}
+</div>
+<div class="fieldWrapper">
+  {{ form.end_date.errors }}
+  {% bootstrap_field  form.end_date %}
+</div>
+<div class="fieldWrapper">
+  {{ form.current_count.errors }}
+  {% bootstrap_field  form.current_count %}
+</div>
+<div class="fieldWrapper">
+  {{ form.total_count.errors }}
+  {% bootstrap_field  form.total_count %}
+</div>
+<div class="fieldWrapper">
+  {{ form.release_schedule.errors }}
+  {% bootstrap_field  form.release_schedule %}
+</div>
+<div id="release_schedule_options">
+  {% if series and not series.media_type_options == None %}
+  {% for opt, val in series.release_schedule_options.items %}
+  <div class="form-group has-success">
+    <label class="control-label" for="id_porivder_{{ opt }}">{{ opt }}</label>
+    <input onChange="genJSON('release_schedule_options','id_release_schedule_options');" data_name="{{ opt }}" class="form-control" type="text" value="{{ val }}" placeholder="{{ opt }}" title="{{ opt }}" name="extra_options_{{ opt }}"></input>
+  </div>
+  {% endfor %}
+  {% else %}
+  <p>Loading additional options</p>
+  {% endif %}
+</div>
+
+<div class="fieldWrapper">
+  {{ form.media_type.errors }}
+  {% bootstrap_field  form.media_type %}
+</div>
+<div id="media_type_options">
+  {% if series and not series.media_type_options == None %}
+  {% for opt, val in series.media_type_options.items %}
+  <div class="form-group has-success">
+    <label class="control-label" for="id_porivder_{{ opt }}">{{ opt }}</label>
+    <input onChange="genJSON('media_type_options','id_media_type_options');" data_name="{{ opt }}" class="form-control" type="text" value="{{ val }}" placeholder="{{ opt }}" title="{{ opt }}" name="extra_options_{{ opt }}"></input>
+  </div>
+  {% endfor %}
+  {% else %}
+  <p>Loading additional options</p>
+  {% endif %}
+</div>
+
+{% bootstrap_field  form.media_type_options %}
+{% bootstrap_field  form.release_schedule_options %}
+<script type="text/javascript" src="{% static 'js/options.js' %}"></script>
+<script type="text/javascript">
+  {% comment %}
+  change_trigger('#id_release_schedule', '{% url "series:release_view" "/" %}', '#realse_schedule_options', '#id_release_schedule_options')
+{% endcomment %}
+  change_trigger('#id_media_type', '{% url "series:media_index" "/" %}', '#media_type_options', '#id_media_type_options')
+  {% if not series or series.media_type_options|length == 0 %}
+    $('#id_media_type').ready(function() {
+      $('#id_media_type').change();
+    });
+    {% endif %}
+</script>

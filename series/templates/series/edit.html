@@ -1,0 +1,35 @@
+{% extends 'series/index.html' %}
+{% load bootstrap3 %}
+
+{% block title %}
+Series - New
+{% endblock title %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'series:index' %}">Series</a></li>
+  <li><a href="{% url 'series:view' series.id %}">{{ series.name }}</a></li>
+  <li class="active">Edit</li>
+</ol>
+{% endblock breadcrumb %}
+
+{% block header %}
+<h1>Edit {{ series.name }}</h1>
+{% endblock header %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6">
+    <form action="{% url 'series:edit' series.id %}" method="post" enctype="multipart/form-data" class="form well">
+      {% csrf_token %}
+      {% include 'series/form_series.html' %}
+      <a href="{% url 'series:index' %}" class="btn btn-default">
+        Back
+      </a>
+      <button type="submit" class="btn btn-primary pull-right">
+        Sumbit
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock content %}

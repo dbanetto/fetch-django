@@ -21,8 +21,8 @@ Series - {{ series.name }}
 
 {% block content %}
 <div class="row">
-	<div class="col-md-3">
-		<img src="{{ series.poster.url }}">
+	<div >
+		<img class="col-md-4" src="{{ series.poster.url }}">
 	</div>
 	<div class="col-md-6">
 		<table>
@@ -55,14 +55,52 @@ Series - {{ series.name }}
 				<td>{{ series.current_count }}/{{ series.total_count }}</td>
 			</tr>
 			<tr>
-				<td><strong>Provider Options</strong></td>
-				<td><code>{{ series.provider_options }}</code></td>
+				<td><strong>Release Schedule Options</strong></td>
+				<td><code>{{ series.release_schedule_options }}</code></td>
 			</tr>
 			<tr>
 				<td><strong>Media Type Options</strong></td>
 				<td><code>{{ series.media_type_options }}</code></td>
 			</tr>
 		</table>
-	</div>
+  </div>
+</div>
+<div class="row" id="view-controls">
+  <div class="col-lg-12">
+    <a href="{% url 'series:index' %}" class="btn btn-default">
+      Back
+    </a>
+    <a href="{% url 'series:edit' series.id %}" class="btn btn-warning">
+      Edit
+    </a>
+    <button type="button" class="btn btn-danger btn-sm pull-right" data-toggle="modal" data-target="#modal-delete">
+      Delete
+    </button>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Are you sure?</h3>
+      </div>
+      <div class="modal-body">
+        <p>
+          Are you sure you want to delete {{ series.name }}?
+        </p>
+      </div>
+      <div class="modal-footer">
+        <form action="{% url 'series:delete' series.id %}" method="post">
+          {% csrf_token %}
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal" >Close</button>
+          <button type="submit" class="btn btn-danger">
+            Delete
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock content %}
