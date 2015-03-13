@@ -62,6 +62,15 @@ class SeriesForm(forms.ModelForm):
                                                initial="{}",
                                                required=False)
 
+    def generate_release_schedule_options(self):
+        return json.dumps({
+            "N": [],
+            "W": [],
+            "F": [],
+            "M": [],
+            "D": ["dates"]
+        })
+
     def clean_options(self, key):
         options = self.cleaned_data[key]
         if type(options) is str:
@@ -143,5 +152,8 @@ class SeriesForm(forms.ModelForm):
             img_temp = self.cleaned_data['poster_url_image']
             self.instance.poster.save(poster_path(self.instance,
                                                   url.split('/')[-1]),
-                                     File(img_temp))
+                                      File(img_temp))
+
+        # TODO: Create thumbnail of poster
+
         return super(SeriesForm, self).save()

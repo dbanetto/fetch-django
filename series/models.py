@@ -8,27 +8,11 @@ from app.storage import OverwriteStorage
 from json_field import JSONField
 from provider.models import Provider
 
+
 class MediaType(models.Model):
     """
     Over arching difference between series
     provides more options for different media types
-    """
-    name = models.CharField(max_length=80,
-                            help_text="Name of the media type")
-    available_options = models.TextField(default="id",
-                                         help_text="A CSV list of options that"
-                                         " the media type allows")
-
-    def __str__(self):
-        return self.name
-
-    def get_available_options(self):
-        return self.available_options.split(',')
-
-
-class ReleaseSchedule(models.Model):
-    """
-    Type of release schedule
     """
     name = models.CharField(max_length=80,
                             help_text="Name of the media type")
@@ -58,9 +42,9 @@ class Series(models.Model):
     name = models.CharField(max_length=160,
                             verbose_name="Name of the series")
 
-    start_date = models.DateField(default=timezone.now(),
+    start_date = models.DateField(default=None,
                                   null=True)
-    end_date = models.DateField(default=timezone.now(),
+    end_date = models.DateField(default=None,
                                 null=True)
 
     current_count = models.PositiveSmallIntegerField(default=0)
@@ -122,6 +106,28 @@ class Series(models.Model):
     def __str__(self):
         return "{} ({})".format(self.name, self.provider.name)
 
+    def bootstrap_label_class(self):
+        """
+        Generate HTML class for label using bootstrap 3
+        """
+        if self.is_airing():
+            return 'label-success'
+        if self.has_ended():
+            return 'label-danger'
+        if not self.has_started():
+            return 'label-info'
+
+    def label_text(self):
+        """
+        Generate HTML class for label using bootstrap 3
+        """
+        if self.is_airing():
+            return _('Airing')
+        if self.has_ended():
+            return _('Finished')
+        if not self.has_started():
+            return _('Yet to air')
+
     def bootstrap_progressbar(self):
         """
         Generate HTML for a progress bar using bootstrap 3
@@ -153,3 +159,4 @@ class Series(models.Model):
                    prec=prec,
                    sr=sr,
                    text=text)
+

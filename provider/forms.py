@@ -5,7 +5,7 @@ from django.core.validators import ValidationError
 from django.utils.translation import ugettext as _
 
 from provider.models import BaseProvider, Provider
-from app.validators import json_validator
+from app.validators import json_validator, regex_validator, json_schema_check
 
 
 class ProviderForm(forms.ModelForm):
@@ -26,32 +26,35 @@ class ProviderForm(forms.ModelForm):
                                            queryset=BaseProvider.objects,
                                            label="Base Provider")
     regex_find_count = forms.CharField(max_length=256,
-                                       label="Count Regex")
+                                       label="Count Regex",
+                                       validators=[regex_validator])
 
     options = forms.CharField(widget=forms.HiddenInput(),
                               validators=[json_validator])
 
     def clean_options(self):
-        clean_data = self.cleaned_data
-        if type(clean_data['options']):
+        value = self.cleaned_data['options']
+        if type(value) is str:
             try:
-
-                return json.loads(clean_data['options'])
+                return json.loads(value)
             except ValueError as e:
                 raise ValidationError(
                     _('Invalid JSON'
                       '%(e)s'),
                     params={'e': e}
                 )
-        elif type(clean_data['options']) is dict:
-            return clean_data['options']
+        elif type(value) is dict:
+            return value
         else:
             raise ValidationError(
                 _('Invalid input: Did not expect type %(type)s'),
-                params={'type': type(clean_data['options'])}
+                params={'type': type(value)}
             )
 
     def clean(self):
         clean_data = super(ProviderForm, self).clean()
         # TODO: verify JSON is valid for the Base Provider
+        if 'options' in clean_data and 'base_provider' in clean_data:
+            json_schema_check(clean_data['options'],
+                              clean_data['base_provider'].get_available_options())
         return clean_data

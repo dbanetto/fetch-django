@@ -1,20 +1,24 @@
 ValuesDict = {};
-function change_trigger(id, base_url, id_inputs, id_json) {
-  $(id).change(function() {
-    id_base = $(id)[0]
-    if (id_base.value === "") {  save_options(id_inputs); $(id_inputs).empty(); return; }
-    $.ajax({
-      type: 'GET',
-      url: base_url + $(id)[0].value + '.json',
-      success: function(data) {
-        genOptions(data, id_inputs, id_json);
-      }
-    })
-  });
+function change_trigger(listen_id, base_url, id_inputs, id_json) {
+	$(listen_id).change(function() {
+		var id_base = $(listen_id)[0];
+		if (id_base.value === "") {  save_options(id_inputs); $(id_inputs).empty(); return; }
+		if (typeof base_url === "string") {
+			$.ajax({
+				type: 'GET',
+				url: base_url + $(listen_id)[0].value + '.json',
+				success: function(data) {
+					genOptions(data['options'], id_inputs, id_json);
+				}
+			})
+		} else if (typeof base_url === "object") {
+			genOptions(base_url[$(listen_id)[0].value], id_inputs, id_json);
+		}
+	});
 }
 
 function save_options(id_inputs) {
-	inputs = $(id_inputs + " input");
+	var inputs = $(id_inputs + " input");
 	for (var i = 0; i < inputs.length; i++) {
 		if (ValuesDict[id_inputs] == undefined) {
 			ValuesDict[id_inputs] = {};
@@ -41,7 +45,8 @@ function genOptions(data, id_inputs, id_json) {
 	save_options(id_inputs);
 
 	var obj = $(id_inputs);
-	var options = data['options'];
+
+	var options = data;
 	obj.empty();
 
 	for (var i = 0; i < options.length; i++) {
@@ -52,11 +57,11 @@ function genOptions(data, id_inputs, id_json) {
 		}
 		var label = $('<label>').text(options[i]).attr('class', 'form-label').attr('for', input_id);
 		var input = $('<input>').attr('class', 'form-control')
-												.attr('name', input_id)
-												.attr('data_name', options[i])
-												.attr('required', 'required')
-												.attr('value', value) // apply saved values
-												.change(function () {genJSON(id_inputs, id_json);});
+		.attr('name', input_id)
+		.attr('data_name', options[i])
+		.attr('required', 'required')
+		.attr('value', value) // apply saved values
+		.change(function () {genJSON(id_inputs, id_json);});
 		obj.append($('<div>').attr('class', 'form-group').append(label).append(input));
 	}
 }

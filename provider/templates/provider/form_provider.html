@@ -20,7 +20,6 @@
 {% bootstrap_field  form.options %}
 <div id="base_provider_options">
   {% if provider and not provider.options == None %}
-  <h3>Additional options for {{ provider.base_provider.name }}</h3>
   {% for opt, val in provider.options.items %}
   <div class="form-group">
     <label class="control-label" for="id_porivder_{{ opt }}">{{ opt }}</label>
@@ -34,7 +33,7 @@
 
 <script type="text/javascript" src="{% static 'js/options.js' %}"></script>
 <script type="text/javascript">
-  change_trigger('#id_base_provider', '{% url "provider:base_index" "/" %}', '#base_provider_options', '#id_base_provider_options')
+  change_trigger('#id_base_provider', '{% url "provider:base_index" "/" %}', '#base_provider_options', '#id_base_provider_options');
 
 {% if not provider or povider.options|length == 0 %}
     $('#id_base_provider').ready(function() {
