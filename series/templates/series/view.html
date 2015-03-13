@@ -40,11 +40,15 @@ Series - {{ series.name }}
 			</tr>
 			<tr>
 				<td><strong>Is Airing</strong></td>
-				<td>{{ series.series_airing }}</td>
+				<td>{{ series.is_airing }}</td>
+			</tr>
+			<tr>
+				<td><strong>Has Started</strong></td>
+				<td>{{ series.has_started }}</td>
 			</tr>
 			<tr>
 				<td><strong>Has ended</strong></td>
-				<td>{{ series.series_ended }}</td>
+				<td>{{ series.has_ended }}</td>
 			</tr>
 			<tr>
 				<td><strong>Next Release</strong></td>
@@ -61,6 +65,10 @@ Series - {{ series.name }}
 			<tr>
 				<td><strong>Media Type Options</strong></td>
 				<td><code>{{ series.media_type_options }}</code></td>
+			</tr>
+			<tr>
+				<td><strong>Progress bar</strong></td>
+				<td>{{ series.bootstrap_progressbar|safe }}</td>
 			</tr>
 		</table>
   </div>

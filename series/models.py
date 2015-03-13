@@ -58,8 +58,10 @@ class Series(models.Model):
     name = models.CharField(max_length=160,
                             verbose_name="Name of the series")
 
-    start_date = models.DateField(default=timezone.now())
-    end_date = models.DateField(default=timezone.now())
+    start_date = models.DateField(default=timezone.now(),
+                                  null=True)
+    end_date = models.DateField(default=timezone.now(),
+                                null=True)
 
     current_count = models.PositiveSmallIntegerField(default=0)
     total_count = models.PositiveSmallIntegerField(default=0)
@@ -99,18 +101,55 @@ class Series(models.Model):
         Return a Date object of the next next_release
         If the series is finished airing will return None
         """
-        if self.series_ended:
+        if self.has_ended():
             return None
         pass
 
-    def series_ended(self):
-        " Boolean of if the series has ended airing/publishing "
-        return timezone.now().date() > self.end_date
+    def has_started(self):
+        " Boolean of if the series has started airing/publishing "
+        return self.start_date is not None and  \
+               timezone.now().date() >= self.start_date
 
-    def series_airing(self):
+    def has_ended(self):
+        " Boolean of if the series has ended airing/publishing "
+        return self.end_date is not None and  \
+               timezone.now().date() > self.end_date
+
+    def is_airing(self):
         " Boolean of if the series is currently airing/publishing "
-        return timezone.now().date() < self.end_date and \
-               timezone.now().date() > self.start_date
+        return self.has_started() and not self.has_ended()
 
     def __str__(self):
         return "{} ({})".format(self.name, self.provider.name)
+
+    def bootstrap_progressbar(self):
+        """
+        Generate HTML for a progress bar using bootstrap 3
+        """
+        text = ""
+        sr = ""
+        pb_class = "progress-bar-success"
+        value = self.current_count
+        max = self.total_count
+
+        if self.total_count == 0:
+            pb_class = "progress-bar-warning progress-bar-striped"
+            value = self.current_count
+            max = self.current_count
+            prec = 100
+        else:
+            prec = round(value/max * 100)
+
+        return """
+        <div class="progress">
+            <div class="progress-bar {pb_class}" role="progressbar" aria-valuenow="{value}" aria-valuemin="0" aria-valuemax="{max}" style="width: {prec}%">
+                <span class="sr-only">{sr}</span>
+                {text}
+            </div>
+        </div>
+        """.format(pb_class=pb_class,
+                   value=value,
+                   max=max,
+                   prec=prec,
+                   sr=sr,
+                   text=text)

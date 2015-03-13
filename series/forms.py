@@ -1,4 +1,5 @@
 import json
+from datetime import date
 from urllib.request import urlopen, HTTPError
 
 from django import forms
@@ -41,8 +42,9 @@ class SeriesForm(forms.ModelForm):
                               widget=forms.FileInput())
     poster_url = forms.URLField(required=False,
                                 label="Upload Poster from URL")
-    start_date = forms.DateField(initial=timezone.now().date())
-    end_date = forms.DateField(initial=timezone.now().date())
+    start_date = forms.DateField(initial=timezone.now().date(),
+                                 required=False)
+    end_date = forms.DateField(required=False)
 
     release_schedule = forms.ChoiceField(choices=Series.RELEASE_SCHEDULE_CHOICES)
 
@@ -85,11 +87,12 @@ class SeriesForm(forms.ModelForm):
     def clean(self):
         clean_data = super(SeriesForm, self).clean()
         if 'end_date' in clean_data and 'start_date' in clean_data:
-            if clean_data['start_date'] > clean_data['end_date']:
-                msg = _('Invalid start and end dates start date must be '
-                        'before the end')
-                self.add_error('start_date', msg)
-                self.add_error('end_date', msg)
+            if clean_data['start_date'] is date and clean_data['end_date'] is date:
+                if clean_data['start_date'] > clean_data['end_date']:
+                    msg = _('Invalid start and end dates start date must be '
+                            'before the end')
+                    self.add_error('start_date', msg)
+                    self.add_error('end_date', msg)
 
         if 'total_count' in clean_data and 'current_count' in clean_data:
             if clean_data['total_count'] != 0 and \
