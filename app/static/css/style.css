@@ -34,7 +34,7 @@ img.poster {
 }
 
 div.poster-area {
-	width: auto;
+	width: 240px;
 	height: 360px;
 }
 
@@ -45,8 +45,13 @@ ul.series-list {
 }
 
 ul.series-list li {
-  display: inline-block;
-  margin-right: 8px;
-  vertical-align: top;
-  height: auto;
+	display: inline-block;
+	margin-right: 8px;
+	vertical-align: top;
+	height: auto;
+}
+
+ul.series-list .panel {
+	width: 270px;
+	height: auto;
 }

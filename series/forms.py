@@ -107,11 +107,13 @@ class SeriesForm(forms.ModelForm):
                self.cleaned_data['poster'] != self.instance.poster):
                 msg = _('Cannot upload an image and a URL at the same time')
                 self.add_error('poster', msg)
+                self.add_error('poster_url', '')
 
         if self.instance is None and 'poster_url' not in clean_data and \
            'poster' not in clean_data:
             msg = _('Must have either an image to upload or url')
             self.add_error('poster', msg)
+            self.add_error('poster_url', '')
 
         if 'poster_url' in self.cleaned_data and \
            self.cleaned_data['poster_url'] != "":
@@ -119,8 +121,8 @@ class SeriesForm(forms.ModelForm):
             if url.split('/')[-1].split('.')[-1] not in ['jpg', 'png', 'gif', 'jpeg']:
                 msg = _('url must lead to an image of jpg, jpeg, png or gif format')
                 self.add_error('poster', msg)
+                self.add_error('poster_url', '')
 
-    def save(self, *args, **kwargs):
         if 'poster_url' in self.cleaned_data and \
            self.cleaned_data['poster_url'] != "":
             url = self.cleaned_data['poster_url']
@@ -129,10 +131,17 @@ class SeriesForm(forms.ModelForm):
                 try:
                     img_temp.write(urlopen(url).read())
                 except HTTPError as e:
-                    msg = _('HTTP error: ' + str(e))
+                    msg = _(str(e))
                     self.add_error('poster', msg)
+                    self.add_error('poster_url', '')
                 img_temp.flush()
-                self.instance.poster.save(poster_path(self.instance,
-                                                      url.split('/')[-1]),
-                                          File(img_temp))
+                self.cleaned_data['poster_url_image'] = img_temp
+
+    def save(self, *args, **kwargs):
+        if 'poster_url_image' in self.cleaned_data:
+            url = self.cleaned_data['poster_url']
+            img_temp = self.cleaned_data['poster_url_image']
+            self.instance.poster.save(poster_path(self.instance,
+                                                  url.split('/')[-1]),
+                                     File(img_temp))
         return super(SeriesForm, self).save()

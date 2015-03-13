@@ -26,14 +26,15 @@ Series - Index
     {% for s in series %}
     <li>
       <div class="panel panel-default">
-        <a href="{% url 'series:view' s.id %}" >
-          <div class="panel-body poster-area">
+        <div class="panel-body poster-area">
+          <a href="{% url 'series:view' s.id %}" >
             <img src="{{ s.poster.url }}" class="poster">
-          </div>
-        </a>
+          </a>
+        </div>
         <div class="panel-footer">
           <p>
-            <h4><a href="{% url 'series:view' s.id %}">{{ s.name }}</a><small> {{ s.provider.name }}</small></h4>
+            <h4><a href="{% url 'series:view' s.id %}">{{ s.name|truncatechars:29 }}</a>
+            <br><small> {{ s.provider.name }}</small></h4>
           </p>
           <p> {{ s.current_count }} / {{ s.total_count }} {% if s.is_airing %}<span class="label label-success pull-right">Airing</span>{% endif %}</p>
           {{ s.bootstrap_progressbar|safe }}
