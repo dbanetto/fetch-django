@@ -26,6 +26,14 @@
 	border-color: #D8D8D8;
 }
 
+div.container {
+	width: 90%;
+}
+
+div.progress {
+	margin: 0;
+}
+
 img.poster {
 	max-width: 240px;
 	max-height: 360px;
@@ -54,4 +62,8 @@ ul.series-list li {
 ul.series-list .panel {
 	width: 270px;
 	height: auto;
+}
+
+div.panel-footer h4 {
+	white-space:nowrap;
 }
