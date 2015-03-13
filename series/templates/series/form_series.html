@@ -9,7 +9,24 @@
   {% bootstrap_field form.provider %}
 </div>
 <div class="fieldWrapper">
-  {{ form.poster }}
+  <table width="100%">
+    <tr>
+      <th>
+        {% bootstrap_label form.poster.label %}
+      </th>
+      <th>
+        {% bootstrap_label form.poster_url.label %}
+      </th>
+    </tr>
+    <tr>
+      <td>
+        {% bootstrap_field form.poster layout='inline' %}
+      </td>
+      <td>
+        {% bootstrap_field form.poster_url layout='inline' %}
+      </td>
+    </tr>
+  </table>
   {{ form.poster.errors }}
 </div>
 <div class="fieldWrapper">
@@ -33,7 +50,7 @@
   {% for opt, val in series.release_schedule_options.items %}
   <div class="form-group has-success">
     <label class="control-label" for="id_porivder_{{ opt }}">{{ opt }}</label>
-    <input onChange="genJSON('release_schedule_options','id_release_schedule_options');" data_name="{{ opt }}" class="form-control" type="text" value="{{ val }}" placeholder="{{ opt }}" title="{{ opt }}" name="extra_options_{{ opt }}"></input>
+    <input onChange="genJSON('release_schedule_options','id_release_schedule_options');" data_name="{{ opt }}" class="form-control" type="text" value="{{ val }}" title="{{ opt }}" name="extra_options_{{ opt }}"></input>
   </div>
   {% endfor %}
   {% else %}
@@ -71,4 +88,4 @@
       $('#id_media_type').change();
     });
     {% endif %}
-</script>
+  </script>

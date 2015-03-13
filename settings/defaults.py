@@ -103,7 +103,7 @@ BOOTSTRAP3 = {
     'horizontal_label_class': 'col-md-2',
     'horizontal_field_class': 'col-md-4',
     'set_required': True,
-    'set_placeholder': True,
+    'set_placeholder': False,
     'required_css_class': '',
     'error_css_class': 'has-error',
     'success_css_class': 'has-success',

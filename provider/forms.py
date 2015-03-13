@@ -22,7 +22,7 @@ class ProviderForm(forms.ModelForm):
     name = forms.CharField(label='Provider Name')
     website = forms.URLField(label="Webiste")
 
-    base_provider = forms.ModelChoiceField(empty_label="---",
+    base_provider = forms.ModelChoiceField(empty_label=None,
                                            queryset=BaseProvider.objects,
                                            label="Base Provider")
     regex_find_count = forms.CharField(max_length=256,

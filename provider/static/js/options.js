@@ -55,7 +55,6 @@ function genOptions(data, id_inputs, id_json) {
 												.attr('name', input_id)
 												.attr('data_name', options[i])
 												.attr('required', 'required')
-												.attr('placeholder', options[i])
 												.attr('value', value) // apply saved values
 												.change(function () {genJSON(id_inputs, id_json);});
 		obj.append($('<div>').attr('class', 'form-group').append(label).append(input));

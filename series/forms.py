@@ -1,12 +1,16 @@
 import json
+from urllib.request import urlopen, HTTPError
 
 from django import forms
 from django.core.validators import ValidationError
 from django.utils.translation import ugettext as _
+from django.utils import timezone
 
 from series.models import MediaType, Series, poster_path
 from provider.models import Provider
 from app.validators import json_validator
+from django.core.files import File
+from django.core.files.temp import NamedTemporaryFile
 
 
 class SeriesForm(forms.ModelForm):
@@ -32,20 +36,28 @@ class SeriesForm(forms.ModelForm):
                                       empty_label=None)
     media_type = forms.ModelChoiceField(queryset=MediaType.objects,
                                         empty_label=None)
-    poster = forms.ImageField()
-    start_date = forms.DateField()
-    end_date = forms.DateField()
+    poster = forms.ImageField(required=False,
+                              label="Upload Poster from local",
+                              widget=forms.FileInput())
+    poster_url = forms.URLField(required=False,
+                                label="Upload Poster from URL")
+    start_date = forms.DateField(initial=timezone.now().date())
+    end_date = forms.DateField(initial=timezone.now().date())
 
     release_schedule = forms.ChoiceField(choices=Series.RELEASE_SCHEDULE_CHOICES)
 
-    current_count = forms.IntegerField(min_value=0)
-    total_count = forms.IntegerField(min_value=0)
+    current_count = forms.IntegerField(min_value=0,
+                                       initial=0)
+    total_count = forms.IntegerField(min_value=0,
+                                     initial=0)
 
     media_type_options = forms.CharField(widget=forms.HiddenInput(),
                                          validators=[json_validator],
+                                         initial="{}",
                                          required=False)
     release_schedule_options = forms.CharField(widget=forms.HiddenInput(),
                                                validators=[json_validator],
+                                               initial="{}",
                                                required=False)
 
     def clean_options(self, key):
@@ -54,13 +66,9 @@ class SeriesForm(forms.ModelForm):
             try:
                 return json.loads(options)
             except ValueError as e:
-                raise ValidationError(
-                    _('Invalid JSON in %(owner)s : \"%(option)s\" '
-                      '%(e)s '),
-                    params={'e': e,
-                            'owner': key,
-                            'option': options}
-                )
+                msg = _('Invalid JSON : ' + e)
+                self.add_error(key, msg)
+
         elif type(options) is dict:
             return options
         else:
@@ -77,23 +85,9 @@ class SeriesForm(forms.ModelForm):
     def clean(self):
         clean_data = super(SeriesForm, self).clean()
         if 'end_date' in clean_data and 'start_date' in clean_data:
-            if clean_data['end_date'] != "" and \
-               clean_data['start_date'] == "":  # TODO: Better error messages
-                raise ValidationError(_('Invalid combination of Start Date and'
-                                        ' End Date if End Date is not null then'
-                                        ' Start Date must have a value'),
-                                      code='invalid'
-                                      )
-            elif 'end_date' in clean_data and \
-                 'start_date' not in clean_data:  # TODO: Better error messages
-                raise ValidationError(_('Invalid combination of Start Date and'
-                                        ' End Date if End Date is not null then'
-                                        ' Start Date must have a value'),
-                                      code='invalid'
-                                      )
             if clean_data['start_date'] > clean_data['end_date']:
-                msg = _('Invalid start and end dates start date must be before '
-                        'the end')
+                msg = _('Invalid start and end dates start date must be '
+                        'before the end')
                 self.add_error('start_date', msg)
                 self.add_error('end_date', msg)
 
@@ -103,3 +97,39 @@ class SeriesForm(forms.ModelForm):
                 msg = _('Must be lesser or equal to total count, '
                         'unless total count is zero')
                 self.add_error('current_count', msg)
+
+        if 'poster_url' in clean_data and 'poster' in clean_data:
+            if clean_data['poster_url'] != "" and \
+               (self.cleaned_data['poster'] is not None and
+               self.cleaned_data['poster'] != self.instance.poster):
+                msg = _('Cannot upload an image and a URL at the same time')
+                self.add_error('poster', msg)
+
+        if self.instance is None and 'poster_url' not in clean_data and \
+           'poster' not in clean_data:
+            msg = _('Must have either an image to upload or url')
+            self.add_error('poster', msg)
+
+        if 'poster_url' in self.cleaned_data and \
+           self.cleaned_data['poster_url'] != "":
+            url = self.cleaned_data['poster_url']
+            if url.split('/')[-1].split('.')[-1] not in ['jpg', 'png', 'gif', 'jpeg']:
+                msg = _('url must lead to an image of jpg, jpeg, png or gif format')
+                self.add_error('poster', msg)
+
+    def save(self, *args, **kwargs):
+        if 'poster_url' in self.cleaned_data and \
+           self.cleaned_data['poster_url'] != "":
+            url = self.cleaned_data['poster_url']
+            if url.split('.')[-1] in ['jpg', 'png', 'gif', 'jpeg']:
+                img_temp = NamedTemporaryFile(delete=True)
+                try:
+                    img_temp.write(urlopen(url).read())
+                except HTTPError as e:
+                    msg = _('HTTP error: ' + str(e))
+                    self.add_error('poster', msg)
+                img_temp.flush()
+                self.instance.poster.save(poster_path(self.instance,
+                                                      url.split('/')[-1]),
+                                          File(img_temp))
+        return super(SeriesForm, self).save()

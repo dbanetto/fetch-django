@@ -25,7 +25,8 @@ def new(request):
         form = SeriesForm(request.POST, request.FILES)
         if form.is_valid():
             series = form.save(commit=False)
-            series.poster = request.FILES['poster']
+            if 'poster' in request.FILES:
+                series.poster = request.FILES['poster']
             series.save()
             messages.add_message(request,
                                  messages.SUCCESS,
