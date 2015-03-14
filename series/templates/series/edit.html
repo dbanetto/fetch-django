@@ -5,6 +5,10 @@
 Series - Edit {{ series.name }}
 {% endblock title %}
 
+{% block extra_header %}
+{{ form.media }}
+{% endblock extra_header %}
+
 {% block breadcrumb %}
 <ol class="breadcrumb">
   <li><a href="{% url 'series:index' %}">Series</a></li>

@@ -1,4 +1,6 @@
 import os
+from datetime import timedelta
+from dateutil.relativedelta import relativedelta
 
 from django.utils import timezone
 from django.utils.translation import ugettext as _
@@ -47,6 +49,9 @@ class Series(models.Model):
     end_date = models.DateField(default=None,
                                 null=True)
 
+    #release_time = models.TimeField(default=None,
+                                    #null=True)
+
     current_count = models.PositiveSmallIntegerField(default=0)
     total_count = models.PositiveSmallIntegerField(default=0)
 
@@ -87,7 +92,31 @@ class Series(models.Model):
         """
         if self.has_ended():
             return None
-        pass
+
+        if not self.has_started():
+            return self.start_date
+
+        if self.start_date is None:
+            return None
+
+        # is airing
+
+        release_date = self.start_date
+        delta = None
+        if self.release_schedule == Series.WEEKLY:
+            delta = relativedelta(days=7)
+        elif self.release_schedule == Series.FORTNIGHTLY:
+            delta = relativedelta(days=14)
+        elif self.release_schedule == Series.MONTHLY:
+            delta = relativedelta(months=1)
+        else:
+            return None
+
+        while release_date < timezone.now().date():
+            release_date += delta
+
+        return release_date
+
 
     def has_started(self):
         " Boolean of if the series has started airing/publishing "

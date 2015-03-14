@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'select_multiple_field',
     'static_precompiler',
     'bootstrap3',
+    'datetimewidget',
 
     'app',
     'fetch',

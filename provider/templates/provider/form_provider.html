@@ -2,42 +2,52 @@
 {% load staticfiles %}
 
 {% bootstrap_form_errors form %}
-<div class="fieldWrapper">
-  {% bootstrap_field  form.name %}
+<div class="row">
+  <div class="col-md-12">
+    {% bootstrap_field  form.name %}
+  </div>
 </div>
-<div class="fieldWrapper">
-  {% bootstrap_field form.website %}
+<div class="row">
+  <div class="col-md-12">
+    {% bootstrap_field form.website %}
+  </div>
 </div>
-<div class="fieldWrapper">
-  {% bootstrap_field form.regex_find_count %}
-  {% comment %}
-  TODO: Add regex test bed for regex options
-  {% endcomment %}
+<div class="row">
+  <div class="col-md-12">
+    {% bootstrap_field form.regex_find_count %}
+    {% comment %}
+    TODO: Add regex test bed for regex options
+    {% endcomment %}
+  </div>
 </div>
-<div class="fieldWrapper">
-  {% bootstrap_field  form.base_provider %}
+<div class="row">
+  <div class="col-md-12">
+    {% bootstrap_field  form.base_provider %}
+  </div>
 </div>
 {% bootstrap_field  form.options %}
-<div id="base_provider_options">
-  {% if provider and not provider.options == None %}
-  {% for opt, val in provider.options.items %}
-  <div class="form-group">
-    <label class="control-label" for="id_porivder_{{ opt }}">{{ opt }}</label>
-    <input onChange="genJSON('#base_provider_options','#id_options');" data_name="{{ opt }}" class="form-control" type="text" value="{{ val }}" placeholder="{{ opt }}" title="{{ opt }}" name="base_provider_options_{{ opt }}"></input>
+<div class="row">
+  <div id="base_provider_options" class="col-md-12">
+    {% if provider and not provider.options == None %}
+    {% for opt, val in provider.options.items %}
+    <div class="form-group">
+      <label class="control-label" for="id_porivder_{{ opt }}">{{ opt }}</label>
+      <input onChange="genJSON('#base_provider_options','#id_options');" data_name="{{ opt }}" class="form-control" type="text" value="{{ val }}" placeholder="{{ opt }}" title="{{ opt }}" name="base_provider_options_{{ opt }}"></input>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>Loading additional options</p>
+    {% endif %}
   </div>
-  {% endfor %}
-  {% else %}
-  <p>Loading additional options</p>
-  {% endif %}
 </div>
 
 <script type="text/javascript" src="{% static 'js/options.js' %}"></script>
 <script type="text/javascript">
   change_trigger('#id_base_provider', '{% url "provider:base_index" "/" %}', '#base_provider_options', '#id_base_provider_options');
 
-{% if not provider or povider.options|length == 0 %}
+  {% if not provider or povider.options|length == 0 %}
     $('#id_base_provider').ready(function() {
       $('#id_base_provider').change();
     });
-{% endif %}
-</script>
+    {% endif %}
+  </script>

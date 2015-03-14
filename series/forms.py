@@ -6,12 +6,13 @@ from django import forms
 from django.core.validators import ValidationError
 from django.utils.translation import ugettext as _
 from django.utils import timezone
+from django.core.files import File
+from django.core.files.temp import NamedTemporaryFile
+from datetimewidget.widgets import DateWidget
 
 from series.models import MediaType, Series, poster_path
 from provider.models import Provider
 from app.validators import json_validator
-from django.core.files import File
-from django.core.files.temp import NamedTemporaryFile
 
 
 class SeriesForm(forms.ModelForm):
@@ -42,9 +43,12 @@ class SeriesForm(forms.ModelForm):
                               widget=forms.FileInput())
     poster_url = forms.URLField(required=False,
                                 label="Upload Poster from URL")
+
     start_date = forms.DateField(initial=timezone.now().date(),
-                                 required=False)
-    end_date = forms.DateField(required=False)
+                                 required=False,
+                                 widget=DateWidget(usel10n=True, bootstrap_version=3))
+    end_date = forms.DateField(required=False,
+                               widget=DateWidget(usel10n=True, bootstrap_version=3))
 
     release_schedule = forms.ChoiceField(choices=Series.RELEASE_SCHEDULE_CHOICES)
 
