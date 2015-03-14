@@ -1,0 +1,32 @@
+[
+	{
+		"model": "provider.baseprovider",
+		"fields":
+		{
+			"name": "test",
+			"available_options": "id"
+		},
+		"pk": 1
+	},
+	{
+		"model": "provider.baseprovider",
+		"fields":
+		{
+			"name": "dummy",
+			"available_options": "many,options,stuff"
+		},
+		"pk": 2
+	},
+	{
+		"model": "provider.provider",
+		"fields":
+		{
+			"name": "blah",
+			"regex_find_count": "\\d+",
+			"website": "http://web.info/",
+			"options": "{\"id\": \"1123\"}",
+			"base_provider": 1
+		},
+		"pk": 1
+	}
+]

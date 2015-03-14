@@ -61,6 +61,10 @@ STATICFILES_FINDERS = (
     'static_precompiler.finders.StaticPrecompilerFinder',
 )
 
+FIXTURE_DIRS = (
+    'fixtures',
+)
+
 ROOT_URLCONF = 'app.urls'
 
 WSGI_APPLICATION = 'app.wsgi.application'

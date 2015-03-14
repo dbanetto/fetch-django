@@ -7,7 +7,7 @@ from app.validators import regex_validator, json_validator, json_schema_check
 class AppValidatorsTest(TestCase):
 
     def test_regex_validator_valid(self):
-        for re in ['a' , 'a+', '^a*.+$']:
+        for re in ['a', 'a+', '^a*.+$']:
             self.assertTrue(regex_validator(re))
 
     def test_regex_validator_invalid(self):

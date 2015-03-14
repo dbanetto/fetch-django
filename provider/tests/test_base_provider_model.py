@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.core.validators import ValidationError
 
 from provider.models import BaseProvider
 
@@ -6,19 +7,19 @@ from provider.models import BaseProvider
 class BaseProviderTests(TestCase):
     fixtures = ['test_provider.json']
 
-    def test_get_avianle_options(self):
+    def test_get_available_options(self):
         bp = BaseProvider(name="test",
                           available_options="id,query,location")
 
         self.assertEqual(['id', 'query', 'location'],
                          bp.get_available_options())
 
-    def test_as_dict(self):
-        prov = BaseProvider.objects.all()[0]
-        prov_dict = prov.as_dict()
+    def test_name_max_length(self):
+        prov = BaseProvider(name='*'*161)
+        with self.assertRaises(ValidationError):
+            prov.full_clean()
 
-        self.assertTrue('name' in prov_dict)
-        self.assertTrue('available_options' in prov_dict)
-
-        self.assertEquals(prov.name, prov_dict['name'])
-        self.assertEquals(prov.get_available_options(), prov_dict['available_options'])
+    def test_name_empty(self):
+        prov = BaseProvider(name='')
+        with self.assertRaises(ValidationError):
+            prov.full_clean()

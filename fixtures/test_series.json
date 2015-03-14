@@ -1,0 +1,23 @@
+[
+	{
+		"fields": {"available_options": "id", "name": "dummy"},
+		"pk": 1, "model": "series.mediatype"
+	},
+	{
+		"fields": {
+			"release_schedule": "W",
+			"total_count": 0,
+			"media_type": 1,
+			"media_type_options": null,
+			"provider": 9,
+			"start_date": "2015-02-01",
+			"end_date": "2015-03-01",
+			"release_schedule_options": null,
+			"poster": "series/poster/1.png",
+			"name": "Test Case",
+			"current_count": 2
+		},
+		"pk": 1, "model": "series.series"
+	}
+	}
+]

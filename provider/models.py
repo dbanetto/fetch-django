@@ -1,5 +1,3 @@
-import json
-
 from django.db import models
 from json_field import JSONField
 
@@ -19,10 +17,6 @@ class BaseProvider(models.Model):
 
     def get_available_options(self):
         return self.available_options.split(',')
-
-    def as_dict(self):
-        return {'name': self.name,
-                'available_options': self.get_available_options()}
 
     def __str__(self):
         return self.name
