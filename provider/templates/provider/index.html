@@ -20,14 +20,18 @@ Providers - Index
 {% endblock header %}
 
 {% block content %}
-{% if providers|length == 0 %}
-<h4>No Providers avaiable</h4>
-<p>Please add some</p>
-{% else %}
-<ul>
-  {% for provider in providers %}
-  <li><a href="{% url 'provider:view' provider.id  %}">{{ provider }}</a></li>
-  {% endfor %}
-</ul>
-{% endif %}
+<div class="row">
+  <div class="col-md-12">
+    {% if providers|length == 0 %}
+    <h4>No Providers avaiable</h4>
+    <p>Please add some</p>
+    {% else %}
+    <ul>
+      {% for provider in providers %}
+      <li><a href="{% url 'provider:view' provider.id  %}">{{ provider }}</a></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+</div>
 {% endblock content %}

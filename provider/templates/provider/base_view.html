@@ -15,7 +15,11 @@
 {% endblock header %}
 
 {% block content %}
-<ul>
-  <li>Available Options: <code>{{ base_provider.get_available_options }}</code></a></li>
-</ul>
+<div class="row">
+  <div class="col-md-12">
+    <ul>
+      <li>Available Options: <code>{{ base_provider.get_available_options }}</code></li>
+    </ul>
+  </div>
+</div>
 {% endblock content %}

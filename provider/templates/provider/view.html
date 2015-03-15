@@ -19,23 +19,27 @@ Providers - {{ provider.name }}
 {% endblock header %}
 
 {% block content %}
-<ul>
-  <li>Website: <a href="{{ provider.website }}">{{ provider.website }}</a></li>
-  <li>Count Regex: <code>{{ provider.regex_find_count }}</code></li>
-  {% if provider.options|length > 0 %}
-  <li>
-    <p>Addtional options for {{ provider.base_provider.name }}</p>
+<div class="row">
+  <div class="col-md-12">
     <ul>
-      {% for k,v in provider.options.items %}
-      <li>{{ k }}: {{ v }}</li>
-      {% endfor %}
+      <li>Website: <a href="{{ provider.website }}">{{ provider.website }}</a></li>
+      <li>Count Regex: <code>{{ provider.regex_find_count }}</code></li>
+      {% if provider.options|length > 0 %}
+      <li>
+        <p>Addtional options for {{ provider.base_provider.name }}</p>
+        <ul>
+          {% for k,v in provider.options.items %}
+          <li>{{ k }}: {{ v }}</li>
+          {% endfor %}
+        </ul>
+      </li>
+      {% endif %}
     </ul>
-  </li>
-  {% endif %}
-</ul>
+  </div>
+</div>
 
 <div class="row" id="view-controls">
-  <div class="col-lg-12">
+  <div class="col-md-12">
     <a href="{% url 'provider:index' %}" class="btn btn-default">
       Back
     </a>

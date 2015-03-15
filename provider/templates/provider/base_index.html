@@ -15,14 +15,18 @@ Providers - Base - Index
 </ol>
 {% endblock breadcrumb %}
 {% block content %}
-{% if base_providers|length == 0 %}
-<h4>No Base Providers avaiable</h4>
-<p>Please add some</p>
-{% else %}
-<ul>
-  {% for base_provider in base_providers %}
-  <li><a href="{% url 'provider:base_view' base_provider.id '/' %}">{{ base_provider }}</a></li>
-  {% endfor %}
-</ul>
-{% endif %}
+<div class="row">
+  <div class="col-md-12">
+    {% if base_providers|length == 0 %}
+    <h4>No Base Providers avaiable</h4>
+    <p>Please add some</p>
+    {% else %}
+    <ul>
+      {% for base_provider in base_providers %}
+      <li><a href="{% url 'provider:base_view' base_provider.id '/' %}">{{ base_provider }}</a></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+</div>
 {% endblock content %}
