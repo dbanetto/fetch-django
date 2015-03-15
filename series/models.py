@@ -1,5 +1,5 @@
 import os
-from datetime import timedelta
+from datetime import timedelta, time
 from dateutil.relativedelta import relativedelta
 
 from django.utils import timezone
@@ -49,8 +49,7 @@ class Series(models.Model):
     end_date = models.DateField(default=None,
                                 null=True)
 
-    #release_time = models.TimeField(default=None,
-                                    #null=True)
+    release_time = models.TimeField(default=time(hour=12))
 
     current_count = models.PositiveSmallIntegerField(default=0)
     total_count = models.PositiveSmallIntegerField(default=0)

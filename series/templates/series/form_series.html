@@ -65,9 +65,16 @@
 </div>
 
 <div class="row">
-  <div class="col-md-6">
-    {% bootstrap_field  form.release_schedule %}
-    {{ form.release_schedule_options.errors }}
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-6">
+        {% bootstrap_field  form.release_schedule %}
+        {{ form.release_schedule_options.errors }}
+      </div>
+      <div class="col-md-6">
+        {% bootstrap_field  form.release_time %}
+      </div>
+    </div>
   </div>
 </div>
 
@@ -112,18 +119,33 @@
 {% bootstrap_field  form.release_schedule_options %}
 <script type="text/javascript" src="{% static 'js/options.js' %}"></script>
 <script type="text/javascript">
-
-  change_trigger('#id_release_schedule', {{ form.generate_release_schedule_options|safe }}, '#release_schedule_options', '#id_release_schedule_options');
-  change_trigger('#id_media_type', '{% url "series:media_index" "/" %}', '#media_type_options', '#id_media_type_options');
-
-  {% if not series or series.media_type_options|length == 0 %}
-    $('#id_media_type').ready(function() {
-      $('#id_media_type').change();
+  $('#id_start_date').change(function() {
+      // Need to use input#ID to get value because DateWidget generates a div with the same id
+     $('#id_end_date').datetimepicker('setStartDate', $('input#id_start_date')[0].value);
     });
-    {% endif %}
-    {% if not series or series.release_schedule_options|length == 0 %}
-      $('#id_release_schedule').ready(function() {
-        $('#id_release_schedule').change();
-      });
-      {% endif %}
+    $('#id_end_date').change(function(ev) {
+      $('#id_start_date').datetimepicker('setEndDate', $('input#id_end_date')[0].value);
+    });
+$('#id_start_date').ready(function() {
+  $('#id_start_date').change();
+});
+$('#id_end_date').ready(function() {
+  $('#id_end_date').change();
+});
+</script>
+<script type="text/javascript">
+
+change_trigger('#id_release_schedule', {{ form.generate_release_schedule_options|safe }}, '#release_schedule_options', '#id_release_schedule_options');
+change_trigger('#id_media_type', '{% url "series:media_index" "/" %}', '#media_type_options', '#id_media_type_options');
+
+{% if not series or series.media_type_options|length == 0 %}
+$('#id_media_type').ready(function() {
+  $('#id_media_type').change();
+});
+{% endif %}
+{% if not series or series.release_schedule_options|length == 0 %}
+$('#id_release_schedule').ready(function() {
+  $('#id_release_schedule').change();
+});
+{% endif %}
 </script>

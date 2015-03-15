@@ -1,5 +1,5 @@
 import json
-from datetime import date
+from datetime import date, time
 from urllib.request import urlopen, HTTPError
 
 from django import forms
@@ -8,7 +8,7 @@ from django.utils.translation import ugettext as _
 from django.utils import timezone
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
-from datetimewidget.widgets import DateWidget
+from datetimewidget.widgets import DateWidget, TimeWidget
 
 from series.models import MediaType, Series, poster_path
 from provider.models import Provider
@@ -29,7 +29,8 @@ class SeriesForm(forms.ModelForm):
                   'total_count',
                   'release_schedule',
                   'media_type_options',
-                  'release_schedule_options'
+                  'release_schedule_options',
+                  'release_time',
                   ]
         exclude = ()
 
@@ -50,6 +51,9 @@ class SeriesForm(forms.ModelForm):
     end_date = forms.DateField(required=False,
                                widget=DateWidget(usel10n=True, bootstrap_version=3))
 
+    release_time = forms.TimeField(initial=time(hour=12),
+                                   widget=TimeWidget(bootstrap_version=3,
+                                                     options={'format': 'hh:ii'}))
     release_schedule = forms.ChoiceField(choices=Series.RELEASE_SCHEDULE_CHOICES)
 
     current_count = forms.IntegerField(min_value=0,
@@ -99,13 +103,13 @@ class SeriesForm(forms.ModelForm):
 
     def clean(self):
         clean_data = super(SeriesForm, self).clean()
-        if 'end_date' in clean_data and 'start_date' in clean_data:
-            if clean_data['start_date'] is date and clean_data['end_date'] is date:
-                if clean_data['start_date'] > clean_data['end_date']:
-                    msg = _('Invalid start and end dates start date must be '
-                            'before the end')
-                    self.add_error('start_date', msg)
-                    self.add_error('end_date', msg)
+
+        if 'end_date' in clean_data and clean_data['end_date'] is not None:
+            if clean_data['start_date'] > clean_data['end_date']:
+                msg = _('Invalid start and end dates start date must be '
+                        'before the end')
+                self.add_error('start_date', msg)
+                self.add_error('end_date', msg)
 
         if 'total_count' in clean_data and 'current_count' in clean_data:
             if clean_data['total_count'] != 0 and \
