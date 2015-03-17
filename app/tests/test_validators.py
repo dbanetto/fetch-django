@@ -23,6 +23,14 @@ class AppValidatorsTest(TestCase):
         for json in ['{', '{\'id\': 1}', '[', '', None, 1]:
             self.assertFalse(json_validator(json))
 
+    def test_json_schema_invalid(self):
+        for json, list in (
+                           ("", ['id']),
+                           (1, ["id"]),
+                           ({"id": "a"}, None)
+                          ):
+            self.assertFalse(json_schema_check(json, list))
+
     def test_json_schema_valid(self):
         for json, list in (
                            ({"id": "1"}, ['id']),

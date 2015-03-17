@@ -24,7 +24,7 @@ def json_validator(value):
         return False
 
 
-def json_schema_check(json_obj, list):
+def json_schema_check(json_obj, keylist):
     """
     Validates a json object or dict against a list of values the
     json_obj should only have
@@ -32,13 +32,18 @@ def json_schema_check(json_obj, list):
     returns True on success
     raises ValidationError if incorrect
     """
+    if type(json_obj) is not dict:
+        return False
+    if type(keylist) is not list:
+        return False
+
     for k in json_obj:
-        if k not in list:
+        if k not in keylist:
             raise ValidationError(
                 _('Invalid JSON: invalid key \"%(key)s\"'),
                 params={'key': k}
             )
-    for l in list:
+    for l in keylist:
         if l not in json_obj:
             raise ValidationError(
                 _('Invalid JSON: Missing key \"%(key)s\"'),
