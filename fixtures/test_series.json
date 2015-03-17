@@ -9,7 +9,7 @@
 			"total_count": 0,
 			"media_type": 1,
 			"media_type_options": null,
-			"provider": 9,
+			"provider": 1,
 			"start_date": "2015-02-01",
 			"end_date": "2015-03-01",
 			"release_schedule_options": null,
@@ -18,6 +18,5 @@
 			"current_count": 2
 		},
 		"pk": 1, "model": "series.series"
-	}
 	}
 ]

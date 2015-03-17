@@ -24,7 +24,6 @@ class SeriesForm(forms.ModelForm):
                   'poster',
                   'start_date',
                   'end_date',
-                  'poster',
                   'current_count',
                   'total_count',
                   'release_schedule',
@@ -52,6 +51,7 @@ class SeriesForm(forms.ModelForm):
                                widget=DateWidget(usel10n=True, bootstrap_version=3))
 
     release_time = forms.TimeField(initial=time(hour=12),
+                                   required=False,
                                    widget=TimeWidget(bootstrap_version=3,
                                                      options={'format': 'hh:ii'}))
     release_schedule = forms.ChoiceField(choices=Series.RELEASE_SCHEDULE_CHOICES)
@@ -80,16 +80,20 @@ class SeriesForm(forms.ModelForm):
         })
 
     def clean_options(self, key):
+        if key not in self.cleaned_data:
+            return None
+
         options = self.cleaned_data[key]
         if type(options) is str:
             try:
                 return json.loads(options)
             except ValueError as e:
-                msg = _('Invalid JSON : ' + e)
+                msg = _('Invalid JSON : ' + str(e))
                 self.add_error(key, msg)
-
         elif type(options) is dict:
             return options
+        elif type(options) is type(None):
+            return None
         else:
             raise ValidationError(
                 _('Invalid input: Did not expect type %(type)s'),

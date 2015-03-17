@@ -16,10 +16,11 @@ class AppValidatorsTest(TestCase):
 
     def test_json_validator_valid(self):
         for json in ['{}', '[]', '{"id":1}']:
-            self.assertTrue(json_validator(json))
+            self.assertTrue(json_validator(json),
+                            "{} {}".format(json, type(json)))
 
     def test_json_validator_invalid(self):
-        for json in ['{', '{\'id\': 1}', '[']:
+        for json in ['{', '{\'id\': 1}', '[', '', None, 1]:
             self.assertFalse(json_validator(json))
 
     def test_json_schema_valid(self):

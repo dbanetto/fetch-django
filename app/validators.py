@@ -14,6 +14,9 @@ def regex_validator(value):
 
 
 def json_validator(value):
+    if type(value) is not str:
+        return False
+
     try:
         json.loads(value)
         return True
