@@ -22,7 +22,9 @@ Series - {{ series.name }}
 {% block content %}
 <div class="row">
 	<div class="col-md-4 col-md-fit">
-		<img class="poster-full"  src="{{ series.poster.url }}">
+    {% if series.poster %}
+    <img class="poster-full"  src="{{ series.poster.url }}">
+    {% endif %}
 	</div>
 	<div class="col-md-3">
 		<table>

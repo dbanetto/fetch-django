@@ -58,7 +58,8 @@ class SeriesForm(forms.ModelForm):
 
     current_count = forms.IntegerField(min_value=0,
                                        initial=0)
-    total_count = forms.IntegerField(min_value=0,
+    total_count = forms.IntegerField(required=False,
+                                     min_value=0,
                                      initial=0)
 
     media_type_options = forms.CharField(widget=forms.HiddenInput(),
@@ -115,7 +116,8 @@ class SeriesForm(forms.ModelForm):
                 self.add_error('start_date', msg)
                 self.add_error('end_date', msg)
 
-        if 'total_count' in clean_data and 'current_count' in clean_data:
+        if 'total_count' in clean_data and 'current_count' in clean_data and \
+            type(clean_data['total_count']) is int:
             if clean_data['total_count'] != 0 and \
                clean_data['current_count'] > clean_data['total_count']:
                 msg = _('Must be lesser or equal to total count, '

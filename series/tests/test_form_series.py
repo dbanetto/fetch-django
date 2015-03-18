@@ -92,6 +92,20 @@ class SeriesFromTest(TestCase):
         })
         self.assertTrue(form.is_valid())
 
+    def test_no_total_count(self):
+        prov = Provider.objects.all()[0]
+        media = MediaType.objects.all()[0]
+        form = SeriesForm({
+            'name': 'test',
+            'provider': prov.id,
+            'media_type': media.id,
+            'start_date': datetime.now().date(),
+            'current_count': '1',
+            'media_type_options': '{}',
+            'release_schedule': 'W',
+        })
+        self.assertTrue(form.is_valid(), str(form.errors))
+
     def test_clean_options_valid(self):
         form = SeriesForm()
         form.cleaned_data = {'TEST': '{}'}
