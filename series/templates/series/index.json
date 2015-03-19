@@ -3,10 +3,12 @@
 {
 	"id":{{ s.id }},
 	"provider_id": {{ s.provider.id }},
-	"name": "{{ s.name }}",
+	"title": "{{ s.title }}",
+	"search_title": "{{ s.search_title }}",
 	"start_date": "{{ s.start_date|date:"d-m-Y" }}",
 	"end_date": "{{ s.end_date|date:"d-m-Y" }}",
 	"release_time": "{{ s.release_time|date:"h-i" }}",
+	"next_release": "{{ s.next_release|safe|date:'d-m-Y H:i' }}",
 	"currnet_count": {{ s.current_count }},
 	"total_count": {{ s.total_count }},
 	"release_schedule": "{{ s.release_schedule }}",

@@ -18,7 +18,8 @@ from app.validators import json_validator
 class SeriesForm(forms.ModelForm):
     class Meta:
         model = Series
-        fields = ['name',
+        fields = ['title',
+                  'search_title',
                   'provider',
                   'media_type',
                   'poster',
@@ -33,7 +34,10 @@ class SeriesForm(forms.ModelForm):
                   ]
         exclude = ()
 
-    name = forms.CharField(label="Series Name")
+    title = forms.CharField(label="Series title")
+    search_title = forms.CharField(label="Series search title",
+                                   help_text="") # TODO: Proper help text
+
     provider = forms.ModelChoiceField(queryset=Provider.objects,
                                       empty_label=None)
     media_type = forms.ModelChoiceField(queryset=MediaType.objects,

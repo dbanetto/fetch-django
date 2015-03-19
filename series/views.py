@@ -36,7 +36,7 @@ def new(request):
             messages.add_message(request,
                                  messages.SUCCESS,
                                  "<strong>Success</strong> Created {}"
-                                 .format(series.name))
+                                 .format(series.title))
             return HttpResponseRedirect(reverse('series:view',
                                         args=[series.id]))
 
@@ -55,7 +55,7 @@ def edit(request, series_id):
                 messages.add_message(request,
                                      messages.SUCCESS,
                                      "<strong>Success</strong> Edited {}"
-                                     .format(series.name))
+                                     .format(series.title))
             return HttpResponseRedirect(reverse('series:view',
                                                 args=[series.id]))
     return render(request, 'series/edit.html',
@@ -69,7 +69,7 @@ def delete(request, series_id):
         messages.add_message(request,
                              messages.INFO,
                              "{} has been deleted"
-                             .format(series.name))
+                             .format(series.title))
         series.delete()
         return HttpResponseRedirect(reverse('series:index'))
     else:

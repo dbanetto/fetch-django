@@ -2,7 +2,7 @@
 {% load bootstrap3 %}
 
 {% block title %}
-Series - Edit {{ series.name }}
+Series - Edit {{ series.title }}
 {% endblock title %}
 
 {% block extra_header %}
@@ -12,13 +12,13 @@ Series - Edit {{ series.name }}
 {% block breadcrumb %}
 <ol class="breadcrumb">
   <li><a href="{% url 'series:index' %}">Series</a></li>
-  <li><a href="{% url 'series:view' series.id %}">{{ series.name }}</a></li>
+  <li><a href="{% url 'series:view' series.id %}">{{ series.title }}</a></li>
   <li class="active">Edit</li>
 </ol>
 {% endblock breadcrumb %}
 
 {% block header %}
-<h1>Edit {{ series.name }}</h1>
+<h1>Edit {{ series.title }}</h1>
 {% endblock header %}
 
 {% block content %}

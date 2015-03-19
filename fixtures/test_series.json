@@ -14,7 +14,8 @@
 			"end_date": "2015-03-01",
 			"release_schedule_options": null,
 			"poster": "series/poster/1.png",
-			"name": "Test Case",
+			"title": "Test Case",
+			"search_title": "Test Case",
 			"current_count": 2
 		},
 		"pk": 1, "model": "series.series"

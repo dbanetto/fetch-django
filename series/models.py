@@ -42,8 +42,11 @@ def poster_path(instance, filename):
 
 class Series(models.Model):
     provider = models.ForeignKey(Provider)
-    name = models.CharField(max_length=160,
-                            verbose_name="Name of the series")
+    title = models.CharField(max_length=160,
+                             verbose_name="Name of the series")
+
+    search_title = models.CharField(max_length=256,
+                                    verbose_name="String to be used when searching for the series")
 
     start_date = models.DateField(default=None,
                                   null=True)
@@ -141,7 +144,7 @@ class Series(models.Model):
         return self.has_started() and not self.has_ended()
 
     def __str__(self):
-        return "{} ({})".format(self.name, self.provider.name)
+        return "{} ({})".format(self.title, self.provider.name)
 
     def bootstrap_label_class(self):
         """

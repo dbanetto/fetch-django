@@ -14,7 +14,8 @@ class SeriesFromTest(TestCase):
         prov = Provider.objects.all()[0]
         media = MediaType.objects.all()[0]
         form = SeriesForm({
-            'name': 'test',
+            'title': 'test',
+            'search_title': 'test',
             'provider': prov.id,
             'media_type': media.id,
             'poster': None,
@@ -33,7 +34,8 @@ class SeriesFromTest(TestCase):
         prov = Provider.objects.all()[0]
         media = MediaType.objects.all()[0]
         form = SeriesForm({
-            'name': 'test',
+            'title': 'test',
+            'search_title': 'test',
             'provider': prov.id,
             'media_type': media.id,
             'start_date': datetime.now().date(),
@@ -48,7 +50,8 @@ class SeriesFromTest(TestCase):
         prov = Provider.objects.all()[0]
         media = MediaType.objects.all()[0]
         form = SeriesForm({
-            'name': 'test',
+            'title': 'test',
+            'search_title': 'test',
             'provider': prov.id,
             'media_type': media.id,
             'start_date': date(2015, 1, 1),
@@ -64,7 +67,8 @@ class SeriesFromTest(TestCase):
         prov = Provider.objects.all()[0]
         media = MediaType.objects.all()[0]
         form = SeriesForm({
-            'name': 'test',
+            'title': 'test',
+            'search_title': 'test',
             'provider': prov.id,
             'media_type': media.id,
             'start_date': date(2014, 1, 1),
@@ -80,7 +84,8 @@ class SeriesFromTest(TestCase):
         prov = Provider.objects.all()[0]
         media = MediaType.objects.all()[0]
         form = SeriesForm({
-            'name': 'test',
+            'title': 'test',
+            'search_title': 'test',
             'provider': prov.id,
             'media_type': media.id,
             'start_date': date(2015, 1, 1),
@@ -96,7 +101,8 @@ class SeriesFromTest(TestCase):
         prov = Provider.objects.all()[0]
         media = MediaType.objects.all()[0]
         form = SeriesForm({
-            'name': 'test',
+            'title': 'test',
+            'search_title': 'test',
             'provider': prov.id,
             'media_type': media.id,
             'start_date': datetime.now().date(),
@@ -114,9 +120,9 @@ class SeriesFromTest(TestCase):
     def test_clean_options_invalid_json(self):
         # Note using an actual field to check errors
         form = SeriesForm()
-        form.cleaned_data = {'name': '{]'}
-        self.assertEquals(form.clean_options("name"), None)
-        self.assertTrue('name' in form.errors)
+        form.cleaned_data = {'title': '{]'}
+        self.assertEquals(form.clean_options("title"), None)
+        self.assertTrue('title' in form.errors)
 
     def test_clean_options_none(self):
         form = SeriesForm()
