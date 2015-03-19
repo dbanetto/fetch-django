@@ -1,3 +1,5 @@
+import json
+
 from django.db import models
 from json_field import JSONField
 
@@ -45,3 +47,6 @@ class Provider(models.Model):
 
     def __str__(self):
         return "{} ({})".format(self.name, self.base_provider.name)
+
+    def base_provider_options_json(self):
+        return json.dumps(self.options)

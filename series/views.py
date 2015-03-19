@@ -8,7 +8,7 @@ from series.forms import SeriesForm
 
 
 def index(request):
-    series = Series.objects.all()
+    series = sorted(Series.objects.all(), key=lambda s: s.next_release())
     if request.META.get('CONTENT_TYPE') == 'application/json':
         return render(request, 'series/index.json',
                       {'series': series},

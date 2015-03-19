@@ -34,15 +34,15 @@ Series - {{ series.name }}
 			</tr>
 			<tr>
 				<td><strong>Start Date</strong></td>
-				<td>{{ series.start_date }}</td>
+				<td>{{ series.start_date|date }}</td>
 			</tr>
 			<tr>
 				<td><strong>End Date</strong></td>
-				<td>{{ series.end_date }}</td>
+				<td>{{ series.end_date|date }}</td>
 			</tr>
 			<tr>
 				<td><strong>Release Time</strong></td>
-				<td>{{ series.release_time|date:"H:i" }}</td>
+				<td>{{ series.release_time|time }}</td>
 			</tr>
 			<tr>
 			<tr>
@@ -59,7 +59,7 @@ Series - {{ series.name }}
 			</tr>
 			<tr>
 				<td><strong>Next Release</strong></td>
-				<td>{{ series.next_release }}</td>
+				<td>{{ series.next_release|date:"DATETIME_FORMAT" }}</td>
 			</tr>
 			<tr>
 				<td><strong>Episode Count</strong></td>

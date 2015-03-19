@@ -75,12 +75,10 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
-USE_TZ = True
 TIME_ZONE = 'Pacific/Auckland'
 
+USE_TZ = True
 USE_I18N = True
-
 USE_L10N = True
 
 # Used for sub-directories:
@@ -140,3 +138,10 @@ STATIC_PRECOMPILER_COMPILERS = (
 
 STATIC_PRECOMPILER_OUTPUT_DIR = ""
 STATIC_PRECOMPILER_PREPEND_STATIC_URL = True
+
+# Datetime formats
+TIME_FORMAT = 'H:i'
+DATE_FORMAT = 'N j, Y'
+SHORT_DATE_FORMAT = 'd/m/Y'
+DATETIME_FORMAT = 'N j, Y H:i'
+SHORT_DATETIME_FORMAT = 'd/m/Y H:i'

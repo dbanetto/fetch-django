@@ -9,8 +9,13 @@ from provider.forms import ProviderForm
 
 def index(request):
     providers = Provider.objects.all()
-    return render(request, 'provider/index.html',
-                  {'providers': providers})
+    if request.META.get('CONTENT_TYPE') == 'application/json':
+        return render(request, 'provider/index.json',
+                      {'providers': providers},
+                      content_type='application/json')
+    else:
+        return render(request, 'provider/index.html',
+                      {'providers': providers})
 
 
 def view(request, provider_id):

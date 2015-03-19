@@ -1,6 +1,6 @@
 import os
 import json
-from datetime import timedelta, time
+from datetime import timedelta, time, datetime
 from dateutil.relativedelta import relativedelta
 
 from django.utils import timezone
@@ -87,14 +87,14 @@ class Series(models.Model):
 
     def next_release(self):
         """
-        Return a Date object of the next next_release
+        Return a DateTime object of the next next_release
         If the series is finished airing will return None
         """
         if self.has_ended():
             return None
 
         if not self.has_started():
-            return self.start_date
+            return datetime.combine(self.start_date, self.release_time)
 
         if self.start_date is None:
             return None
@@ -115,7 +115,9 @@ class Series(models.Model):
         while release_date < timezone.now().date():
             release_date += delta
 
-        return release_date
+        assert(type(self.release_time) is time)
+        release_datetime = datetime.combine(release_date, self.release_time)
+        return release_datetime
 
 
     def has_started(self):
