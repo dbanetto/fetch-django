@@ -9,8 +9,13 @@ from series.forms import SeriesForm
 
 def index(request):
     series = Series.objects.all()
-    return render(request, 'series/index.html',
-                  {'series': series})
+    if request.META.get('CONTENT_TYPE') == 'application/json':
+        return render(request, 'series/index.json',
+                      {'series': series},
+                      content_type='application/json')
+    else:
+        return render(request, 'series/index.html',
+                      {'series': series})
 
 
 def view(request, series_id):
@@ -72,8 +77,8 @@ def delete(request, series_id):
                                             args=(series_id)))
 
 
-def media_type_index(request, postfix):
-    if postfix == '.json':
+def media_type_index(request):
+    if request.META.get('CONTENT_TYPE') == 'application/json':
         return render(request, 'series/media_index.json',
                       {'media_types': MediaType.objects.all()},
                       content_type='application/json')
@@ -81,9 +86,9 @@ def media_type_index(request, postfix):
                   {'media_types': MediaType.objects.all()})
 
 
-def media_type_view(request, media_type_id, postfix):
+def media_type_view(request, media_type_id):
     media_type = get_object_or_404(MediaType, pk=media_type_id)
-    if postfix == '.json':
+    if request.META.get('CONTENT_TYPE') == 'application/json':
         return render(request, 'series/media_view.json',
                       {'media_type': media_type},
                       content_type='application/json')

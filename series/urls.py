@@ -11,7 +11,7 @@ urlpatterns = patterns(
     url(r'^(?P<series_id>\d+)/delete/$', views.delete, name='delete'),
 
     # Media Types
-    url(r'^media(/|\.json)$', views.media_type_index, name='media_index'),
-    url(r'^media/(?P<media_type_id>\d+)(?P<postfix>/|\.json)$',
+    url(r'^media/$', views.media_type_index, name='media_index'),
+    url(r'^media/(?P<media_type_id>\d+)/$',
         views.media_type_view, name='media_view'),
 )

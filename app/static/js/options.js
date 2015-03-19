@@ -5,8 +5,12 @@ function change_trigger(listen_id, base_url, id_inputs, id_json) {
 		if (id_base.value === "") {  save_options(id_inputs); $(id_inputs).empty(); return; }
 		if (typeof base_url === "string") {
 			$.ajax({
-				type: 'GET',
-				url: base_url + $(listen_id)[0].value + '.json',
+				method: 'GET',
+				headers: {
+					'Content-Type':'application/json'
+				},
+				dataType: 'json',
+				url: base_url + $(listen_id)[0].value,
 				success: function(data) {
 					genOptions(data['options'], id_inputs, id_json);
 				}

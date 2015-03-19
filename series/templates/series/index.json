@@ -1,0 +1,18 @@
+[
+{% for s in series %}
+{
+	"id":{{ s.id }},
+	"provider_id": {{ s.provider.id }},
+	"name": "{{ s.name }}",
+	"start_date": "{{ s.start_date|date:"d-m-Y" }}",
+	"end_date": "{{ s.end_date|date:"d-m-Y" }}",
+	"release_time": "{{ s.release_time|date:"h-i" }}",
+	"currnet_count": {{ s.current_count }},
+	"total_count": {{ s.total_count }},
+	"release_schedule": '{{ s.release_schedule }}',
+	"release_schedule_options": {{ s.release_schedule_options_json|safe }},
+	"media_type": "{{ s.media_type.name|lower }}",
+	"media_type_options": {{ s.media_type_options_json|safe }}
+}{% if forloop.last == False %},{% endif %}
+{% endfor %}
+]

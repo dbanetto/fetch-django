@@ -1,4 +1,5 @@
 import os
+import json
 from datetime import timedelta, time
 from dateutil.relativedelta import relativedelta
 
@@ -118,17 +119,23 @@ class Series(models.Model):
 
 
     def has_started(self):
-        " Boolean of if the series has started airing/publishing "
+        """
+        Boolean of if the series has started airing/publishing
+        """
         return self.start_date is not None and  \
                timezone.now().date() >= self.start_date
 
     def has_ended(self):
-        " Boolean of if the series has ended airing/publishing "
+        """
+        Boolean of if the series has ended airing/publishing
+        """
         return self.end_date is not None and  \
                timezone.now().date() > self.end_date
 
     def is_airing(self):
-        " Boolean of if the series is currently airing/publishing "
+        """
+        Boolean of if the series is currently airing/publishing
+        """
         return self.has_started() and not self.has_ended()
 
     def __str__(self):
@@ -188,3 +195,8 @@ class Series(models.Model):
                    sr=sr,
                    text=text)
 
+    def release_schedule_options_json(self):
+        return json.dumps(self.release_schedule_options)
+
+    def media_type_options_json(self):
+        return json.dumps(self.media_type_options)

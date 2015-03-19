@@ -23,7 +23,7 @@ Providers - Base - Index
     {% else %}
     <ul>
       {% for base_provider in base_providers %}
-      <li><a href="{% url 'provider:base_view' base_provider.id '/' %}">{{ base_provider }}</a></li>
+      <li><a href="{% url 'provider:base_view' base_provider.id %}">{{ base_provider }}</a></li>
       {% endfor %}
     </ul>
     {% endif %}

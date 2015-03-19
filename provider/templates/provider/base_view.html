@@ -3,7 +3,7 @@
 {% block breadcrumb %}
 <ol class="breadcrumb">
   <li ><a href="{% url 'provider:index' %}">Provider</a></li>
-  <li ><a href="{% url 'provider:base_index' '/' %}">Base Provider</a></li>
+  <li ><a href="{% url 'provider:base_index' %}">Base Provider</a></li>
   <li class="active">{{ base_provider.name }}</li>
 </ol>
 {% endblock breadcrumb %}
