@@ -3,7 +3,7 @@
 {% block breadcrumb %}
 <ol class="breadcrumb">
   <li ><a href="{% url 'series:index' %}">Series</a></li>
-  <li ><a href="{% url 'series:media_index' '/' %}">Media Type</a></li>
+  <li ><a href="{% url 'series:media_index' %}">Media Type</a></li>
   <li class="active">{{ media_type.name }}</li>
 </ol>
 {% endblock breadcrumb %}

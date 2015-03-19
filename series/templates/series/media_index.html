@@ -22,7 +22,7 @@ Series - Media Type - Index
 {% else %}
 <ul>
   {% for media_type in media_types %}
-  <li><a href="{% url 'series:media_view' media_type.id '/' %}">{{ media_type }}</a></li>
+  <li><a href="{% url 'series:media_view' media_type.id %}">{{ media_type }}</a></li>
   {% endfor %}
 </ul>
 {% endif %}
