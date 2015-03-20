@@ -35,7 +35,6 @@ function genJSON(id_inputs, id_json) {
 	var inputs = $(id_inputs + ' input');
 	var out = '{';
 	for (var i =0; i < inputs.length; i++) {
-		console.log(inputs[i]);
 		out += JSON.stringify(inputs[i].getAttribute('data_name')) + ": " + JSON.stringify(inputs[i].value);
 		if (i != inputs.length - 1) {
 			out += ',';
@@ -63,7 +62,6 @@ function genOptions(data, id_inputs, id_json) {
 		var input = $('<input>').attr('class', 'form-control')
 		.attr('name', input_id)
 		.attr('data_name', options[i])
-		.attr('required', 'required')
 		.attr('value', value) // apply saved values
 		.change(function () {genJSON(id_inputs, id_json);});
 		obj.append($('<div>').attr('class', 'form-group').append(label).append(input));

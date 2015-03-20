@@ -8,39 +8,46 @@ class AppValidatorsTest(TestCase):
 
     def test_regex_validator_valid(self):
         for re in ['a', 'a+', '^a*.+$']:
-            self.assertTrue(regex_validator(re))
+            with self.subTest(re=re):
+                self.assertTrue(regex_validator(re))
 
     def test_regex_validator_invalid(self):
         for re in ['*', '+$^.']:
-            self.assertFalse(regex_validator(re))
+            with self.subTest(re=re):
+                self.assertFalse(regex_validator(re))
 
     def test_json_validator_valid(self):
         for json in ['{}', '[]', '{"id":1}']:
-            self.assertTrue(json_validator(json),
-                            "{} {}".format(json, type(json)))
+            with self.subTest(json=json):
+                self.assertTrue(json_validator(json),
+                                "{} {}".format(json, type(json)))
 
     def test_json_validator_invalid(self):
         for json in ['{', '{\'id\': 1}', '[', '', None, 1]:
-            self.assertFalse(json_validator(json))
+            with self.subTest(json=json):
+                self.assertFalse(json_validator(json))
 
     def test_json_schema_invalid(self):
-        for json, list in (
-                           ("", ['id']),
-                           (1, ["id"]),
-                           ({"id": "a"}, None)
-                          ):
-            self.assertFalse(json_schema_check(json, list))
+        for json, keys in (
+                          ("", ['id']),
+                          (1, ["id"]),
+                          ({"id": "a"}, None)
+        ):
+            with self.subTest(json=json, keys=keys):
+                self.assertFalse(json_schema_check(json, keys))
 
     def test_json_schema_valid(self):
-        for json, list in (
-                           ({"id": "1"}, ['id']),
-                          ):
-            self.assertTrue(json_schema_check(json, list))
+        for json, keys in (
+                          ({"id": "1"}, ['id']),
+        ):
+            with self.subTest(json=json, keys=keys):
+                self.assertTrue(json_schema_check(json, keys))
 
     def test_json_schema_invalid_key(self):
-        for json, list in (
-                           ({"id": "1",
-                             "hacking": "the gate"}, ['id']),
-                          ):
-            with self.assertRaises(ValidationError):
-                json_schema_check(json, list)
+        for json, keys in (
+                          ({"id": "1",
+                            "hacking": "the gate"}, ['id']),
+        ):
+            with self.subTest(json=json, keys=keys):
+                with self.assertRaises(ValidationError):
+                    json_schema_check(json, keys)

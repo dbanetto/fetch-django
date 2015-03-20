@@ -165,13 +165,13 @@ class SeriesForm(forms.ModelForm):
                 self.cleaned_data['poster_url_image'] = img_temp
 
     def save(self, *args, **kwargs):
+        instance = super(SeriesForm, self).save()
         if 'poster_url_image' in self.cleaned_data:
             url = self.cleaned_data['poster_url']
             img_temp = self.cleaned_data['poster_url_image']
-            self.instance.poster.save(poster_path(self.instance,
+            instance.poster.save(poster_path(self.instance,
                                                   url.split('/')[-1]),
                                       File(img_temp))
 
         # TODO: Create thumbnail of poster
-
-        return super(SeriesForm, self).save()
+        return instance
