@@ -2,7 +2,7 @@
 	{% for provider in base_providers %}
 	{
 		"id":{{ provider.id }},
-		"name": "{{provider.name}}"
+		"name": "{{ provider.name|escapejs }}"
 	}{% if forloop.last == False %},{% endif %}
 	{% endfor %}
 ]

@@ -1,9 +1,9 @@
 {
-	"name": "{{ base_provider.name }}",
+	"name": "{{ base_provider.name|escapejs }}",
 	"id" : {{ base_provider.id }},
 	"options" : [
 {% for opt in base_provider.get_available_options %}
-		"{{ opt }}"
+		"{{ opt|escapejs }}"
 {% if forloop.last == False %},{% endif %}{% endfor %}
 	]
 }

@@ -47,7 +47,13 @@ class Series(models.Model):
                              verbose_name="Name of the series")
 
     search_title = models.CharField(max_length=256,
+                                    blank=True,
+                                    default='',
                                     verbose_name="String to be used when searching for the series")
+    save_path = models.CharField(max_length=256,
+                                 default='',
+                                 blank=True,
+                                 verbose_name="Path to be sorted into")
 
     start_date = models.DateField(default=None,
                                   null=True)
@@ -130,7 +136,6 @@ class Series(models.Model):
 
         release_datetime = datetime.combine(release_date, self.release_time)
         return release_datetime
-
 
     def has_started(self):
         """

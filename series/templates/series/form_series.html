@@ -8,11 +8,6 @@
     {% bootstrap_field form.title %}
   </div>
 </div>
-<div class="row">
-  <div class="col-md-6">
-    {% bootstrap_field form.search_title %}
-  </div>
-</div>
 
 <div class="row">
   <div class="col-md-6">
@@ -22,19 +17,14 @@
 
 <div class="row">
   <div class="col-lg-12">
+
     <div class="row">
       <div class="col-md-6">
         {% bootstrap_label form.poster.label %}
-      </div>
-      <div class="col-md-6">
-        {% bootstrap_label form.poster_url.label %}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
         {% bootstrap_field form.poster layout='inline' %}
       </div>
       <div class="col-md-6">
+        {% bootstrap_label form.poster_url.label %}
         {% bootstrap_field form.poster_url layout='inline' %}
       </div>
     </div>
@@ -84,6 +74,15 @@
 </div>
 
 <div class="row">
+  <div class="col-md-6">
+    {% bootstrap_field form.search_title %}
+  </div>
+  <div class="col-md-6">
+    {% bootstrap_field form.save_path %}
+  </div>
+</div>
+
+<div class="row">
   <div id="release_schedule_options" class="col-md-6" >
     {% if series and not series.release_schedule_options == None %}
     {% for opt, val in series.release_schedule_options.items %}
@@ -125,32 +124,32 @@
 <script type="text/javascript" src="{% static 'js/options.js' %}"></script>
 <script type="text/javascript">
   $('#id_start_date').change(function() {
-      // Need to use input#ID to get value because DateWidget generates a div with the same id
-     $('#id_end_date').datetimepicker('setStartDate', $('input#id_start_date')[0].value);
-    });
-    $('#id_end_date').change(function(ev) {
-      $('#id_start_date').datetimepicker('setEndDate', $('input#id_end_date')[0].value);
-    });
-$('#id_start_date').ready(function() {
-  $('#id_start_date').change();
-});
-$('#id_end_date').ready(function() {
-  $('#id_end_date').change();
-});
+    // Need to use input#ID to get value because DateWidget generates a div with the same id
+    $('#id_end_date').datetimepicker('setStartDate', $('input#id_start_date')[0].value);
+  });
+  $('#id_end_date').change(function(ev) {
+    $('#id_start_date').datetimepicker('setEndDate', $('input#id_end_date')[0].value);
+  });
+  $('#id_start_date').ready(function() {
+    $('#id_start_date').change();
+  });
+  $('#id_end_date').ready(function() {
+    $('#id_end_date').change();
+  });
 </script>
 <script type="text/javascript">
 
-change_trigger('#id_release_schedule', {{ form.generate_release_schedule_options|safe }}, '#release_schedule_options', '#id_release_schedule_options');
-change_trigger('#id_media_type', '{% url "series:media_index" %}', '#media_type_options', '#id_media_type_options');
+  change_trigger('#id_release_schedule', {{ form.generate_release_schedule_options|safe }}, '#release_schedule_options', '#id_release_schedule_options');
+  change_trigger('#id_media_type', '{% url "series:media_index" %}', '#media_type_options', '#id_media_type_options');
 
-{% if not series or series.media_type_options|length == 0 %}
-$('#id_media_type').ready(function() {
-  $('#id_media_type').change();
-});
-{% endif %}
-{% if not series or series.release_schedule_options|length == 0 %}
-$('#id_release_schedule').ready(function() {
-  $('#id_release_schedule').change();
-});
-{% endif %}
-</script>
+  {% if not series or series.media_type_options|length == 0 %}
+    $('#id_media_type').ready(function() {
+      $('#id_media_type').change();
+    });
+    {% endif %}
+    {% if not series or series.release_schedule_options|length == 0 %}
+      $('#id_release_schedule').ready(function() {
+        $('#id_release_schedule').change();
+      });
+      {% endif %}
+    </script>

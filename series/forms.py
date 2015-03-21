@@ -20,6 +20,7 @@ class SeriesForm(forms.ModelForm):
         model = Series
         fields = ['title',
                   'search_title',
+                  'save_path',
                   'provider',
                   'media_type',
                   'poster',
@@ -36,7 +37,11 @@ class SeriesForm(forms.ModelForm):
 
     title = forms.CharField(label="Series title")
     search_title = forms.CharField(label="Series search title",
-                                   help_text="") # TODO: Proper help text
+                                   required=False,
+                                   help_text="Used to override series name used in search") # TODO: Proper help text
+    save_path = forms.CharField(label="Series save path",
+                                required=False,
+                                help_text="Used to override generated path when sorting series")
 
     provider = forms.ModelChoiceField(queryset=Provider.objects,
                                       empty_label=None)

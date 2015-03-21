@@ -2,8 +2,8 @@
 	{% for provider in providers %}
 	{
 		"id":{{ provider.id }},
-		"base_provider" : "{{ provider.base_provider.name }}",
-		"name": "{{ provider.name }}",
+		"base_provider" : "{{ provider.base_provider.name|escapejs }}",
+		"name": "{{ provider.name|escapejs }}",
 		"base_provider_options": {{ provider.base_provider_options_json|safe }},
 		"regex_find_count": "{{ provider.regex_find_count|escapejs }}"
 	}{% if forloop.last == False %},{% endif %}
