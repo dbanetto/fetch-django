@@ -6,8 +6,9 @@ from dateutil.relativedelta import relativedelta
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.db import models
-from app.storage import OverwriteStorage
+from django.core.exceptions import ValidationError
 
+from app.storage import OverwriteStorage
 from json_field import JSONField
 from provider.models import Provider
 
@@ -87,6 +88,15 @@ class Series(models.Model):
     release_schedule_options = JSONField(blank=True,
                                          help_text="A JSON object of needed"
                                          " info for each type of release schedule")
+
+    def clean(self):
+        if type(self.total_count) is not type(None):
+            if self.current_count >= self.total_count != 0:
+                raise ValidationError('Current count cannot be bigger than total count, unless total count is zero')
+
+        if type(self.end_date) is not type(None):
+            if self.start_date > self.end_date:
+                raise ValidationError('Start date cannot be greater than end date')
 
     def next_release(self):
         """

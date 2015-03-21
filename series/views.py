@@ -1,9 +1,11 @@
 from datetime import datetime
+import json
 
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from series.models import Series, MediaType
 from series.forms import SeriesForm
@@ -96,3 +98,42 @@ def media_type_view(request, media_type_id):
                       content_type='application/json')
     return render(request, 'series/media_view.html',
                   {'media_type': media_type})
+
+@csrf_exempt
+def count(request, series_id):
+    """
+    If the request is a POST we take the 'current_count' and set the series
+    to it
+
+    :param request:
+    :param series_id:
+    :return:
+    """
+    series = get_object_or_404(Series, pk=series_id)
+    if request.method == 'POST':
+        try:
+            try:
+                print(request.body)
+                body = json.loads(request.body.decode('utf-8'))
+            except ValueError as e:
+                return HttpResponse(json.dumps({'success': False, 'error': 'invalid json ' + str(e)}),
+                                    content_type="application/json")
+            if 'current_count' in body:
+                current_count = int(body['current_count'])
+                series.current_count = current_count
+                series.clean()
+                series.save()
+                return HttpResponse(json.dumps({'success': True, 'current_count': series.current_count}),
+                                    content_type="application/json")
+
+            return HttpResponse(json.dumps({'success': False, 'error': 'no current_count'}),
+                                content_type="application/json")
+        except ValueError:
+            return HttpResponse(json.dumps({'success': False, 'error': 'current count must be an int'}),
+                                content_type="application/json")
+        except Exception as e:
+            return HttpResponse(json.dumps({'success': False, 'error': str(e)}), content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({'current_count': series.current_count,
+                                        'total_count': series.total_count}),
+                            content_type="application/json")

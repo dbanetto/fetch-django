@@ -9,6 +9,7 @@ urlpatterns = patterns(
     url(r'^(?P<series_id>\d+)/$', views.view, name='view'),
     url(r'^(?P<series_id>\d+)/edit/$', views.edit, name='edit'),
     url(r'^(?P<series_id>\d+)/delete/$', views.delete, name='delete'),
+    url(r'(?P<series_id>\d+)/count/$', views.count, name='count'),
 
     # Media Types
     url(r'^media/$', views.media_type_index, name='media_index'),

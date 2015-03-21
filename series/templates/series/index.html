@@ -35,7 +35,7 @@ Series - Index
       <div class="panel-footer">
           <h4><a href="{% url 'series:view' s.id %}">{{ s.title|truncatechars:29 }}</a>
             <br><small> {{ s.provider.name }}</small></h4>
-          <p> {{ s.current_count }} / {{ s.total_count }} <span class="label {{ s.bootstrap_label_class }} pull-right">{{ s.label_text }}</span></p>
+          <p> {{ s.current_count }} / {{ s.total_count }} Next: {{ s.next_release|date:"d-m-y" }} <span class="label {{ s.bootstrap_label_class }} pull-right">{{ s.label_text }}</span></p>
         {{ s.bootstrap_progressbar|safe }}
       </div>
     </div>
