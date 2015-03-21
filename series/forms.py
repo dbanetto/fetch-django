@@ -75,7 +75,8 @@ class SeriesForm(forms.ModelForm):
                                                initial="{}",
                                                required=False)
 
-    def generate_release_schedule_options(self):
+    @staticmethod
+    def generate_release_schedule_options():
         return json.dumps({
             "N": [],
             "W": [],

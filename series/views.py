@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -8,7 +10,7 @@ from series.forms import SeriesForm
 
 
 def index(request):
-    series = sorted(Series.objects.all(), key=lambda s: s.next_release())
+    series = sorted(Series.objects.all(), key=lambda s: s.next_release() if type(s) is datetime else datetime.max)
     if request.META.get('CONTENT_TYPE') == 'application/json':
         return render(request, 'series/index.json',
                       {'series': series},
