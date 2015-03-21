@@ -125,10 +125,9 @@ class Series(models.Model):
         else:
             return None
 
-        while release_date < timezone.now().date():
+        while datetime.combine(release_date, self.release_time) < datetime.now():
             release_date += delta
 
-        assert(type(self.release_time) is time)
         release_datetime = datetime.combine(release_date, self.release_time)
         return release_datetime
 
