@@ -10,7 +10,7 @@ from series.forms import SeriesForm
 
 
 def index(request):
-    series = sorted(Series.objects.all(), key=lambda s: s.next_release() if type(s) is datetime else datetime.max)
+    series = sorted(Series.objects.all(), key=lambda s: s.next_release() if type(s.next_release()) is datetime else datetime.max)
     if request.META.get('CONTENT_TYPE') == 'application/json':
         return render(request, 'series/index.json',
                       {'series': series},
