@@ -2,6 +2,7 @@
 {% for s in series %}
 {
 	"id":{{ s.id }},
+	"provider_id": {{ s.provider.id }},
 	"provider": "{{ s.provider.name|escapejs }}",
 	"title": "{{ s.title|escapejs }}",
 	"search_title": "{{ s.search_title|escapejs }}",

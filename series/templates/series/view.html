@@ -28,6 +28,10 @@ Series - {{ series.title }}
   </div>
   <div class="col-md-3">
     <table>
+      <tr>
+        <td><strong>Provider</strong></td>
+        <td><a href="{% url 'provider:view' series.provider.id %}">{{ series.provider.name }}</a></td>
+      </tr>
       {% if series.search_title %}
       <tr>
         <td><strong>Search Title</strong></td>
