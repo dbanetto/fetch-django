@@ -32,6 +32,12 @@ Series - {{ series.title }}
         <td><strong>Provider</strong></td>
         <td><a href="{% url 'provider:view' series.provider.id %}">{{ series.provider.name }}</a></td>
       </tr>
+      {% if series.info_url %}
+      <tr>
+        <td><strong>Information URL</strong></td>
+        <td><a href="{{ series.info_url }}">{{ series.info_url_domain }}</a></td>
+      </tr>
+      {% endif %}
       {% if series.search_title %}
       <tr>
         <td><strong>Search Title</strong></td>
@@ -134,3 +140,12 @@ Series - {{ series.title }}
   </div>
 </div>
 {% endblock content %}
+
+{% block extra_script %}
+<script>
+  $(window).on('resize', function() {
+    $('.poster-full').css('max-height', $(this).height() - $('.navbar').height() - 10);
+  });
+  $(window).resize();
+</script>
+{% endblock extra_script%}

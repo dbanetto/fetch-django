@@ -32,16 +32,17 @@ class SeriesForm(forms.ModelForm):
                   'media_type_options',
                   'release_schedule_options',
                   'release_time',
+                  'info_url'
                   ]
         exclude = ()
 
-    title = forms.CharField(label="Series title")
+    title = forms.CharField(label="Series Title")
     search_title = forms.CharField(label="Series search title",
                                    required=False,
-                                   help_text="Used to override series name used in search") # TODO: Proper help text
+                                   help_text="(Optional) Used to override series name used in search") # TODO: Proper help text
     save_path = forms.CharField(label="Series save path",
                                 required=False,
-                                help_text="Used to override generated path when sorting series")
+                                help_text="(Optional) Used to override generated path when sorting series")
 
     provider = forms.ModelChoiceField(queryset=Provider.objects,
                                       empty_label=None)
@@ -52,6 +53,11 @@ class SeriesForm(forms.ModelForm):
                               widget=forms.FileInput())
     poster_url = forms.URLField(required=False,
                                 label="Upload Poster from URL")
+
+    info_url = forms.URLField(required=False,
+                              label="Info URL",
+                              help_text="(Optional) URL to addtional information about the series")
+
 
     start_date = forms.DateField(initial=timezone.now().date(),
                                  required=False,

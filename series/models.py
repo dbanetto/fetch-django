@@ -1,4 +1,5 @@
 import os
+import re
 import json
 from datetime import timedelta, time, datetime
 from dateutil.relativedelta import relativedelta
@@ -50,10 +51,14 @@ class Series(models.Model):
                                     blank=True,
                                     default='',
                                     verbose_name="String to be used when searching for the series")
+
     save_path = models.CharField(max_length=256,
                                  default='',
                                  blank=True,
                                  verbose_name="Path to be sorted into")
+
+    info_url = models.URLField(blank=True,
+                               verbose_name="Information URL")
 
     start_date = models.DateField(default=None,
                                   null=True)
@@ -219,3 +224,8 @@ class Series(models.Model):
 
     def media_type_options_json(self):
         return json.dumps(self.media_type_options)
+
+    def info_url_domain(self):
+        if type(self.info_url) is str:
+            return re.sub('^.*://', '', self.info_url).split('/')[0]
+
