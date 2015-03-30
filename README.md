@@ -29,3 +29,10 @@ Pre-compilers
 ## License
 
 Licensed under MIT, see LICENSE.md for more detail.
+
+
+## Others Works
+
+The files: down.png and down.svg in app/static base on the style of [Numix Circle
+icon](https://github.com/numixproject/numix-icon-theme-circle)
+pack
