@@ -33,6 +33,5 @@ Licensed under MIT, see LICENSE.md for more detail.
 
 ## Others Works
 
-The files: down.png and down.svg in app/static base on the style of [Numix Circle
-icon](https://github.com/numixproject/numix-icon-theme-circle)
-pack
+The files: down.png and down.svg in app/static are from [Numix Circle
+icon pack](https://github.com/numixproject/numix-icon-theme-circle) system-software-install.svg
