@@ -37,9 +37,8 @@ def new(request):
                                  .format(new_provider.name))
             return HttpResponseRedirect(reverse('provider:view',
                                                 args=[new_provider.id]))
-    else:
-        return render(request, 'provider/new.html',
-                      {'form': form})
+    return render(request, 'provider/new.html',
+                  {'form': form})
 
 
 def edit(request, provider_id):

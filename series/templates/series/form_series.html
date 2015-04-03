@@ -73,7 +73,7 @@
     {% for opt, val in series.release_schedule_options.items %}
     <div class="form-group has-success">
       <label class="control-label" for="id_porivder_{{ opt }}">{{ opt }}</label>
-      <input onChange="genJSON('release_schedule_options','id_release_schedule_options');" data_name="{{ opt }}" class="form-control" type="text" value="{{ val }}" title="{{ opt }}" name="release_schedule_options_{{ opt }}"></input>
+      <input onChange="genJSON('#release_schedule_options','#id_release_schedule_options');" data_name="{{ opt }}" class="form-control" type="text" value="{{ val }}" title="{{ opt }}" name="release_schedule_options_{{ opt }}"></input>
     </div>
     {% endfor %}
     {% else %}
@@ -95,7 +95,7 @@
     {% for opt, val in series.media_type_options.items %}
     <div class="form-group has-success">
       <label class="control-label" for="id_porivder_{{ opt }}">{{ opt }}</label>
-      <input onChange="genJSON('media_type_options','id_media_type_options');" data_name="{{ opt }}" class="form-control" type="text" value="{{ val }}" placeholder="{{ opt }}" title="{{ opt }}" name="media_type_options_{{ opt }}"></input>
+      <input onChange="genJSON('#media_type_options','#id_media_type_options');" data_name="{{ opt }}" class="form-control" type="text" value="{{ val }}" placeholder="{{ opt }}" title="{{ opt }}" name="media_type_options_{{ opt }}"></input>
     </div>
     {% endfor %}
     {% else %}
