@@ -102,7 +102,11 @@ class Series(models.Model):
 
     def clean(self):
         if type(self.total_count) is not type(None):
-            if self.current_count >= self.total_count != 0:
+            if self.current_count < 0:
+                raise ValidationError('Currnet count cannot be below zero')
+            if self.total_count < 0:
+                raise ValidationError('Currnet count cannot be below zero')
+            if self.current_count > self.total_count != 0:
                 raise ValidationError('Current count cannot be bigger than total count, unless total count is zero')
 
         if type(self.end_date) is not type(None):
@@ -111,8 +115,11 @@ class Series(models.Model):
 
     def next_release(self):
         """
-        Return a DateTime object of the next next_release
-        If the series is finished airing will return None
+        Calculate the datetime of the next release of the series
+
+        Returns:
+            Return a DateTime object of the next next_release
+            If the series is finished airing will return None
         """
         if self.has_ended():
             return None
@@ -145,20 +152,31 @@ class Series(models.Model):
     def has_started(self):
         """
         Boolean of if the series has started airing/publishing
+
+        Note:
+            uses release_time for time of day
         """
         return self.start_date is not None and  \
-               timezone.now().date() >= self.start_date
+               timezone.now() >= timezone.make_aware(
+                   datetime.combine(self.start_date, self.release_time))
 
     def has_ended(self):
         """
         Boolean of if the series has ended airing/publishing
+
+        Note:
+            uses release_time for time of day
         """
         return self.end_date is not None and  \
-               timezone.now().date() > self.end_date
+               timezone.now() > timezone.make_aware(
+                   datetime.combine(self.end_date, self.release_time))
 
     def is_airing(self):
         """
         Boolean of if the series is currently airing/publishing
+
+        note:
+            relies on has_started() and has_ended()
         """
         return self.has_started() and not self.has_ended()
 
@@ -167,7 +185,7 @@ class Series(models.Model):
 
     def bootstrap_label_class(self):
         """
-        Generate HTML class for label using bootstrap 3
+        Generate HTML class for label for bootstrap 3
         """
         if self.is_airing():
             return 'label-success'
@@ -178,7 +196,7 @@ class Series(models.Model):
 
     def label_text(self):
         """
-        Generate HTML class for label using bootstrap 3
+        Generate HTML class for label for bootstrap 3
         """
         if self.is_airing():
             return _('Airing')
@@ -189,7 +207,7 @@ class Series(models.Model):
 
     def bootstrap_progressbar(self):
         """
-        Generate HTML for a progress bar using bootstrap 3
+        Generate HTML for a progress bar for bootstrap 3
         """
         text = ""
         sr = ""
@@ -220,9 +238,15 @@ class Series(models.Model):
                    text=text)
 
     def release_schedule_options_json(self):
+        """
+        dumps release_schedule as json
+        """
         return json.dumps(self.release_schedule_options)
 
     def media_type_options_json(self):
+        """
+        dumps media_type_options as json
+        """
         return json.dumps(self.media_type_options)
 
     def info_url_domain(self):
