@@ -41,7 +41,7 @@ INSTALLED_APPS = (
     'datetimewidget',
 
     'app',
-    'fetch',
+    'fetcher',
     'provider',
     'series',
 )

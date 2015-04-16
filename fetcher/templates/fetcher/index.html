@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Fetcher - Index{% endblock %}
+
+{% block header %}
+<h1>Fetcher</h1>
+{% endblock header %}
+
+{% block navbar_items %}
+<li><a href="{% url 'series:index' %}">Series</a></li>
+<li><a href="{% url 'provider:index' %}">Providers</a></li>
+<li class="active"><a href="{% url 'fetcher:index' %}">Fetcher</a></li>
+{% endblock navbar_items %}
+
+{% block content %}
+<p>TODO: Make a fetcherd web ui</p>
+{% endblock content %}

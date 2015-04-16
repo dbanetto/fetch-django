@@ -37,7 +37,7 @@
             <span class="icon-bar"></span>
           </button>
           <div>
-            <a class="navbar-brand" href="{% url 'fetch:index' %}">Fetch</a>
+            <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'down.png' %}"></a>
           </div>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
@@ -45,6 +45,7 @@
             {% block navbar_items %}
             <li><a href="{% url 'series:index' %}">Series</a></li>
             <li><a href="{% url 'provider:index' %}">Providers</a></li>
+            <li><a href="{% url 'fetcher:index' %}">Fetcher</a></li>
             {% endblock navbar_items %}
           </ul>
         </div>
