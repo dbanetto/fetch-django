@@ -1,11 +1,25 @@
-
 {% extends 'base.html' %}
-{% load bootstrap3 %}
+{% load static %}
+
+{% block extra_header %}
+<link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+{% endblock extra_header %}
 
 {% block title %}
-App - Index
+Homepage
 {% endblock title %}
 
+{% block page_header %}{% endblock page_header %}
+
 {% block content %}
-TODO: Make a main page
+<h2>This Week</h2>
+<ul class="series-list horz-scroll">
+{% for s in series_week %}
+<li>
+    {% include 'series/series_card.html' with series=s %}
+</li>
+{% empty %}
+<li><h1>Nothing this week</h1></li>
+{% endfor %}
+</ul>
 {% endblock content %}

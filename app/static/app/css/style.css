@@ -1,0 +1,9 @@
+ul.horz-scroll {
+	overflow-x: auto;
+	white-space: nowrap;
+	-webkit-overflow-scrolling: touch;
+}
+
+ul.horz-scroll li {
+	white-space: normal;
+}

@@ -21,7 +21,7 @@ Series - New
   <div class="col-md-6">
     <form action="{% url 'series:new' %}" method="post" enctype="multipart/form-data" class="form well">
       {% csrf_token %}
-      {% include 'series/form_series.html' %}
+      {% include 'series/form_series.html' with form=form %}
       <a href="{% url 'series:index' %}" class="btn btn-default">
         Back
       </a>

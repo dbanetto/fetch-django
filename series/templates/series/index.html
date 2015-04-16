@@ -25,21 +25,7 @@ Series - Index
 <ul class="series-list">
   {% for s in series %}
   <li>
-    <div class="panel panel-default">
-      <div class="panel-body poster-area">
-        <a href="{% url 'series:view' s.id %}" >
-          {% if s.poster %}
-          <img src="{{ s.poster.url }}" class="poster">
-          {% endif %}
-        </a>
-      </div>
-      <div class="panel-footer">
-          <h4><a href="{% url 'series:view' s.id %}">{{ s.title|truncatechars:29 }}</a>
-            <br><small> {{ s.provider.name }}</small></h4>
-          <p>{% if s.next_release %}Next release: {{ s.next_release|date:"d/m" }}{% else %}&nbsp;{% endif %}<span class="label {{ s.bootstrap_label_class }} pull-right">{{ s.label_text }}</span> <span class="label label-default pull-right"> {{ s.current_count }}/{{ s.total_count }}</span></p>
-        {{ s.bootstrap_progressbar|safe }}
-      </div>
-    </div>
+    {% include "series/series_card.html" with series=s %}
   </li>
   {% endfor %}
 </ul>

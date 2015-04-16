@@ -21,7 +21,7 @@ Providers - New
   <div class="col-md-3">
     <form action="{% url 'provider:new' %}" method="post" class="form well">
       {% csrf_token %}
-      {% include 'provider/form_provider.html' %}
+      {% include 'provider/form_provider.html' with form=form %}
 
       <a href="{% url 'provider:index' %}" class="btn btn-default">
         Back
