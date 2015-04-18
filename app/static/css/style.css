@@ -1,5 +1,6 @@
 nav.navbar {
 	border-radius: 0;
+	margin-bottom: 0;
 }
 
 a.navbar-brand {
@@ -16,11 +17,7 @@ a.navbar-brand img {
 }
 
 #top-alert {
-	margin-top: 40px;
-}
-
-#content ol {
-	margin-top: 40px;
+	margin-top: 20px;
 }
 
 #view-controls {
