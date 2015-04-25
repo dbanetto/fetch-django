@@ -23,3 +23,9 @@ class BaseProviderTests(TestCase):
         prov = BaseProvider(name='')
         with self.assertRaises(ValidationError):
             prov.full_clean()
+
+    def test_str(self):
+        p = BaseProvider.objects.all()[0]
+        p.name = "test"
+
+        self.assertEquals(str(p), "test")

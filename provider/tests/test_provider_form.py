@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.core.validators import ValidationError
 
 from provider.models import BaseProvider
 from provider.forms import ProviderForm
@@ -134,3 +135,26 @@ class ProviderFormTest(TestCase):
             'options': '{"id":"1"}',
         })
         self.assertFalse(form.is_valid())
+
+    def test_options_invalid_type(self):
+        form = ProviderForm({
+            'name': "test",
+            'website': "http://e.com",
+            'regex_find_count': "*",
+            'base_provider': "",
+            'options': 1,
+        })
+        form.cleaned_data = {'options': 1}
+        with self.assertRaises(ValidationError):
+            form.clean_options()
+
+    def test_options_dict_type(self):
+        form = ProviderForm({
+            'name': "test",
+            'website': "http://e.com",
+            'regex_find_count': "*",
+            'base_provider': "",
+            'options': {"id": 1},
+        })
+        form.cleaned_data = {'options': {"id": 1}}
+        self.assertEqual(form.clean_options(), {"id": 1})

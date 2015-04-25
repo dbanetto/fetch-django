@@ -39,7 +39,9 @@ class SeriesForm(forms.ModelForm):
     title = forms.CharField(label="Series Title")
     search_title = forms.CharField(label="Series search title",
                                    required=False,
-                                   help_text="(Optional) Used to override series name used in search") # TODO: Proper help text
+                                   help_text="(Optional) Used to override series name used in search")
+    # TODO: more descriptive help text
+
     save_path = forms.CharField(label="Series save path",
                                 required=False,
                                 help_text="(Optional) Used to override generated path when sorting series")
@@ -105,19 +107,22 @@ class SeriesForm(forms.ModelForm):
             try:
                 return json.loads(options)
             except ValueError as e:
-                msg = _('Invalid JSON : ' + str(e))
+                msg = _('Invalid JSON : ' + str(e) + ' str="' + options + '"')
                 self.add_error(key, msg)
         elif type(options) is dict:
             return options
-        elif type(options) is type(None):
+        elif options is None:
             return None
         else:
             raise ValidationError(
                 _('Invalid input: Did not expect type %(type)s'),
                 params={'type': type(options)})
 
-    def clean_provider_options(self):
-        return self.clean_options('provider_options')
+    def clean_release_schedule_options(self):
+        # release_schedule_options is optional
+        if 'release_schedule_options' in self.cleaned_data and \
+           self.cleaned_data['release_schedule_options'] != '':
+            return self.clean_options('release_schedule_options')
 
     def clean_media_type_options(self):
         return self.clean_options('media_type_options')
@@ -133,7 +138,7 @@ class SeriesForm(forms.ModelForm):
                 self.add_error('end_date', msg)
 
         if 'total_count' in clean_data and 'current_count' in clean_data and \
-            type(clean_data['total_count']) is int:
+            type(clean_data['total_count']) is int and type(clean_data['current_count']) is int:
             if clean_data['total_count'] != 0 and \
                clean_data['current_count'] > clean_data['total_count']:
                 msg = _('Must be lesser or equal to total count, '
@@ -148,11 +153,12 @@ class SeriesForm(forms.ModelForm):
                 self.add_error('poster', msg)
                 self.add_error('poster_url', '')
 
-        if self.instance is None and 'poster_url' not in clean_data and \
-           'poster' not in clean_data:
-            msg = _('Must have either an image to upload or url')
-            self.add_error('poster', msg)
-            self.add_error('poster_url', '')
+        if self.is_bound:
+            if ('poster_url' not in clean_data or clean_data['poster_url'] == "") \
+            and ('poster' not in clean_data or clean_data['poster'] == None):
+                msg = _('Must have either an image to upload or url')
+                self.add_error('poster', msg)
+                self.add_error('poster_url', '')
 
         if 'poster_url' in self.cleaned_data and \
            self.cleaned_data['poster_url'] != "":
@@ -162,28 +168,22 @@ class SeriesForm(forms.ModelForm):
                 self.add_error('poster', msg)
                 self.add_error('poster_url', '')
 
-        if 'poster_url' in self.cleaned_data and \
-           self.cleaned_data['poster_url'] != "":
-            url = self.cleaned_data['poster_url']
-            if url.split('.')[-1] in ['jpg', 'png', 'gif', 'jpeg']:
-                img_temp = NamedTemporaryFile(delete=True)
-                try:
-                    img_temp.write(urlopen(url).read())
-                except HTTPError as e:
-                    msg = _(str(e))
-                    self.add_error('poster', msg)
-                    self.add_error('poster_url', '')
-                img_temp.flush()
-                self.cleaned_data['poster_url_image'] = img_temp
-
     def save(self, *args, **kwargs):
         instance = super(SeriesForm, self).save()
-        if 'poster_url_image' in self.cleaned_data:
+        if 'poster_url' in self.cleaned_data and self.cleaned_data['poster_url'] != "":
             url = self.cleaned_data['poster_url']
-            img_temp = self.cleaned_data['poster_url_image']
+            img_temp = NamedTemporaryFile(delete=True)
+            try:
+                img_temp.write(urlopen(url).read())
+            except HTTPError as e:
+                msg = _(str(e))
+                self.add_error('poster', msg)
+                self.add_error('poster_url', '')
+            img_temp.flush()
             instance.poster.save(poster_path(self.instance,
-                                                  url.split('/')[-1]),
-                                      File(img_temp))
+                                             url.split('/')[-1]),
+                                             File(img_temp))
+            img_temp.close()
 
         # TODO: Create thumbnail of poster
         return instance

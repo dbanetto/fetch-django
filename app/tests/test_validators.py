@@ -43,6 +43,14 @@ class AppValidatorsTest(TestCase):
             with self.subTest(json=json, keys=keys):
                 self.assertTrue(json_schema_check(json, keys))
 
+    def test_json_schema_invalid_key_missing(self):
+        for json, keys in (
+                          ({"id": "1"}, ['id', 'n']),
+        ):
+            with self.subTest(json=json, keys=keys):
+                with self.assertRaises(ValidationError):
+                    json_schema_check(json, keys)
+
     def test_json_schema_invalid_key(self):
         for json, keys in (
                           ({"id": "1",
