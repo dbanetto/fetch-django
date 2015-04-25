@@ -1,4 +1,6 @@
-# Fetch Django [![Build Status](https://travis-ci.org/zyphrus/fetch-django.svg)](https://travis-ci.org/zyphrus/fetch-django)
+# Fetch Django
+
+[![Build Status](https://travis-ci.org/zyphrus/fetch-django.svg)](https://travis-ci.org/zyphrus/fetch-django) [![Coverage Status](https://coveralls.io/repos/zyphrus/fetch-django/badge.svg)](https://coveralls.io/r/zyphrus/fetch-django)
 
 A Django powered Web UI for Fetcher
 

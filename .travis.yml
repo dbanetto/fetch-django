@@ -4,5 +4,9 @@ python:
 
 install:
     - "pip install -r requirements/common.txt"
+    - "pip install coveralls"
 
-script: "sh test.sh"
+script: "coverage run --source='.' manage.py test --settings=settings.test"
+
+after_success:
+    - "coveralls"
