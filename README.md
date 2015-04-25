@@ -1,4 +1,4 @@
-# Fetch Django
+# Fetch Django [![Build Status](https://travis-ci.org/zyphrus/fetch-django.svg)](https://travis-ci.org/zyphrus/fetch-django)
 
 A Django powered Web UI for Fetcher
 
@@ -11,7 +11,7 @@ weekly/monthly release media like podcasts or web series.
 
 ### Requirements
 
-Python 3.4+
+Python 3+
 
 Pre-compilers
 
