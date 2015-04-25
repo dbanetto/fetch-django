@@ -1,3 +1,3 @@
 #!/bin/sh
 
-python3 manage.py test --settings=settings.test
+python manage.py test --settings=settings.test

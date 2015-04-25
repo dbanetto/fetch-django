@@ -4,4 +4,6 @@ __pyccahe__/
 /static
 /media
 *.sqlite3
+/htmlcov
+.coverage
 fabfile.py

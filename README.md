@@ -5,7 +5,7 @@ A Django powered Web UI for Fetcher
 ## Goal
 
 To provide a web interface and an API for automating fetching various
-weekly/monthly release media.
+weekly/monthly release media like podcasts or web series.
 
 ## Setting up
 
@@ -20,11 +20,19 @@ Pre-compilers
 
 ### Development
 
-- install `requirements/core.txt` and `requirements/dev.txt`
+- install `requirements/core.txt` and `requirements/dev.txt` with `pip install
+  -r <file>`
 
 - update database `./manage.py migrate`
 
 - run `./manage.py runserver`
+
+
+After writing some code:
+
+- run `test.sh` to just run the test suite
+- run `coverage.sh` to get the coverage of the test suite, view the results by
+  opening `htmlcov/index.html` in your browser
 
 ## License
 
