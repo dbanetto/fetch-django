@@ -1,4 +1,4 @@
 #!/bin/sh
 
-coverage run --source='.' manage.py test --settings=settings.test
+coverage run --omit="settings/*","*/migrations/*" --source='.' manage.py test --settings=settings.test
 coverage html

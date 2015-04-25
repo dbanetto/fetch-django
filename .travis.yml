@@ -6,7 +6,7 @@ install:
     - "pip install -r requirements/common.txt"
     - "pip install coveralls"
 
-script: "coverage run --source='.' manage.py test --settings=settings.test"
+script: "coverage run --omit='settings/*','*/migrations/*' --source='.' manage.py test --settings=settings.test"
 
 after_success:
     - "coveralls"
