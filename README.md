@@ -11,7 +11,7 @@ weekly/monthly release media like podcasts or web series.
 
 ### Requirements
 
-Python 3+
+Python 3.4+
 
 Pre-compilers
 

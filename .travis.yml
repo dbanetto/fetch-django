@@ -1,8 +1,6 @@
 language: python
 python:
     - "3.4"
-    - "3.3"
-    - "3.2"
 
 install:
     - "pip install -r requirements/common.txt"
