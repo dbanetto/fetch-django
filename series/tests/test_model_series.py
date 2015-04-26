@@ -223,3 +223,25 @@ class SeriesModelTest(TestCase):
                 self.assertTrue(pb_class in html, html)
                 self.assertTrue(str(val) in html)
                 self.assertTrue(str(max) in html)
+
+    def test_str(self):
+        s = Series.objects.all()[0]
+
+        s.title = "test"
+
+        self.assertEquals(str(s), "{} ({})".format(s.title, s.provider.name))
+
+
+    def test_release_schedule_options(self):
+        s = Series.objects.all()[0]
+        s.release_schedule_options = {"test": "value"}
+
+        self.assertEquals(s.release_schedule_options_json(),
+                          '{"test": "value"}')
+
+    def test_media_type_options(self):
+        s = Series.objects.all()[0]
+        s.media_type_options = {"test": "value"}
+
+        self.assertEquals(s.media_type_options_json(),
+                          '{"test": "value"}')
