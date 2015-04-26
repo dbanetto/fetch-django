@@ -34,10 +34,10 @@ class MediaType(models.Model):
 
 def poster_path(instance, filename):
     path = 'series/poster'
-    ext = filename.split('.')[-1]
+    root,ext = os.path.splitext(filename)
     # get filename
     if instance:
-        filename = '{}.{}'.format(instance.id, ext)
+        filename = '{}{}'.format(instance.id, ext)
     # return the whole path to the file
     return os.path.join(path, filename)
 

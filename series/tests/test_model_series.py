@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.core.validators import ValidationError
 from django.utils.translation import ugettext as _
 
-from series.models import Series
+from series.models import Series, poster_path
 
 
 class SeriesModelTest(TestCase):
@@ -245,3 +245,18 @@ class SeriesModelTest(TestCase):
 
         self.assertEquals(s.media_type_options_json(),
                           '{"test": "value"}')
+
+    def test_poster_path(self):
+        s = Series.objects.all()[0]
+
+        s.id = 1
+
+        for name, useInstance, expected in [
+            ("test.txt", False, "series/poster/test.txt"),
+            ("test.txt", True, "series/poster/1.txt"),
+            ("test", True, "series/poster/1"),
+            ("test", False, "series/poster/test"),
+        ]:
+            with self.subTest(name=name, useInstance=useInstance, expected=expected):
+                self.assertEquals(poster_path(s if useInstance else None, name),
+                                  expected)
