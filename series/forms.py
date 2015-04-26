@@ -175,14 +175,14 @@ class SeriesForm(forms.ModelForm):
             img_temp = NamedTemporaryFile(delete=True)
             try:
                 img_temp.write(urlopen(url).read())
-            except HTTPError as e:
+                img_temp.flush()
+                instance.poster.save(poster_path(self.instance,
+                                                 url.split('/')[-1]),
+                                                 File(img_temp))
+            except HTTPError or URLError as e:
                 msg = _(str(e))
                 self.add_error('poster', msg)
                 self.add_error('poster_url', '')
-            img_temp.flush()
-            instance.poster.save(poster_path(self.instance,
-                                             url.split('/')[-1]),
-                                             File(img_temp))
             img_temp.close()
 
         # TODO: Create thumbnail of poster

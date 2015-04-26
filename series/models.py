@@ -121,14 +121,14 @@ class Series(models.Model):
             Return a DateTime object of the next next_release
             If the series is finished airing will return None
         """
+        if self.start_date is None:
+            return None
+
         if self.has_ended():
             return None
 
         if not self.has_started():
             return datetime.combine(self.start_date, self.release_time)
-
-        if self.start_date is None:
-            return None
 
         # is airing
 

@@ -226,7 +226,7 @@ class SeriesFromTest(TestCase):
             'total_count': 1,
             'media_type_options': '{}',
             'release_schedule': 'W',
-            'poster_url': 'http://test.com/'
+            'poster_url': 'http://test.com/image.png'
         }, {'poster': poster})
 
         self.assertFalse(form.is_valid())
@@ -253,6 +253,72 @@ class SeriesFromTest(TestCase):
 
         self.assertTrue('poster' in form.errors, form.errors)
         self.assertTrue('poster_url' in form.errors, form.errors)
+
+    def test_successful_save_poster(self):
+        prov = Provider.objects.all()[0]
+        media = MediaType.objects.all()[0]
+        poster = SimpleUploadedFile("image.png", Image.new("1", (1,1)).tobitmap())
+        form = SeriesForm({
+            'title': 'test',
+            'search_title': 'test',
+            'provider': prov.id,
+            'media_type': media.id,
+            'start_date': datetime.now().date(),
+            'current_count': 0,
+            'total_count': 1,
+            'media_type_options': '{}',
+            'release_schedule': 'W',
+        }, {'poster': poster})
+
+        self.assertTrue(form.is_valid(), form.errors)
+
+        result = form.save()
+        self.assertFalse("poster" in form.errors)
+
+    def test_successful_save_poster_url(self):
+        prov = Provider.objects.all()[0]
+        media = MediaType.objects.all()[0]
+        form = SeriesForm({
+            'title': 'test',
+            'search_title': 'test',
+            'provider': prov.id,
+            'media_type': media.id,
+            'start_date': datetime.now().date(),
+            'current_count': 0,
+            'total_count': 1,
+            'media_type_options': '{}',
+            'release_schedule': 'W',
+            'poster_url': 'https://api.travis-ci.org/zyphrus/fetch-django.png',
+        })
+
+        self.assertTrue(form.is_valid(), form.errors)
+
+        result = form.save()
+
+        self.assertFalse("poster" in form.errors)
+        self.assertFalse("poster_url" in form.errors)
+
+    def test_successful_save_poster(self):
+        prov = Provider.objects.all()[0]
+        media = MediaType.objects.all()[0]
+        form = SeriesForm({
+            'title': 'test',
+            'search_title': 'test',
+            'provider': prov.id,
+            'media_type': media.id,
+            'start_date': datetime.now().date(),
+            'current_count': 0,
+            'total_count': 1,
+            'media_type_options': '{}',
+            'release_schedule': 'W',
+            'poster_url': 'https://website.com/image.png',
+        })
+
+        self.assertTrue(form.is_valid(), form.errors)
+
+        result = form.save()
+        self.assertTrue("poster" in form.errors)
+        self.assertTrue("poster_url" in form.errors)
 
     def test_clean_options_valid(self):
         form = SeriesForm()

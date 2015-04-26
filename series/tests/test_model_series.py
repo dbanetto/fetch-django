@@ -1,7 +1,9 @@
 from datetime import timedelta, time, datetime
+from dateutil.relativedelta import relativedelta
 
 from django.test import TestCase
 from django.core.validators import ValidationError
+from django.utils.translation import ugettext as _
 
 from series.models import Series
 
@@ -95,3 +97,129 @@ class SeriesModelTest(TestCase):
                     s.clean()
             else:
                 s.clean()
+
+    def test_end_date_greater_than_start(self):
+        s = Series.objects.all()[0]
+
+        s.start_date = datetime.now() + timedelta(days=+1)
+        s.end_date = datetime.now() + timedelta(days=-1)
+
+        with self.assertRaises(ValidationError):
+            s.clean()
+
+    def test_series_next_release(self):
+        s = Series.objects.all()[0]
+
+        for start, end, at, expected, schedule in [
+            (datetime.now().date() + timedelta(days=-7),
+             datetime.now().date() + timedelta(days=7),
+             time.max,
+             datetime.combine(datetime.now().date(), time.max),
+             Series.WEEKLY
+             ),
+            (datetime.now().date() + timedelta(days=-7),
+             datetime.now().date() + timedelta(days=7),
+             time.max,
+             datetime.combine(datetime.now().date() + timedelta(days=7), time.max),
+             Series.FORTNIGHTLY
+             ),
+            (datetime.now().date() + relativedelta(months=-1),
+             datetime.now().date() + relativedelta(months=1),
+             time.max,
+             datetime.combine(datetime.now().date(), time.max),
+             Series.MONTHLY
+             ),
+            (datetime.now().date() + timedelta(days=-7),
+             datetime.now().date() + timedelta(days=-8),
+             time.max,
+             None,
+             Series.WEEKLY
+             ),
+            (datetime.now().date() + timedelta(days=-7),
+             datetime.now().date() + timedelta(days=7),
+             time.max,
+             None,
+             Series.NONE
+             ),
+            (datetime.now().date() + timedelta(days=7),
+             datetime.now().date() + timedelta(days=8),
+             time.max,
+             datetime.combine(datetime.now().date() + timedelta(days=7), time.max),
+             Series.WEEKLY
+             ),
+            (None,
+             None,
+             time.max,
+             None,
+             Series.WEEKLY
+             ),
+        ]:
+            s.start_date = start
+            s.end_date = end
+            s.release_time = at
+            s.release_schedule = schedule
+            with self.subTest(start=start, end=end, at=at,
+                              schedule=schedule, epxected=expected):
+                self.assertEqual(s.next_release(), expected)
+
+    def test_label_text(self):
+        s = Series.objects.all()[0]
+
+        for start, end, expected in [
+            (datetime.now().date() + timedelta(days=-7),
+             datetime.now().date() + timedelta(days=7),
+             _('Airing')
+             ),
+            (datetime.now().date() + timedelta(days=-7),
+             datetime.now().date() + timedelta(days=-1),
+             _('Finished')
+             ),
+            (datetime.now().date() + timedelta(days=7),
+             datetime.now().date() + timedelta(days=8),
+             _('Yet to air')
+             ),
+        ]:
+            s.start_date = start
+            s.end_date = end
+            with self.subTest(start=start, end=end, expected=expected):
+                self.assertEqual(s.label_text(), expected)
+
+    def test_bootstrap_label_class(self):
+        s = Series.objects.all()[0]
+
+        for start, end, expected in [
+            (datetime.now().date() + timedelta(days=-7),
+             datetime.now().date() + timedelta(days=7),
+             'label-success'
+             ),
+            (datetime.now().date() + timedelta(days=-7),
+             datetime.now().date() + timedelta(days=-1),
+             'label-danger'
+             ),
+            (datetime.now().date() + timedelta(days=7),
+             datetime.now().date() + timedelta(days=8),
+             'label-info'
+             ),
+        ]:
+            s.start_date = start
+            s.end_date = end
+            with self.subTest(start=start, end=end, expected=expected):
+                self.assertEqual(s.bootstrap_label_class(), expected)
+
+    def test_bootstrap_progress_bar(self):
+        s = Series.objects.all()[0]
+
+        for pb_class, val, max, current, total in [
+            ('progress-bar-success', 50, 10, 5, 10),
+            ('progress-bar-warning progress-bar-striped', 5, 5, 5, 0),
+        ]:
+            with self.subTest(pb_class=pb_class, val=val,
+                              max=max, current=current, total=total):
+                s.current_count = current
+                s.total_count = total
+
+                html = s.bootstrap_progressbar()
+
+                self.assertTrue(pb_class in html, html)
+                self.assertTrue(str(val) in html)
+                self.assertTrue(str(max) in html)
