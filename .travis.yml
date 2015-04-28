@@ -6,7 +6,7 @@ install:
     - "pip install -r requirements/common.txt"
     - "pip install coveralls"
     - "npm install less"
-    - "npm install coffeescript"
+    - "npm install coffee-script"
 
 script: "coverage run --omit='settings/*','*/migrations/*','*/tests/*' --source='.' manage.py test --settings=settings.test"
 
