@@ -7,3 +7,5 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'test.sqlite3'),
     }
 }
+
+MEDIA_ROOT = "/tmp"
