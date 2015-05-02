@@ -20,15 +20,15 @@ Pre-compilers
 - [less](http://lesscss.org)
 - [coffeescript](http://coffeescript.org)
 
+For general setup run `./setup.sh`
+
 ### Development
 
-- install `requirements/core.txt` and `requirements/dev.txt` with `pip install
-  -r <file>`
+- install development `pip install -r requirements/dev.txt`
 
-- update database `./manage.py migrate`
+- Don't forget to update database `./manage.py migrate`
 
 - run `./manage.py runserver`
-
 
 After writing some code:
 

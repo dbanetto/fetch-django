@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'djangobower',
     'select_multiple_field',
     'static_precompiler',
     'bootstrap3',
@@ -60,6 +61,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'static_precompiler.finders.StaticPrecompilerFinder',
+    'djangobower.finders.BowerFinder',
 )
 
 FIXTURE_DIRS = (
@@ -86,6 +88,13 @@ USE_L10N = True
 # Should end with a /
 URL_ROOT = ''
 
+# django-bower
+BOWER_PATH = 'bower'
+BOWER_COMPONENTS_ROOT = 'components/'
+BOWER_INSTALLED_APPS = (
+    'jquery',
+    'bootstrap',
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
@@ -96,13 +105,13 @@ MEDIA_ROOT = 'media'
 
 # Bootstrap
 BOOTSTRAP3 = {
-    'jquery_url': '/static/js/jquery.min.js',
-    'base_url': '/static/bootstrap/',
-    'css_url': '/static/bootstrap/less/bootstrap.css',
+    'jquery_url': None,
+    'base_url': '/static/bootstrap/dist',
+    'css_url': '/static/bootstrap/dist/bootstrap.css',
     'theme_url': None,
     'javascript_url': None,
     'javascript_in_head': False,
-    'include_jquery': True,
+    'include_jquery': False,
     'horizontal_label_class': 'col-md-2',
     'horizontal_field_class': 'col-md-4',
     'set_required': True,
@@ -131,9 +140,9 @@ STATIC_PRECOMPILER_COMPILERS = (
 
 STATIC_PRECOMPILER_COMPILERS = (
     ('static_precompiler.compilers.CoffeeScript',
-     {"executable": "/usr/bin/coffee"}),
+     {"executable": BASE_DIR + "/components/node_modules/coffee-script/bin/coffee"}),
     ('static_precompiler.compilers.LESS',
-     {"executable": "/usr/bin/lessc"}),
+     {"executable": BASE_DIR + "/components/node_modules/less/bin/lessc"}),
 )
 
 STATIC_PRECOMPILER_OUTPUT_DIR = ""

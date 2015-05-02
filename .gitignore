@@ -1,9 +1,18 @@
+# General django
 *.pyc
 .idea/*
 __pyccahe__/
 /static
 /media
 *.sqlite3
+
+# Coverage
 /htmlcov
 .coverage
+
+# fabric
 fabfile.py
+
+# bower & npm
+/components/*
+!/components/package.json

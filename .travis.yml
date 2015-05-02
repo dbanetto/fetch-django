@@ -3,12 +3,11 @@ python:
     - "3.4"
 
 install:
-    - "pip install -r requirements/common.txt"
-    - "pip install coveralls"
-    - "npm install less"
-    - "npm install coffee-script"
+    - sh setup.sh
+    - pip install coveralls
 
-script: "coverage run --omit='settings/*','*/migrations/*','*/tests/*' --source='.' manage.py test --settings=settings.test"
+script:
+    - sh coverage.sh
 
 after_success:
-    - "coveralls"
+    - coveralls
