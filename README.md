@@ -13,12 +13,7 @@ weekly/monthly release media like podcasts or web series.
 
 ### Requirements
 
-Python 3.4+
-
-Pre-compilers
-
-- [less](http://lesscss.org)
-- [coffeescript](http://coffeescript.org)
+Python 3.4+, npm and bower
 
 For general setup run `./setup.sh`
 
