@@ -13,12 +13,12 @@ class BaseProvider(models.Model):
     name = models.CharField(max_length=160,
                             verbose_name="Base Provider's name")
 
-    available_options = models.TextField(default="id",
-                                         help_text="A CSV list of options that"
-                                         " the base provider allows")
+    available_options = JSONField(default='{"id":{"type":"integer","required":false}}',
+                                  help_text="A CSV list of options that"
+                                  " the base provider allows")
 
-    def get_available_options(self):
-        return self.available_options.split(',')
+    def available_options_json(self):
+        return json.dumps(self.available_options)
 
     def __str__(self):
         return self.name

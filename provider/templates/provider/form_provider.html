@@ -29,17 +29,19 @@
 <div class="row">
   <div id="base_provider_options" class="col-md-12">
     {% if provider and not provider.options == None %}
-    {% for opt, val in provider.options.items %}
-    <div class="form-group">
-      <label class="control-label" for="id_porivder_{{ opt }}">{{ opt }}</label>
-      <input onChange="genJSON('#base_provider_options','#id_options');" data_name="{{ opt }}" class="form-control" type="text" value="{{ val }}" placeholder="{{ opt }}" title="{{ opt }}" name="base_provider_options_{{ opt }}"></input>
-    </div>
-    {% endfor %}
+
     {% else %}
     <p>Loading additional options</p>
     {% endif %}
   </div>
 </div>
+
+<div class="row">&nbsp;</div>
+
+<script type="text/javascript" src="{% static 'jsonform/deps/underscore.js' %}"></script>
+<script type="text/javascript" src="{% static 'jsonform/deps/opt/jsv.js' %}"></script>
+<script type="text/javascript" src="{% static 'jsonform/deps/opt/ace/ace.js' %}"></script>
+<script type="text/javascript" src="{% static 'jsonform/lib/jsonform.js' %}"></script>
 
 <script type="text/javascript" src="{% static 'js/options.js' %}"></script>
 <script type="text/javascript">
@@ -49,5 +51,5 @@
     $('#id_base_provider').ready(function() {
       $('#id_base_provider').change();
     });
-    {% endif %}
-  </script>
+  {% endif %}
+</script>

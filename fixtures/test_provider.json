@@ -4,7 +4,7 @@
 		"fields":
 		{
 			"name": "test",
-			"available_options": "id"
+			"available_options": "{\"type\": \"object\", \"properties\": {\"id\": {\"type\": \"string\", \"title\": \"ID\"}}}"
 		},
 		"pk": 1
 	},
@@ -13,7 +13,7 @@
 		"fields":
 		{
 			"name": "dummy",
-			"available_options": "many,options,stuff"
+			"available_options": "{\"type\": \"object\", \"properties\": {\"id\": {\"type\": \"string\", \"title\": \"ID\"}}}"
 		},
 		"pk": 2
 	},

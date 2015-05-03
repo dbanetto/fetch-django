@@ -94,6 +94,7 @@ BOWER_COMPONENTS_ROOT = 'components/'
 BOWER_INSTALLED_APPS = (
     'jquery',
     'bootstrap',
+    'jsonform',
 )
 
 # Static files (CSS, JavaScript, Images)

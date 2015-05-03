@@ -20,7 +20,7 @@ class ProviderFormTest(TestCase):
             'base_provider': self.base.id,
             'options': '{"id": "1"}',
         })
-        self.assertTrue(form.is_valid())
+        self.assertTrue(form.is_valid(), form.errors)
 
     def test_name_not_valid(self):
         form = ProviderForm({
