@@ -1,4 +1,5 @@
 ValuesDict = {};
+
 function change_trigger(listen_id, base_url, id_inputs, id_json) {
 	$(listen_id).change(function() {
 		var id_base = $(listen_id)[0];
@@ -31,40 +32,39 @@ function save_options(id_inputs) {
 	}
 }
 
-function genJSON(id_inputs, id_json) {
-	var inputs = $(id_inputs + ' input');
-	var out = '{';
-	for (var i =0; i < inputs.length; i++) {
-		out += JSON.stringify(inputs[i].getAttribute('data_name')) + ": " + JSON.stringify(inputs[i].value);
-		if (i != inputs.length - 1) {
-			out += ',';
-		}
-	}
-	out += '}';
-	$(id_json).val(out);
-}
-
 function genOptions(data, id_inputs, id_json) {
 	save_options(id_inputs);
 
 	var obj = $(id_inputs);
 
-	var options = data;
+	var options = data['properties'];
 	obj.empty();
+	var vals = ValuesDict[id_inputs];
+	console.log(vals);
+	console.log(ValuesDict);
 
-	for (var i = 0; i < options.length; i++) {
-		var input_id = id_inputs.substr(1) + '_' + options[i];
-		var value = "";
-		if (ValuesDict[id_inputs] != undefined && ValuesDict[id_inputs][input_id] != undefined) {
-			value = ValuesDict[id_inputs][input_id];
+	// Make form
+	obj.jsonForm({
+		schema: options,
+		params: {
+			fieldHtmlClass: "form-control"
+		},
+		value: vals,
+		"displayErrors": function (errors, formElt) {
+		// FIXME: Try to display errors
+		for (var i=0; i<errors.length; i++) {
+			errors[i].message = "Avast! Ye best be fixin' that field!";
 		}
-		var label = $('<label>').text(options[i]).attr('class', 'form-label').attr('for', input_id);
-		var input = $('<input>').attr('class', 'form-control')
-		.attr('name', input_id)
-		.attr('data_name', options[i])
-		.attr('value', value) // apply saved values
-		.change(function () {genJSON(id_inputs, id_json);});
-		obj.append($('<div>').attr('class', 'form-group').append(label).append(input));
-	}
-}
+			$(formElt).jsonFormErrors(errors, formObject);
+		}
+	});
+  $(id_inputs + " .form-actions").remove();
 
+	// Add change event to genJSON
+	var inputs = $(id_inputs + ' input');
+	inputs.change(function () {
+		var values = obj.jsonFormValue();
+		var errors = obj.jsonFormErrors(); // FIXME: try to display errors
+		$(id_json).val(JSON.stringify(values));
+	});
+}

@@ -34,7 +34,8 @@ class AppValidatorsTest(TestCase):
                           ({"id": "a"}, None)
         ):
             with self.subTest(json=json, keys=keys):
-                self.assertFalse(json_schema_check(json, keys))
+                with self.assertRaises(ValueError):
+                    json_schema_check(json, keys)
 
     def test_json_schema_valid(self):
         for json, keys in (
