@@ -17,3 +17,8 @@
 * transactions tests
 * javascript tests
 * API tests
+
+## Maintenance
+
+* working admin for models
+* make some DevOps available
