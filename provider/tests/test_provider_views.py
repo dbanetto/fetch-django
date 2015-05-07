@@ -22,8 +22,8 @@ class TestProviderViews(TestCase):
 
         self.assertEquals(res.templates[0].name, 'provider/index.json')
 
-        json.loads(res.content.decode())
         self.assertEquals(res.status_code, 200)
+        json.loads(res.content.decode())
 
     def test_view(self):
         c = Client()
@@ -33,9 +33,25 @@ class TestProviderViews(TestCase):
         self.assertEquals(res.status_code, 200)
         self.assertEquals(res.templates[0].name, 'provider/view.html')
 
+    def test_edit_get(self):
+        c = Client()
+        p = Provider.objects.all()[0]
+        res = c.get('/provider/' + str(p.id) + '/edit/')
+
+        self.assertEquals(res.status_code, 200)
+        self.assertEquals(res.templates[0].name, 'provider/edit.html')
+
     def test_view_nonexisting(self):
         c = Client()
         p = Provider.objects.all()[0]
         res = c.get('/provider/-1/')
 
         self.assertEquals(res.status_code, 404)
+
+    def test_new_get(self):
+        c = Client()
+
+        res = c.get('/provider/new/')
+
+        self.assertEquals(res.status_code, 200)
+        self.assertEquals(res.templates[0].name, 'provider/new.html')
