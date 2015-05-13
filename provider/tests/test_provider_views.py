@@ -12,18 +12,29 @@ class TestProviderViews(TestCase):
 
         res = c.get('/provider/')
 
-        self.assertEquals(res.templates[0].name, 'provider/index.html')
         self.assertEquals(res.status_code, 200)
+
+        expect_templates = ['provider/index.html']
+        for t in res.templates:
+            if t.name in expect_templates:
+                expect_templates.remove(t.name)
+
+        self.assertEquals(len(expect_templates), 0)
 
     def test_index_json(self):
         c = Client()
 
         res = c.get('/provider/', CONTENT_TYPE='application/json')
 
-        self.assertEquals(res.templates[0].name, 'provider/index.json')
-
         self.assertEquals(res.status_code, 200)
         json.loads(res.content.decode())
+
+        expect_templates = ['provider/index.json']
+        for t in res.templates:
+            if t.name in expect_templates:
+                expect_templates.remove(t.name)
+
+        self.assertEquals(len(expect_templates), 0)
 
     def test_view(self):
         c = Client()
@@ -31,7 +42,13 @@ class TestProviderViews(TestCase):
         res = c.get('/provider/' + str(p.id) + '/')
 
         self.assertEquals(res.status_code, 200)
-        self.assertEquals(res.templates[0].name, 'provider/view.html')
+
+        expect_templates = ['provider/view.html']
+        for t in res.templates:
+            if t.name in expect_templates:
+                expect_templates.remove(t.name)
+
+        self.assertEquals(len(expect_templates), 0)
 
     def test_edit_get(self):
         c = Client()
@@ -39,7 +56,13 @@ class TestProviderViews(TestCase):
         res = c.get('/provider/' + str(p.id) + '/edit/')
 
         self.assertEquals(res.status_code, 200)
-        self.assertEquals(res.templates[0].name, 'provider/edit.html')
+
+        expect_templates = ['provider/edit.html', 'provider/form_provider.html']
+        for t in res.templates:
+            if t.name in expect_templates:
+                expect_templates.remove(t.name)
+
+        self.assertEquals(len(expect_templates), 0, expect_templates)
 
     def test_view_nonexisting(self):
         c = Client()
@@ -54,4 +77,10 @@ class TestProviderViews(TestCase):
         res = c.get('/provider/new/')
 
         self.assertEquals(res.status_code, 200)
-        self.assertEquals(res.templates[0].name, 'provider/new.html')
+
+        expect_templates = ['provider/new.html', 'provider/form_provider.html']
+        for t in res.templates:
+            if t.name in expect_templates:
+                expect_templates.remove(t.name)
+
+        self.assertEquals(len(expect_templates), 0, expect_templates)
