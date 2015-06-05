@@ -15,7 +15,7 @@
 * template tests
 * more forms tests
 * transactions tests
-* javascript tests
+* JavaScript tests
 * API tests
 
 ## Maintenance
