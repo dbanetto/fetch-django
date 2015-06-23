@@ -1,7 +1,7 @@
 import os
 import re
 import json
-from datetime import timedelta, time, datetime
+from datetime import time, datetime
 from dateutil.relativedelta import relativedelta
 
 from django.utils import timezone
@@ -9,6 +9,7 @@ from django.utils.translation import ugettext as _
 from django.db import models
 from django.core.exceptions import ValidationError
 
+from app.validators import json_schema_validator
 from app.storage import OverwriteStorage
 from json_field import JSONField
 from provider.models import Provider
@@ -21,15 +22,16 @@ class MediaType(models.Model):
     """
     name = models.CharField(max_length=80,
                             help_text="Name of the media type")
-    available_options = models.TextField(default="id",
-                                         help_text="A CSV list of options that"
-                                         " the media type allows")
+    available_options = JSONField(default=json.dumps({"properties": {"id": {"type": "integer", "required": False, "title": "id"}}}),
+                                  help_text="A JSON schema of options that"
+                                  " the media type allows",
+                                  validators=[json_schema_validator])
 
     def __str__(self):
         return self.name
 
     def get_available_options(self):
-        return self.available_options.split(',')
+        return json.dumps(self.available_options)
 
 
 def poster_path(instance, filename):

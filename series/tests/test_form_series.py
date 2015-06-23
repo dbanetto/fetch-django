@@ -293,7 +293,7 @@ class SeriesFromTest(TestCase):
 
         self.assertTrue(form.is_valid(), form.errors)
 
-        result = form.save()
+        form.save()
 
         self.assertFalse("poster" in form.errors)
         self.assertFalse("poster_url" in form.errors)
@@ -316,43 +316,44 @@ class SeriesFromTest(TestCase):
 
         self.assertTrue(form.is_valid(), form.errors)
 
-        result = form.save()
+        form.save()
         self.assertTrue("poster" in form.errors)
         self.assertTrue("poster_url" in form.errors)
 
     def test_clean_options_valid(self):
         form = SeriesForm()
         form.cleaned_data = {'TEST': '{}'}
-        self.assertEquals(form.clean_options("TEST"), {})
+        self.assertEquals(form.clean_options("TEST", {"properties": {}}), {})
 
     def test_options_key_not_existing(self):
         form = SeriesForm()
         form.cleaned_data = {'TEST': '{}'}
-        self.assertEquals(form.clean_options("NONE"), None)
+        self.assertEquals(form.clean_options("NONE", {"properties": {}}), None)
 
     def test_clean_options_invalid_json(self):
         # Note using an actual field to check errors
         form = SeriesForm()
         form.cleaned_data = {'title': '{]'}
-        self.assertEquals(form.clean_options("title"), None)
+        self.assertEquals(form.clean_options("title", {"properties": {"a": {"type": "string"}}}), None)
         self.assertTrue('title' in form.errors)
 
     def test_clean_options_none(self):
         form = SeriesForm()
         form.cleaned_data = {'TEST': None}
-        self.assertEquals(form.clean_options("TEST"), None)
+        self.assertEquals(form.clean_options("TEST", {"properties": {}}), None)
 
     def test_clean_options_dict_type(self):
         form = SeriesForm()
         form.cleaned_data = {'TEST': {'a': 1}}
-        self.assertEquals(form.clean_options("TEST"), {'a': 1})
+        self.assertEquals(form.clean_options("TEST", {"properties": {"a": {"type": "integer"}}}), {'a': 1})
 
     def test_clean_options_wrong_type(self):
         form = SeriesForm()
         form.cleaned_data = {'TEST': 1}
         with self.assertRaises(ValidationError):
-            form.clean_options("TEST")
+            form.clean_options("TEST", {"properties": {}})
 
     def test_release_schedule_options(self):
-        self.assertEquals(SeriesForm().generate_release_schedule_options(),
-                          json.dumps({"N": [],"W": [], "F": [], "M": [], "D": ["dates"]}))
+        options = SeriesForm.generate_release_schedule_options()
+        for i in ["N", "W", "F", "M", "D"]:
+            self.assertTrue(i in options)

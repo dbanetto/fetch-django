@@ -106,6 +106,12 @@
 
 {% bootstrap_field  form.media_type_options %}
 {% bootstrap_field  form.release_schedule_options %}
+
+<script type="text/javascript" src="{% static 'jsonform/deps/underscore.js' %}"></script>
+<script type="text/javascript" src="{% static 'jsonform/deps/opt/jsv.js' %}"></script>
+<script type="text/javascript" src="{% static 'jsonform/deps/opt/ace/ace.js' %}"></script>
+<script type="text/javascript" src="{% static 'jsonform/lib/jsonform.js' %}"></script>
+
 <script type="text/javascript" src="{% static 'js/options.js' %}"></script>
 <script type="text/javascript">
   $('#id_start_date').change(function() {
@@ -131,10 +137,10 @@
     $('#id_media_type').ready(function() {
       $('#id_media_type').change();
     });
-    {% endif %}
-    {% if not series or series.release_schedule_options|length == 0 %}
-      $('#id_release_schedule').ready(function() {
-        $('#id_release_schedule').change();
-      });
-      {% endif %}
+  {% endif %}
+  {% if not series or series.release_schedule_options|length == 0 %}
+    $('#id_release_schedule').ready(function() {
+      $('#id_release_schedule').change();
+    });
+  {% endif %}
 </script>

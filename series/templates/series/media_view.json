@@ -1,9 +1,5 @@
 {
 	"name": "{{ media_type.name|escapejs }}",
 	"id" : {{ media_type.id }},
-	"options" : [
-{% for opt in media_type.get_available_options %}
-		"{{ opt|escapejs }}"
-{% if forloop.last == False %},{% endif %}{% endfor %}
-	]
+	"options" :{{ media_type.get_available_options|safe }}
 }

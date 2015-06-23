@@ -1,60 +1,63 @@
 import json
 import re
 
-from jsonschema import validate
-
+from jsonschema import validate, Draft4Validator
+from jsonschema.exceptions import ValidationError as SchemaValidationError
+from jsonschema.exceptions import SchemaError
 from django.core.validators import ValidationError
 from django.utils.translation import ugettext as _
 
 
 def regex_validator(value):
+    """
+    raises ValidationError if value is not valid regex string
+    """
     try:
         re.compile(value)
-        return True
-    except:
-        return False
+    except Exception as e:
+        raise ValidationError(_('Invalid regex %(err)s'),
+                              params={'err': e})
 
 
 def json_validator(value):
     """
-    returns false if value is not valid json
+    raises ValidationError if value is not valid json string
     """
     if type(value) is not str:
-        return False
+        raise ValidationError(_('Not a string'))
 
     try:
         json.loads(value)
-        return True
     except ValueError:
-        return False
+        raise ValidationError(_('Invalid Json string %(value)s'),
+                              params={'value': value})
+
+
+def json_schema_validator(value):
+    """
+    raises ValidationError if value is not a valid json schema
+    """
+    try:
+        Draft4Validator.check_schema(value)
+    except SchemaError as e:
+        raise ValidationError(_('Schema is invalid: %(msg)s'),
+                              params={"msg": str(e.message)})
 
 
 def json_schema_check(json_obj, schema):
     """
-    Validates a json object or dict against a list of values the
-    json_obj should only have
+    Validates a json object against a schema
 
-    returns True on success
-    raises ValidationError if incorrect
+    raises ValidationError if json_obj does not conform
     """
     if type(json_obj) is not dict:
         raise ValueError('json_obj is not a dict')
 
-    if type(schema) is list: # FIXME: Once transition to full JSON schema complete, remove me
-        for k in json_obj:
-            if k not in schema:
-                raise ValidationError(
-                    _('Invalid JSON: invalid key \"%(key)s\"'),
-                    params={'key': k}
-                )
-        for l in schema:
-            if l not in json_obj:
-                raise ValidationError(
-                    _('Invalid JSON: Missing key \"%(key)s\"'),
-                    params={'key': l}
-                )
-    elif type(schema) is dict:
-        validate(json_obj, schema)
+    if type(schema) is dict:
+        try:
+            validate(json_obj, schema)
+        except SchemaValidationError as e: #FIXME: Make better error messages
+            raise ValidationError(_('Failed to match schema: %(msg)s'),
+                                  params={"msg": str(e.message)})
     else:
-        raise ValueError('schema is not a list or a dict but {}'.format(type(schema)))
-    return True
+        raise ValueError('schema is not a dict but {}'.format(type(schema)))

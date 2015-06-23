@@ -1,6 +1,6 @@
 [
 	{
-		"fields": {"available_options": "id", "name": "dummy"},
+		"fields": {"available_options": {"properties": {"id" : {"type": "string"}}}, "name": "dummy"},
 		"pk": 1, "model": "series.mediatype"
 	},
 	{

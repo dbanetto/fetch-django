@@ -16,6 +16,6 @@ class MediaTypeModelTest(TestCase):
     def test_get_available_options(self):
         m = MediaType.objects.all()[0]
 
-        m.available_options = "1,2,3,4"
+        m.available_options = {"obj": True}
 
-        self.assertEqual(m.get_available_options(), ['1', '2', '3', '4'])
+        self.assertEqual(m.get_available_options(), '{"obj": true}')
