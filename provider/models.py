@@ -14,7 +14,7 @@ class BaseProvider(models.Model):
                             verbose_name="Base Provider's name")
 
     available_options = JSONField(default='{"id":{"type":"integer","required":false}}',
-                                  help_text="A CSV list of options that"
+                                  help_text="A JSON Schema of options that"
                                   " the base provider allows")
 
     def available_options_json(self):

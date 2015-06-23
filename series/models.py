@@ -34,7 +34,7 @@ class MediaType(models.Model):
 
 def poster_path(instance, filename):
     path = 'series/poster'
-    root,ext = os.path.splitext(filename)
+    root, ext = os.path.splitext(filename)
     # get filename
     if instance:
         filename = '{}{}'.format(instance.id, ext)
@@ -252,4 +252,3 @@ class Series(models.Model):
     def info_url_domain(self):
         if type(self.info_url) is str:
             return re.sub('^.*://', '', self.info_url).split('/')[0]
-

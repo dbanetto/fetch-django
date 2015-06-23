@@ -18,15 +18,15 @@
 </div>
 
 <div class="row">
-      <div class="col-md-6">
-        {% bootstrap_label form.poster.label %}
-        {% bootstrap_field form.poster layout='inline' %}
-      </div>
-      <div class="col-md-6">
-        {% bootstrap_label form.poster_url.label %}
-        {% bootstrap_field form.poster_url layout='inline' %}
-      </div>
-    {{ form.poster.errors }}
+  <div class="col-md-6">
+    {% bootstrap_label form.poster.label %}
+    {% bootstrap_field form.poster layout='inline' %}
+  </div>
+  <div class="col-md-6">
+    {% bootstrap_label form.poster_url.label %}
+    {% bootstrap_field form.poster_url layout='inline' %}
+  </div>
+  {{ form.poster.errors }}
 </div>
 
 <div class="row">
@@ -137,4 +137,4 @@
         $('#id_release_schedule').change();
       });
       {% endif %}
-    </script>
+</script>
