@@ -13,7 +13,7 @@
 	"next_release": "{{ s.next_release|date:'d-m-Y H:i' }}",
 	"current_count": {{ s.current_count }},
 	"total_count": {{ s.total_count }},
-	"release_schedule": "{{ s.release_schedule|escapejs }}",
+	"release_schedule": {{ s.release_schedule|escapejs }},
 	"release_schedule_options": {{ s.release_schedule_options_json|safe }},
 	"media_type": "{{ s.media_type.name|lower }}",
 	"media_type_options": {{ s.media_type_options_json|safe }}

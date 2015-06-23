@@ -1,3 +1,5 @@
+import json
+
 from django.test import TestCase
 from django.core.validators import ValidationError
 
@@ -7,12 +9,12 @@ from provider.models import BaseProvider
 class BaseProviderTests(TestCase):
     fixtures = ['test_provider.json']
 
-    def test_get_available_options(self):
+    def test_available_options_json(self):
         bp = BaseProvider(name="test",
-                          available_options="id,query,location")
+                          available_options={'id':{'type':'integer','required':False}})
 
-        self.assertEqual(['id', 'query', 'location'],
-                         bp.get_available_options())
+        self.assertEqual(json.dumps({'id':{'type':'integer','required':False}}),
+                         bp.available_options_json())
 
     def test_name_max_length(self):
         prov = BaseProvider(name='*'*161)

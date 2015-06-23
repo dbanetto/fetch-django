@@ -35,15 +35,14 @@ class ProviderForm(forms.ModelForm):
     def clean_options(self):
         value = self.cleaned_data['options']
         if type(value) is str:
-            try:
-                return json.loads(value)
-            except ValueError as e:
-                raise ValidationError(
-                    _('Invalid JSON'
-                      '%(e)s'),
-                    params={'e': e}
-                )
-        elif type(value) is dict:
+            # Can assert will be valid json due to field validators
+            value = json.loads(value)
+
+        if type(value) is dict:
+            # FIXME: needs alternative way to get base's schema for un-saved instances
+            if 'base_provider' in self.cleaned_data:
+                json_schema_check(value,
+                                  self.cleaned_data['base_provider'].available_options)
             return value
         else:
             raise ValidationError(
@@ -53,8 +52,4 @@ class ProviderForm(forms.ModelForm):
 
     def clean(self):
         clean_data = super(ProviderForm, self).clean()
-        # TODO: verify JSON is valid for the Base Provider
-        if 'options' in clean_data and 'base_provider' in clean_data:
-            json_schema_check(clean_data['options'],
-                              clean_data['base_provider'].get_available_options())
         return clean_data

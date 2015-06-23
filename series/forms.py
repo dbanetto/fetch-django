@@ -1,5 +1,5 @@
 import json
-from datetime import date, time
+from datetime import time
 from urllib.request import urlopen, HTTPError
 
 from django import forms
@@ -12,7 +12,7 @@ from datetimewidget.widgets import DateWidget, TimeWidget
 
 from series.models import MediaType, Series, poster_path
 from provider.models import Provider
-from app.validators import json_validator
+from app.validators import json_validator, json_schema_check
 
 
 class SeriesForm(forms.ModelForm):
@@ -89,27 +89,37 @@ class SeriesForm(forms.ModelForm):
                                                required=False)
 
     @staticmethod
-    def generate_release_schedule_options():
-        return json.dumps({
-            "N": [],
-            "W": [],
-            "F": [],
-            "M": [],
-            "D": ["dates"]
-        })
+    def generate_release_schedule_options_dict():
+        return {
+            "N": {"properties": {}},
+            "W": {"properties": {}},
+            "F": {"properties": {}},
+            "M": {"properties": {}},
+            "D": {"properties": {"dates":
+                                 {"title": "Dates",
+                                  "type": "string"}}
+                  }
+        }
 
-    def clean_options(self, key):
+    @staticmethod
+    def generate_release_schedule_options():
+        return json.dumps(SeriesForm.generate_release_schedule_options_dict())
+
+    def clean_options(self, key, schema):
         if key not in self.cleaned_data:
             return None
 
         options = self.cleaned_data[key]
         if type(options) is str:
             try:
-                return json.loads(options)
+                options = json.loads(options)
             except ValueError as e:
                 msg = _('Invalid JSON : ' + str(e) + ' str="' + options + '"')
                 self.add_error(key, msg)
-        elif type(options) is dict:
+                return None
+
+        if type(options) is dict:
+            json_schema_check(options, schema)
             return options
         elif options is None:
             return None
@@ -122,10 +132,10 @@ class SeriesForm(forms.ModelForm):
         # release_schedule_options is optional
         if 'release_schedule_options' in self.cleaned_data and \
            self.cleaned_data['release_schedule_options'] != '':
-            return self.clean_options('release_schedule_options')
+            return self.clean_options('release_schedule_options', self.generate_release_schedule_options_dict())
 
     def clean_media_type_options(self):
-        return self.clean_options('media_type_options')
+        return self.clean_options('media_type_options', self.cleaned_data['media_type'].available_options)
 
     def clean(self):
         clean_data = super(SeriesForm, self).clean()
