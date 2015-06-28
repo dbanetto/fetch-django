@@ -1,12 +1,12 @@
-Django==1.8.1
-django-bootstrap3==5.4.0
+Django==1.8.2
+django-bootstrap3==6.1.0
 django-bower==5.0.4
 django-datetime-widget==0.9.3
 django-json-field==0.5.7
 django-select-multiple-field==0.4.0
 django-static-precompiler==0.9
-Pillow==2.8.1
+Pillow==2.8.2
 python-dateutil==2.4.2
-pytz==2015.2
-jsonschema==2.4.0
+pytz==2015.4
+jsonschema==2.5.1
 six==1.9.0

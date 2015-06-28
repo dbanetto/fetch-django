@@ -2,7 +2,8 @@ import json
 
 from django.test import TestCase, Client
 
-from provider.models import Provider, BaseProvider
+from provider.models import Provider
+
 
 class TestProviderViews(TestCase):
     fixtures = ['test_provider.json']
@@ -35,6 +36,7 @@ class TestProviderViews(TestCase):
                 expect_templates.remove(t.name)
 
         self.assertEquals(len(expect_templates), 0)
+        json.loads(res.content.decode(res.charset))
 
     def test_view(self):
         c = Client()
@@ -57,7 +59,8 @@ class TestProviderViews(TestCase):
 
         self.assertEquals(res.status_code, 200)
 
-        expect_templates = ['provider/edit.html', 'provider/form_provider.html']
+        expect_templates = ['provider/edit.html',
+                            'provider/form_provider.html']
         for t in res.templates:
             if t.name in expect_templates:
                 expect_templates.remove(t.name)
@@ -66,7 +69,6 @@ class TestProviderViews(TestCase):
 
     def test_view_nonexisting(self):
         c = Client()
-        p = Provider.objects.all()[0]
         res = c.get('/provider/-1/')
 
         self.assertEquals(res.status_code, 404)
