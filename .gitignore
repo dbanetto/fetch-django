@@ -1,13 +1,13 @@
 # General django
 *.pyc
 .idea/*
-__pyccahe__/
-/static
-/media
+*/__pyccahe__/*
+/static/*
+/media/*
 *.sqlite3
 
 # Coverage
-/htmlcov
+/htmlcov/*
 .coverage
 
 # fabric
