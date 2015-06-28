@@ -22,7 +22,7 @@ class SeriesModelTest(TestCase):
             ('http://example.com/url/more/stuff', 'example.com',),
             ('http://example.com/url/?get=true', 'example.com',),
             ('ftp://example.com/url/more/stuff', 'example.com',),
-            ('madeprotocal://www.example.com/url/?get=true', 'www.example.com',),
+            ('fakepro://www.example.com/url/?get=true', 'www.example.com',),
         ]:
 
             with self.subTest(url=url, domain=domain):
@@ -55,6 +55,20 @@ class SeriesModelTest(TestCase):
             s.end_date = end
             s.release_time = rtime
             with self.subTest(end_date=end, rtime=rtime, val=val):
+                self.assertEqual(val, s.has_ended())
+
+    def test_has_ended_completed_episodes(self):
+        s = Series.objects.all()[0]
+        for current, total, val in [
+            (0, 1, False),
+            (1, 1, True),
+            (25, 25, True),
+        ]:
+            s.end_date = None
+            s.release_time = time.max
+            s.current_count = current
+            s.total_count = total
+            with self.subTest(current=current, total=total, val=val):
                 self.assertEqual(val, s.has_ended())
 
     def test_is_airing(self):
@@ -257,6 +271,9 @@ class SeriesModelTest(TestCase):
             ("test", True, "series/poster/1"),
             ("test", False, "series/poster/test"),
         ]:
-            with self.subTest(name=name, useInstance=useInstance, expected=expected):
-                self.assertEquals(poster_path(s if useInstance else None, name),
-                                  expected)
+            with self.subTest(name=name,
+                              useInstance=useInstance,
+                              expected=expected):
+                self.assertEquals(
+                    poster_path(s if useInstance else None, name),
+                    expected)

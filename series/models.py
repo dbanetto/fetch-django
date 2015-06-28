@@ -169,9 +169,14 @@ class Series(models.Model):
         Note:
             uses release_time for time of day
         """
-        return self.end_date is not None and  \
-               timezone.now() > timezone.make_aware(
+        if self.total_count != 0 and self.current_count >= self.total_count:
+            return True
+
+        if self.end_date is not None:
+            return timezone.now() > timezone.make_aware(
                    datetime.combine(self.end_date, self.release_time))
+
+        return False
 
     def is_airing(self):
         """
