@@ -1,5 +1,6 @@
 from django.test import TestCase, Client
 
+
 class TestFetcherViews(TestCase):
 
     def test_index_html(self):

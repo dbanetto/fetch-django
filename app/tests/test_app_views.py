@@ -4,6 +4,7 @@ from django.test import TestCase, Client
 
 from series.models import Series
 
+
 class TestAppViews(TestCase):
     fixtures = ["test_series.json", "test_provider.json"]
 
