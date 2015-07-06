@@ -10,7 +10,8 @@ from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 from datetimewidget.widgets import DateWidget, TimeWidget
 
-from series.models import MediaType, Series, poster_path
+from series.models import MediaType, Series
+from series.util import poster_path
 from provider.models import Provider
 from app.validators import json_validator, json_schema_check
 

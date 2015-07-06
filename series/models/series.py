@@ -1,4 +1,3 @@
-import os
 import re
 import json
 from datetime import time, datetime
@@ -9,40 +8,11 @@ from django.utils.translation import ugettext as _
 from django.db import models
 from django.core.exceptions import ValidationError
 
-from app.validators import json_schema_validator
 from app.storage import OverwriteStorage
 from json_field import JSONField
 from provider.models import Provider
-
-
-class MediaType(models.Model):
-    """
-    Over arching difference between series
-    provides more options for different media types
-    """
-    name = models.CharField(max_length=80,
-                            help_text="Name of the media type")
-    available_options = JSONField(default=json.dumps({"properties": {"id": {"type": "integer", "required": False, "title": "id"}}}),
-                                  help_text="A JSON schema of options that"
-                                  " the media type allows",
-                                  validators=[json_schema_validator])
-
-    def __str__(self):
-        return self.name
-
-    def get_available_options(self):
-        return json.dumps(self.available_options)
-
-
-def poster_path(instance, filename):
-    path = 'series/poster'
-    root, ext = os.path.splitext(filename)
-    # get filename
-    if instance:
-        filename = '{}{}'.format(instance.id, ext)
-    # return the whole path to the file
-    return os.path.join(path, filename)
-
+from series.models import MediaType
+from series.util import poster_path
 
 class Series(models.Model):
     provider = models.ForeignKey(Provider)
@@ -103,7 +73,7 @@ class Series(models.Model):
                                          " info for each type of release schedule")
 
     def clean(self):
-        if type(self.total_count) is not type(None):
+        if self.total_count is not None:
             if self.current_count < 0:
                 raise ValidationError('Currnet count cannot be below zero')
             if self.total_count < 0:
@@ -111,7 +81,7 @@ class Series(models.Model):
             if self.current_count > self.total_count != 0:
                 raise ValidationError('Current count cannot be bigger than total count, unless total count is zero')
 
-        if type(self.end_date) is not type(None):
+        if self.end_date is not None:
             if self.start_date > self.end_date:
                 raise ValidationError('Start date cannot be greater than end date')
 
@@ -158,8 +128,8 @@ class Series(models.Model):
         Note:
             uses release_time for time of day
         """
-        return self.start_date is not None and  \
-               timezone.now() >= timezone.make_aware(
+        return self.start_date is not None and \
+                timezone.now() >= timezone.make_aware(
                    datetime.combine(self.start_date, self.release_time))
 
     def has_ended(self):

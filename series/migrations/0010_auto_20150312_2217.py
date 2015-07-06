@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='series',
             name='poster',
-            field=models.ImageField(upload_to=series.models.poster_path),
+            field=models.ImageField(upload_to=series.util.poster_path),
             preserve_default=True,
         ),
         migrations.AlterField(

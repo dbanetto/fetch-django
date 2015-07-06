@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='series',
             name='poster',
-            field=models.ImageField(upload_to=series.models.poster_path, storage=app.storage.OverwriteStorage()),
+            field=models.ImageField(upload_to=series.util.poster_path, storage=app.storage.OverwriteStorage()),
             preserve_default=True,
         ),
         migrations.AlterField(
