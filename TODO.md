@@ -7,8 +7,8 @@
 
 ## Models
 
-* change available options to a json schema
-* modify option.js to render a json schema as a form
+* ~~change available options to a json schema~~
+* ~~modify option.js to render a json schema as a form~~
 
 ## Testing
 
