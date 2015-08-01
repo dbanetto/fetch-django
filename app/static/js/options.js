@@ -1,4 +1,4 @@
-ValuesDict = {};
+var ValuesDict = {};
 
 function change_trigger(listen_id, base_url, id_inputs, id_json) {
   $(listen_id).change(function() {

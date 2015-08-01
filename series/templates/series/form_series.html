@@ -71,10 +71,7 @@
   <div id="release_schedule_options" class="col-md-6" >
     {% if series and not series.release_schedule_options == None %}
     {% for opt, val in series.release_schedule_options.items %}
-    <div class="form-group has-success">
-      <label class="control-label" for="id_porivder_{{ opt }}">{{ opt }}</label>
-      <input onChange="genJSON('#release_schedule_options','#id_release_schedule_options');" data_name="{{ opt }}" class="form-control" type="text" value="{{ val }}" title="{{ opt }}" name="release_schedule_options_{{ opt }}"></input>
-    </div>
+      <input name="{{ opt }}" value="{{ val }}"></input>
     {% endfor %}
     {% else %}
     <p>Loading additional options</p>
@@ -93,10 +90,7 @@
   <div id="media_type_options" class="col-md-6">
     {% if series and not series.media_type_options == None %}
     {% for opt, val in series.media_type_options.items %}
-    <div class="form-group has-success">
-      <label class="control-label" for="id_porivder_{{ opt }}">{{ opt }}</label>
-      <input onChange="genOptions('#media_type_options','#id_media_type_options');" data_name="{{ opt }}" class="form-control" type="text" value="{{ val }}" placeholder="{{ opt }}" title="{{ opt }}" name="media_type_options_{{ opt }}"></input>
-    </div>
+      <input name="{{ opt }}" value="{{ val }}"></input>
     {% endfor %}
     {% else %}
     <p>Loading additional options</p>
@@ -128,19 +122,15 @@
     $('#id_end_date').change();
   });
 </script>
-<script type="text/javascript">
 
+<script type="text/javascript">
   change_trigger('#id_release_schedule', {{ form.generate_release_schedule_options|safe }}, '#release_schedule_options', '#id_release_schedule_options');
   change_trigger('#id_media_type', '{% url "series:media_index" %}', '#media_type_options', '#id_media_type_options');
 
-  {% if not series or series.media_type_options|length == 0 %}
     $('#id_media_type').ready(function() {
       $('#id_media_type').change();
     });
-  {% endif %}
-  {% if not series or series.release_schedule_options|length == 0 %}
     $('#id_release_schedule').ready(function() {
       $('#id_release_schedule').change();
     });
-  {% endif %}
 </script>
