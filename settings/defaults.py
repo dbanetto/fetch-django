@@ -155,3 +155,6 @@ DATE_FORMAT = 'N j, Y'
 SHORT_DATE_FORMAT = 'd/m/Y'
 DATETIME_FORMAT = 'N j, Y H:i'
 SHORT_DATETIME_FORMAT = 'd/m/Y H:i'
+
+# Fetcherd base WebUI url
+FETCHER_URL = 'http://localhost:8181'
