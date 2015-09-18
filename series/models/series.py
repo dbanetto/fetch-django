@@ -113,7 +113,7 @@ class Series(models.Model):
         elif self.release_schedule == Series.MONTHLY:
             delta = relativedelta(months=1)
         else:
-            return None
+            return self.end_date
 
         while datetime.combine(release_date, self.release_time) < datetime.now():
             release_date += delta
