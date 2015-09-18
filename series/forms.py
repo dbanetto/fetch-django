@@ -133,6 +133,7 @@ class SeriesForm(forms.ModelForm):
         # release_schedule_options is optional
         if 'release_schedule_options' in self.cleaned_data and \
            self.cleaned_data['release_schedule_options'] != '':
+            self.cleaned_data['release_schedule_options'] = json.loads(self.cleaned_data['release_schedule_options'])
             return self.clean_options('release_schedule_options', self.generate_release_schedule_options_dict())
 
     def clean_media_type_options(self):
