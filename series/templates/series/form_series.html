@@ -87,14 +87,18 @@
 </div>
 
 <div class="row">
-  <div id="media_type_options" class="col-md-6">
-    {% if series and not series.media_type_options == None %}
-    {% for opt, val in series.media_type_options.items %}
-      <input name="{{ opt }}" value="{{ val }}"></input>
-    {% endfor %}
-    {% else %}
-    <p>Loading additional options</p>
-    {% endif %}
+  <div class="col-md-6">
+    <div class="form-group">
+      <div id="media_type_options">
+        {% if series and not series.media_type_options == None %}
+        {% for opt, val in series.media_type_options.items %}
+          <input name="{{ opt }}" value="{{ val }}"></input>
+        {% endfor %}
+        {% else %}
+        <p>Loading additional options</p>
+        {% endif %}
+      </div>
+    </div>
   </div>
 </div>
 
