@@ -152,7 +152,7 @@ class SeriesModelTest(TestCase):
             (datetime.now().date() + timedelta(days=-7),
              datetime.now().date() + timedelta(days=7),
              time.max,
-             datetime.now().date() + timedelta(days=7),
+             datetime.combine(datetime.now().date() + timedelta(days=7), time.max),
              Series.NONE
              ),
             (datetime.now().date() + timedelta(days=-7),
