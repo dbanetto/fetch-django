@@ -106,11 +106,12 @@ class SeriesModelTest(TestCase):
         ]:
             s.current_count = current
             s.total_count = total
-            if error:
-                with self.assertRaises(ValidationError):
+            with self.subTest(current=current, total=total, error=error):
+                if error:
+                    with self.assertRaises(ValidationError):
+                        s.clean()
+                else:
                     s.clean()
-            else:
-                s.clean()
 
     def test_end_date_greater_than_start(self):
         s = Series.objects.all()[0]
