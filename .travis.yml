@@ -1,15 +1,16 @@
 language: python
 python:
-    - "3.3"
-    - "3.4"
-    - "3.5"
+  - "3.3"
+  - "3.4"
+  - "3.5"
 
 install:
-    - sh setup.sh
-    - pip install coveralls
+  - sh setup.sh
+  - pip install coveralls
 
 script:
-    - sh coverage.sh
+  - sh coverage.sh
 
 after_success:
-    - coveralls
+  - coverage html
+  - coveralls
