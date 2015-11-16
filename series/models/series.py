@@ -14,6 +14,7 @@ from provider.models import Provider
 from series.models import MediaType
 from series.util import poster_path
 
+
 class Series(models.Model):
     provider = models.ForeignKey(Provider)
     title = models.CharField(max_length=160,
@@ -44,7 +45,8 @@ class Series(models.Model):
 
     poster = models.ImageField(editable=True,
                                upload_to=poster_path,
-                               storage=OverwriteStorage())
+                               storage=OverwriteStorage(),
+                               null=True)
 
     media_type = models.ForeignKey(MediaType,
                                    help_text="Series' media type")

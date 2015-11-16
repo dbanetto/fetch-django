@@ -165,12 +165,10 @@ class SeriesForm(forms.ModelForm):
                 self.add_error('poster', msg)
                 self.add_error('poster_url', '')
 
-        if self.is_bound:
-            if ('poster_url' not in clean_data or clean_data['poster_url'] == "") \
-            and ('poster' not in clean_data or clean_data['poster'] == None):
-                msg = _('Must have either an image to upload or url')
-                self.add_error('poster', msg)
-                self.add_error('poster_url', '')
+        # TODO: Set poster to some default poster
+        # if self.is_bound:
+        #     if ('poster_url' not in clean_data or clean_data['poster_url'] == "") \
+        #     and ('poster' not in clean_data or clean_data['poster'] == None):
 
         if 'poster_url' in self.cleaned_data and \
            self.cleaned_data['poster_url'] != "":

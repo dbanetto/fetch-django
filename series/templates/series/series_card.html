@@ -1,16 +1,18 @@
 <div class="panel panel-default">
-  <div class="panel-body poster-area">
-    <a href="{% url 'series:view' series.id %}" >
+  <a href="{% url 'series:view' series.id %}" >
+    <div class="panel-body poster-area">
       {% if series.poster %}
       <img src="{{ series.poster.url }}" class="poster">
       {% endif %}
-    </a>
-  </div>
+    </div>
+  </a>
   <div class="panel-footer">
     <h4><a href="{% url 'series:view' series.id %}">{{ series.title|truncatechars:29 }}</a>
       <br><small> {{ series.provider.name }}</small></h4>
-    <p>{% if series.next_release %}Next release: {{ series.next_release|date:"d-m" }}{% else %}&nbsp;{% endif %}<span class="label {{ series.bootstrap_label_class }} pull-right">{{ series.label_text }}</span>
-      <span class="label label-default pull-right"> {{ series.current_count }}/{{ series.total_count }}</span></p>
+    <p>{% if series.next_release %}Next release: {{ series.next_release|date:"d-m" }}{% else %}&nbsp;{% endif %}
+      <span class="label {{ series.bootstrap_label_class }} pull-right">{{ series.label_text }}</span>
+      <span class="label label-default pull-right"> {{ series.current_count }}/{{ series.total_count }}</span>
+    </p>
     {{ series.bootstrap_progressbar|safe }}
   </div>
 </div>

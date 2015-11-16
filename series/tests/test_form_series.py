@@ -249,10 +249,7 @@ class SeriesFromTest(TestCase):
             'release_schedule': 'W',
         })
 
-        self.assertFalse(form.is_valid())
-
-        self.assertTrue('poster' in form.errors, form.errors)
-        self.assertTrue('poster_url' in form.errors, form.errors)
+        self.assertTrue(form.is_valid())
 
     def test_successful_save_poster(self):
         prov = Provider.objects.all()[0]
