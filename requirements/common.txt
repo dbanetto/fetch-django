@@ -1,4 +1,4 @@
-Django==1.8.4
+Django==1.8.5
 django-bootstrap3==6.1.0
 django-bower==5.0.4
 django-datetime-widget==0.9.3
