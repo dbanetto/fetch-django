@@ -4,7 +4,10 @@
 {% block title %}Fetcher - Index{% endblock %}
 
 {% block header %}
-<h1>Fetcher</h1>
+<h1>
+    Fetcher
+    <button id="fetcherd-refreash" class="btn btn-sm btn-default glyphicon glyphicon-refresh" onclick="status('{% url "fetcher:status" %}')"></button>
+</h1>
 {% endblock header %}
 
 {% block extra_script %}
@@ -18,13 +21,20 @@
 {% endblock navbar_items %}
 
 {% block content %}
-{% if result.running %}
-<p>Is running</p>
+<h3>
+    <span id="fetcherd-status">Is loading</span> 
+</h3>
 <p>
-<button id="force-fetch" class="btn btn-default" onclick="force('{% url "fetcher:force_fetch" %}','#force-fetch')">Force Fetch</button>
-<button id="force-sort" class="btn btn-default" onclick="force('{% url "fetcher:force_sort" %}','#force-sort')">Force Sort</button>
+<button id="force-fetch" class="btn btn-default" disabled="true" onclick="force('{% url "fetcher:force_fetch" %}','#force-fetch')">Force Fetch</button>
+<button id="force-sort" class="btn btn-default" disabled="true" onclick="force('{% url "fetcher:force_sort" %}','#force-sort')">Force Sort</button>
 </p>
-{% else %}
-<p>Is down</p>
-{% endif %}
+
+<script>
+$(document).ready(function() {
+    status('{% url "fetcher:status" %}');
+    setInterval(function() {
+        status('{% url "fetcher:status" %}');
+    }, 60*1000);
+});
+</script>
 {% endblock content %}
