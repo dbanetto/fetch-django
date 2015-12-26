@@ -37,7 +37,6 @@ INSTALLED_APPS = (
 
     'djangobower',
     'select_multiple_field',
-    'static_precompiler',
     'bootstrap3',
     'datetimewidget',
 
@@ -60,7 +59,6 @@ MIDDLEWARE_CLASSES = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'static_precompiler.finders.StaticPrecompilerFinder',
     'djangobower.finders.BowerFinder',
 )
 
@@ -132,22 +130,6 @@ BOOTSTRAP3 = {
     },
 }
 
-
-# static_precompiler
-STATIC_PRECOMPILER_COMPILERS = (
-    'static_precompiler.compilers.CoffeeScript',
-    'static_precompiler.compilers.LESS',
-)
-
-STATIC_PRECOMPILER_COMPILERS = (
-    ('static_precompiler.compilers.CoffeeScript',
-     {"executable": BASE_DIR + "/components/node_modules/coffee-script/bin/coffee"}),
-    ('static_precompiler.compilers.LESS',
-     {"executable": BASE_DIR + "/components/node_modules/less/bin/lessc"}),
-)
-
-STATIC_PRECOMPILER_OUTPUT_DIR = ""
-STATIC_PRECOMPILER_PREPEND_STATIC_URL = True
 
 # Datetime formats
 TIME_FORMAT = 'H:i'
