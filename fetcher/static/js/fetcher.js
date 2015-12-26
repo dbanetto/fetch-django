@@ -21,6 +21,9 @@ function force(url, from) {
 }
 
 function status(url) {
+  var refreahBtn = $('#fetcherd-refreash');
+  refreahBtn.prop("disabled", true);
+
   $.ajax({
     contentType: "application/json",
     url: url,
@@ -42,6 +45,9 @@ function status(url) {
         $('#force-fetch').prop("disabled", true);
         $('#force-sort').prop("disabled", true);
       }
+    },
+    complete: function() {
+      refreahBtn.prop("disabled", false);
     }
   })
 }
