@@ -5,7 +5,7 @@ from django.db import models, migrations
 import datetime
 import series.models
 from django.utils.timezone import utc
-import json_field.fields
+import jsonfield.fields
 
 
 class Migration(migrations.Migration):
@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='series',
             name='media_type_options',
-            field=json_field.fields.JSONField(default='null', help_text='A JSON object of options made available from the media type'),
+            field=jsonfield.fields.JSONField(default='null', help_text='A JSON object of options made available from the media type'),
             preserve_default=True,
         ),
         migrations.AlterField(
@@ -59,7 +59,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='series',
             name='release_schedule_options',
-            field=json_field.fields.JSONField(default='null', help_text='A JSON object of needed info for each type of release schedule'),
+            field=jsonfield.fields.JSONField(default='null', help_text='A JSON object of needed info for each type of release schedule'),
             preserve_default=True,
         ),
         migrations.AlterField(

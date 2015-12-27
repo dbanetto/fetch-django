@@ -1,9 +1,8 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from series import views
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^new/$', views.new, name='new'),
     url(r'^(?P<series_id>\d+)/$', views.view, name='view'),
@@ -15,4 +14,4 @@ urlpatterns = patterns(
     url(r'^media/$', views.media_type_index, name='media_index'),
     url(r'^media/(?P<media_type_id>\d+)/$',
         views.media_type_view, name='media_view'),
-)
+]

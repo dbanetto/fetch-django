@@ -1,7 +1,7 @@
 import json
 
 from django.db import models
-from json_field import JSONField
+from jsonfield import JSONField
 
 from provider.models import BaseProvider
 

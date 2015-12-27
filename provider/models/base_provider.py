@@ -1,7 +1,7 @@
 import json
 
 from django.db import models
-from json_field import JSONField
+from jsonfield import JSONField
 
 from app.validators import json_schema_validator
 

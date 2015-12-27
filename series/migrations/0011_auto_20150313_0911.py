@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import datetime
-import json_field.fields
+import jsonfield.fields
 from django.utils.timezone import utc
 
 
@@ -23,13 +23,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='series',
             name='media_type_options',
-            field=json_field.fields.JSONField(help_text='A JSON object of options made available from the media type', default='null', blank=True),
+            field=jsonfield.fields.JSONField(help_text='A JSON object of options made available from the media type', default='null', blank=True),
             preserve_default=True,
         ),
         migrations.AlterField(
             model_name='series',
             name='release_schedule_options',
-            field=json_field.fields.JSONField(help_text='A JSON object of needed info for each type of release schedule', default='null', blank=True),
+            field=jsonfield.fields.JSONField(help_text='A JSON object of needed info for each type of release schedule', default='null', blank=True),
             preserve_default=True,
         ),
         migrations.AlterField(

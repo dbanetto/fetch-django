@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import json_field.fields
+import jsonfield.fields
 
 
 class Migration(migrations.Migration):
@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='provider',
             name='options',
-            field=json_field.fields.JSONField(default='null', help_text="JSON Object filled of BaseProvider's available_options with data"),
+            field=jsonfield.fields.JSONField(default='null', help_text="JSON Object filled of BaseProvider's available_options with data"),
             preserve_default=True,
         ),
         migrations.AlterField(

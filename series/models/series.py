@@ -9,7 +9,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 
 from app.storage import OverwriteStorage
-from json_field import JSONField
+from jsonfield import JSONField
 from provider.models import Provider
 from series.models import MediaType
 from series.util import poster_path

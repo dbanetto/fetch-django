@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import json_field.fields
+import jsonfield.fields
 
 
 class Migration(migrations.Migration):
@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='mediatype',
             name='available_options',
-            field=json_field.fields.JSONField(help_text='A JSON schema of options that the media type allows', default={'id': {'required': False, 'type': 'integer'}}),
+            field=jsonfield.fields.JSONField(help_text='A JSON schema of options that the media type allows', default={'id': {'required': False, 'type': 'integer'}}),
         ),
     ]

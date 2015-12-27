@@ -69,7 +69,7 @@ class TestProviderViews(TestCase):
 
     def test_view_nonexisting(self):
         c = Client()
-        res = c.get('/provider/-1/')
+        res = c.get('/provider/0/')
 
         self.assertEquals(res.status_code, 404)
 

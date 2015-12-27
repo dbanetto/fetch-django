@@ -3,7 +3,7 @@ import json
 from django.db import models
 
 from app.validators import json_schema_validator
-from json_field import JSONField
+from jsonfield import JSONField
 
 
 class MediaType(models.Model):

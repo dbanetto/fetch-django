@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import app.validators
-import json_field.fields
+import jsonfield.fields
 
 
 class Migration(migrations.Migration):
@@ -16,6 +16,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='baseprovider',
             name='available_options',
-            field=json_field.fields.JSONField(validators=[app.validators.json_schema_validator], default='{"properties": {"id": {"title": "id", "type": "integer", "required": false}}}', help_text='A JSON Schema of options that the base provider allows'),
+            field=jsonfield.fields.JSONField(validators=[app.validators.json_schema_validator], default='{"properties": {"id": {"title": "id", "type": "integer", "required": false}}}', help_text='A JSON Schema of options that the base provider allows'),
         ),
     ]
