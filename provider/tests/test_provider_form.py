@@ -158,3 +158,14 @@ class ProviderFormTest(TestCase):
         })
         form.cleaned_data = {'options': {"id": 1}}
         self.assertEqual(form.clean_options(), {"id": 1})
+
+    def test_empty_options(self):
+        form = ProviderForm({
+            'name': "test",
+            'website': "http://e.com",
+            'regex_find_count': "\\d+",
+            'base_provider': "",
+            'options': '',
+        })
+        form.cleaned_data = {'options': ''}
+        self.assertEqual(form.clean_options(), {})

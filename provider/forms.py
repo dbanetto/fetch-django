@@ -29,11 +29,16 @@ class ProviderForm(forms.ModelForm):
                                        label="Count Regex",
                                        validators=[regex_validator])
 
-    options = forms.CharField(widget=forms.HiddenInput(),
+    options = forms.CharField(required=False,
+                              widget=forms.HiddenInput(),
                               validators=[json_validator])
 
     def clean_options(self):
         value = self.cleaned_data['options']
+
+        if not value:
+            value = {}
+
         if type(value) is str:
             # Can assert will be valid json due to field validators
             value = json.loads(value)
@@ -42,7 +47,8 @@ class ProviderForm(forms.ModelForm):
             # FIXME: needs alternative way to get base's schema for un-saved instances
             if 'base_provider' in self.cleaned_data:
                 json_schema_check(value,
-                                  self.cleaned_data['base_provider'].available_options)
+                                  self.cleaned_data['base_provider']
+                                  .available_options)
             return value
         else:
             raise ValidationError(
