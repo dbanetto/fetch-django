@@ -7,11 +7,30 @@
     </div>
   </a>
   <div class="panel-footer">
-    <h4><a title="{{ series.title }}" href="{% url 'series:view' series.id %}">{{ series.title|truncatechars:29 }}</a>
-      <br><small> {{ series.provider.name }}</small></h4>
-    <p>{% if series.next_release %}Next release: {{ series.next_release|date:"d-m" }}{% else %}&nbsp;{% endif %}
-      <span class="label {{ series.bootstrap_label_class }} pull-right">{{ series.label_text }}</span>
-      <span class="label label-default pull-right"> {{ series.current_count }}/{{ series.total_count }}</span>
+    <h4>
+      <a title="{{ series.title }}" href="{% url 'series:view' series.id %}">
+        {{ series.title|truncatechars:28 }}
+      </a>
+      <br />
+      <a title="{{ series.provider.name }}" href="{% url 'provider:view' series.provider.id %}">
+        <small>
+          {{ series.provider.name|truncatechars:28 }}
+        </small>
+      </a>
+    </h4>
+    <p>
+      {% if series.next_release %}Next release: {{ series.next_release|date:"d-m" }}{% else %}&nbsp;{% endif %}
+      <span class="pull-right">
+        {%if series.info_url %}
+        <a href="{{ series.info_url }}"><span class="glyphicon glyphicon-info-sign"></span></a>
+        {% endif %}
+        {%if series.total_count == 0 %}
+        <span class="label label-default"> {{ series.current_count }}/?</span>
+        {% else %}
+        <span class="label label-default"> {{ series.current_count }}/{{ series.total_count }}</span>
+        {% endif %}
+        <span class="label {{ series.bootstrap_label_class }}">{{ series.label_text }}</span>
+      </span>
     </p>
     {{ series.bootstrap_progressbar|safe }}
   </div>
