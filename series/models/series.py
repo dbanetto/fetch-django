@@ -185,7 +185,7 @@ class Series(models.Model):
         if self.has_ended():
             return _('Finished')
         if not self.has_started():
-            return _('Yet to air')
+            return _('Soon')
 
     def bootstrap_progressbar(self):
         """

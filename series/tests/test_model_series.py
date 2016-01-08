@@ -198,7 +198,7 @@ class SeriesModelTest(TestCase):
              ),
             (datetime.now().date() + timedelta(days=7),
              datetime.now().date() + timedelta(days=8),
-             _('Yet to air')
+             _('Soon')
              ),
         ]:
             s.start_date = start
