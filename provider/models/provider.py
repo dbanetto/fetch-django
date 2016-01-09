@@ -12,6 +12,7 @@ class Provider(models.Model):
     from the provider
     Does not needed client side implementation
     """
+
     base_provider = models.ForeignKey(BaseProvider)
     name = models.CharField(max_length=160,
                             verbose_name="Name of the provider")
@@ -31,4 +32,7 @@ class Provider(models.Model):
         return "{} ({})".format(self.name, self.base_provider.name)
 
     def base_provider_options_json(self):
+        """
+        Get options as a JSON string
+        """
         return json.dumps(self.options)

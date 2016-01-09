@@ -102,6 +102,8 @@ class SeriesModelTest(TestCase):
             (1,  1, False),
             (10, 0, False),
             (-1, 0, True),
+            (-1, None, True),
+            ( 1, None, False),
             (1, -1, True),
         ]:
             s.current_count = current

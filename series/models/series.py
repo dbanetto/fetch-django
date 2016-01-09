@@ -16,6 +16,10 @@ from series.util import poster_path
 
 
 class Series(models.Model):
+    """
+    Series
+    """
+
     provider = models.ForeignKey(Provider)
     title = models.CharField(max_length=160,
                              verbose_name="Name of the series")
@@ -75,9 +79,18 @@ class Series(models.Model):
                                          " info for each type of release schedule")
 
     def clean(self):
+        """
+        Clean and validate model
+
+        Throws ValidationError when:
+            - current count is below 0
+            - total count is defined & below zero
+            - total count is defined & current is larger than total
+        """
+        if self.current_count < 0:
+            raise ValidationError('Currnet count cannot be below zero')
+
         if self.total_count is not None:
-            if self.current_count < 0:
-                raise ValidationError('Currnet count cannot be below zero')
             if self.total_count < 0:
                 raise ValidationError('Currnet count cannot be below zero')
             if self.current_count > self.total_count != 0:
@@ -105,7 +118,6 @@ class Series(models.Model):
             return datetime.combine(self.start_date, self.release_time)
 
         # is airing
-
         release_date = self.start_date
         delta = None
         if self.release_schedule == Series.WEEKLY:
@@ -128,18 +140,18 @@ class Series(models.Model):
 
     def has_started(self):
         """
-        Boolean of if the series has started airing/publishing
+        Series has started airing/publishing
 
         Note:
             uses release_time for time of day
         """
         return self.start_date is not None and \
                 timezone.now() >= timezone.make_aware(
-                   datetime.combine(self.start_date, self.release_time))
+                    datetime.combine(self.start_date, self.release_time))
 
     def has_ended(self):
         """
-        Boolean of if the series has ended airing/publishing
+        Series has ended airing/publishing
 
         Note:
             uses release_time for time of day
@@ -232,5 +244,8 @@ class Series(models.Model):
         return json.dumps(self.media_type_options)
 
     def info_url_domain(self):
+        """
+        Get the domain name of the info_url
+        """
         if type(self.info_url) is str:
             return re.sub('^.*://', '', self.info_url).split('/')[0]

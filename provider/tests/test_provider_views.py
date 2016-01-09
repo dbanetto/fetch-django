@@ -86,3 +86,63 @@ class TestProviderViews(TestCase):
                 expect_templates.remove(t.name)
 
         self.assertEquals(len(expect_templates), 0, expect_templates)
+
+    def test_index_base_html(self):
+        c = Client()
+
+        res = c.get('/provider/base/')
+
+        self.assertEquals(res.status_code, 200)
+
+        expect_templates = ['provider/base_index.html']
+        for t in res.templates:
+            if t.name in expect_templates:
+                expect_templates.remove(t.name)
+
+        self.assertEquals(len(expect_templates), 0)
+
+    def test_index_base_json(self):
+        c = Client()
+
+        res = c.get('/provider/base/', CONTENT_TYPE='application/json')
+
+        self.assertEquals(res.status_code, 200)
+        json.loads(res.content.decode())
+
+        expect_templates = ['provider/base_index.json']
+        for t in res.templates:
+            if t.name in expect_templates:
+                expect_templates.remove(t.name)
+
+        self.assertEquals(len(expect_templates), 0)
+        json.loads(res.content.decode(res.charset))
+
+    def test_view_base_html(self):
+        c = Client()
+
+        res = c.get('/provider/base/1/')
+
+        self.assertEquals(res.status_code, 200)
+
+        expect_templates = ['provider/base_view.html']
+        for t in res.templates:
+            if t.name in expect_templates:
+                expect_templates.remove(t.name)
+
+        self.assertEquals(len(expect_templates), 0)
+
+    def test_view_base_json(self):
+        c = Client()
+
+        res = c.get('/provider/base/1/', CONTENT_TYPE='application/json')
+
+        self.assertEquals(res.status_code, 200)
+        json.loads(res.content.decode())
+
+        expect_templates = ['provider/base_view.json']
+        for t in res.templates:
+            if t.name in expect_templates:
+                expect_templates.remove(t.name)
+
+        self.assertEquals(len(expect_templates), 0)
+        json.loads(res.content.decode(res.charset))
