@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 
 from django.shortcuts import render, get_object_or_404
@@ -13,6 +13,14 @@ from series.forms import SeriesForm
 
 def index(request):
     series = sorted(Series.objects.all(), key=lambda s: s.next_release() if type(s.next_release()) is datetime else datetime.max)
+
+    if request.method == 'GET':
+        filter = request.GET.get('filter')
+        if filter:
+            if filter == 'week':
+                series = [s for s in series if type(s.next_release()) is datetime and \
+                          s.next_release().date() <= (datetime.now().date() + timedelta(days=7))]
+
     if request.META.get('CONTENT_TYPE') == 'application/json':
         return render(request, 'series/index.json',
                       {'series': series},
@@ -102,12 +110,7 @@ def media_type_view(request, media_type_id):
 @csrf_exempt
 def count(request, series_id):
     """
-    If the request is a POST we take the 'current_count' and set the series
-    to it
-
-    :param request:
-    :param series_id:
-    :return:
+    Update a series current count if a valid change
     """
     series = get_object_or_404(Series, pk=series_id)
     if request.method == 'POST':
