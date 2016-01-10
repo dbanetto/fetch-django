@@ -55,6 +55,45 @@ class TestSeriesViews(TestCase):
 
         self.assertEquals(res.status_code, 200)
 
+    def test_new_html(self):
+        c = Client()
+
+        res = c.get('/series/new/')
+
+        self.assertTemplateUsed(res, 'series/new.html')
+        self.assertTemplateUsed(res, 'series/form_series.html')
+
+        self.assertEquals(res.status_code, 200)
+
+    def test_edit_html(self):
+        c = Client()
+
+        res = c.get('/series/1/edit/')
+
+        self.assertTemplateUsed(res, 'series/edit.html')
+        self.assertTemplateUsed(res, 'series/form_series.html')
+
+        self.assertEquals(res.status_code, 200)
+
+    def test_view_mediatype_html(self):
+        c = Client()
+
+        res = c.get('/series/media/1/')
+
+        self.assertTemplateUsed(res, 'series/media_view.html')
+
+        self.assertEquals(res.status_code, 200)
+
+    def test_view_mediatype_json(self):
+        c = Client(CONTENT_TYPE='application/json')
+
+        res = c.get('/series/media/1/')
+
+        self.assertTemplateUsed(res, 'series/media_view.json')
+
+        self.assertEquals(res.status_code, 200)
+        json.loads(res.content.decode(res.charset))
+
     def test_index_contains_entry(self):
         c = Client()
 
