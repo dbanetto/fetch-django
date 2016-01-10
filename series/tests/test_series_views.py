@@ -13,10 +13,7 @@ class TestSeriesViews(TestCase):
 
         res = c.get('/series/')
 
-        expect_templates = ['series/index.json']
-        for t in res.templates:
-            if t.name in expect_templates:
-                expect_templates.remove(t.name)
+        self.assertTemplateUsed(res, 'series/index.json')
 
         self.assertEquals(res.status_code, 200)
         json.loads(res.content.decode(res.charset))
@@ -26,10 +23,7 @@ class TestSeriesViews(TestCase):
 
         res = c.get('/series/')
 
-        expect_templates = ['series/index.html']
-        for t in res.templates:
-            if t.name in expect_templates:
-                expect_templates.remove(t.name)
+        self.assertTemplateUsed(res, 'series/index.html')
 
         self.assertEquals(res.status_code, 200)
 
@@ -38,10 +32,7 @@ class TestSeriesViews(TestCase):
 
         res = c.get('/series/media/')
 
-        expect_templates = ['series/media_index.json']
-        for t in res.templates:
-            if t.name in expect_templates:
-                expect_templates.remove(t.name)
+        self.assertTemplateUsed(res, 'series/media_index.json')
 
         self.assertEquals(res.status_code, 200)
         json.loads(res.content.decode(res.charset))
@@ -51,10 +42,16 @@ class TestSeriesViews(TestCase):
 
         res = c.get('/series/media/')
 
-        expect_templates = ['series/media_index.html']
-        for t in res.templates:
-            if t.name in expect_templates:
-                expect_templates.remove(t.name)
+        self.assertTemplateUsed(res, 'series/media_index.html')
+
+        self.assertEquals(res.status_code, 200)
+
+    def test_view_html(self):
+        c = Client()
+
+        res = c.get('/series/1/')
+
+        self.assertTemplateUsed(res, 'series/view.html')
 
         self.assertEquals(res.status_code, 200)
 

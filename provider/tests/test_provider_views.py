@@ -15,12 +15,7 @@ class TestProviderViews(TestCase):
 
         self.assertEquals(res.status_code, 200)
 
-        expect_templates = ['provider/index.html']
-        for t in res.templates:
-            if t.name in expect_templates:
-                expect_templates.remove(t.name)
-
-        self.assertEquals(len(expect_templates), 0)
+        self.assertTemplateUsed(res, 'provider/index.html')
 
     def test_index_json(self):
         c = Client()
@@ -30,12 +25,8 @@ class TestProviderViews(TestCase):
         self.assertEquals(res.status_code, 200)
         json.loads(res.content.decode())
 
-        expect_templates = ['provider/index.json']
-        for t in res.templates:
-            if t.name in expect_templates:
-                expect_templates.remove(t.name)
+        self.assertTemplateUsed(res, 'provider/index.json')
 
-        self.assertEquals(len(expect_templates), 0)
         json.loads(res.content.decode(res.charset))
 
     def test_view(self):
@@ -45,12 +36,7 @@ class TestProviderViews(TestCase):
 
         self.assertEquals(res.status_code, 200)
 
-        expect_templates = ['provider/view.html']
-        for t in res.templates:
-            if t.name in expect_templates:
-                expect_templates.remove(t.name)
-
-        self.assertEquals(len(expect_templates), 0)
+        self.assertTemplateUsed(res, 'provider/view.html')
 
     def test_edit_get(self):
         c = Client()
@@ -59,13 +45,8 @@ class TestProviderViews(TestCase):
 
         self.assertEquals(res.status_code, 200)
 
-        expect_templates = ['provider/edit.html',
-                            'provider/form_provider.html']
-        for t in res.templates:
-            if t.name in expect_templates:
-                expect_templates.remove(t.name)
-
-        self.assertEquals(len(expect_templates), 0, expect_templates)
+        self.assertTemplateUsed(res, 'provider/edit.html')
+        self.assertTemplateUsed(res, 'provider/form_provider.html')
 
     def test_view_nonexisting(self):
         c = Client()
@@ -80,12 +61,8 @@ class TestProviderViews(TestCase):
 
         self.assertEquals(res.status_code, 200)
 
-        expect_templates = ['provider/new.html', 'provider/form_provider.html']
-        for t in res.templates:
-            if t.name in expect_templates:
-                expect_templates.remove(t.name)
-
-        self.assertEquals(len(expect_templates), 0, expect_templates)
+        self.assertTemplateUsed(res, 'provider/new.html')
+        self.assertTemplateUsed(res, 'provider/form_provider.html')
 
     def test_index_base_html(self):
         c = Client()
@@ -94,12 +71,7 @@ class TestProviderViews(TestCase):
 
         self.assertEquals(res.status_code, 200)
 
-        expect_templates = ['provider/base_index.html']
-        for t in res.templates:
-            if t.name in expect_templates:
-                expect_templates.remove(t.name)
-
-        self.assertEquals(len(expect_templates), 0)
+        self.assertTemplateUsed(res, 'provider/base_index.html')
 
     def test_index_base_json(self):
         c = Client()
@@ -109,12 +81,8 @@ class TestProviderViews(TestCase):
         self.assertEquals(res.status_code, 200)
         json.loads(res.content.decode())
 
-        expect_templates = ['provider/base_index.json']
-        for t in res.templates:
-            if t.name in expect_templates:
-                expect_templates.remove(t.name)
+        self.assertTemplateUsed(res, 'provider/base_index.json')
 
-        self.assertEquals(len(expect_templates), 0)
         json.loads(res.content.decode(res.charset))
 
     def test_view_base_html(self):
@@ -124,12 +92,7 @@ class TestProviderViews(TestCase):
 
         self.assertEquals(res.status_code, 200)
 
-        expect_templates = ['provider/base_view.html']
-        for t in res.templates:
-            if t.name in expect_templates:
-                expect_templates.remove(t.name)
-
-        self.assertEquals(len(expect_templates), 0)
+        self.assertTemplateUsed(res, 'provider/base_view.html')
 
     def test_view_base_json(self):
         c = Client()
@@ -139,10 +102,6 @@ class TestProviderViews(TestCase):
         self.assertEquals(res.status_code, 200)
         json.loads(res.content.decode())
 
-        expect_templates = ['provider/base_view.json']
-        for t in res.templates:
-            if t.name in expect_templates:
-                expect_templates.remove(t.name)
+        self.assertTemplateUsed(res, 'provider/base_view.json')
 
-        self.assertEquals(len(expect_templates), 0)
         json.loads(res.content.decode(res.charset))
