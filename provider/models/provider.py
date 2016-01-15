@@ -26,7 +26,8 @@ class Provider(models.Model):
                                         "to extract the episode/chapter count "
                                         "from a file name")
     options = JSONField(help_text="JSON Object filled of BaseProvider's"
-                                  " available_options with data")
+                                  " available_options with data",
+                        blank=True, default={})
 
     def __str__(self):
         return "{} ({})".format(self.name, self.base_provider.name)

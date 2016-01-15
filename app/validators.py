@@ -51,7 +51,7 @@ def json_schema_check(json_obj, schema):
     raises ValidationError if json_obj does not conform
     """
     if type(json_obj) is not dict:
-        raise ValueError('json_obj is not a dict')
+        raise ValueError('json_obj is not a dict, but {}'.format(type(json_obj)))
 
     if type(schema) is dict:
         try:

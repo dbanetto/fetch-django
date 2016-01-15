@@ -37,19 +37,17 @@ class ProviderForm(forms.ModelForm):
         value = self.cleaned_data['options']
 
         if not value:
-            value = {}
+            value_dict = {}
+        elif type(value) is str:
+            try:
+                value_dict = json.loads(value)
+            except Exception as e:
+                raise e
 
-        if type(value) is str:
-            # Can assert will be valid json due to field validators
-            value = json.loads(value)
-
-        if type(value) is dict:
-            # FIXME: needs alternative way to get base's schema for un-saved instances
-            if 'base_provider' in self.cleaned_data:
-                json_schema_check(value,
-                                  self.cleaned_data['base_provider']
-                                  .available_options)
-            return value
+        if type(value_dict) is dict:
+            json_schema_check(value_dict,
+                              self.cleaned_data['base_provider'].available_options)
+            return value_dict
         else:
             raise ValidationError(
                 _('Invalid input: Did not expect type %(type)s'),
