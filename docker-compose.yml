@@ -1,0 +1,14 @@
+db:
+  image: postgres
+
+web:
+  build: .
+  command: docker-entrypoint
+  volumes:
+    - ./code:/code
+  ports:
+    - "8000:8000"
+  links:
+    - db
+  environment:
+    DJANGO_SETTINGS_MODULE: settings.docker

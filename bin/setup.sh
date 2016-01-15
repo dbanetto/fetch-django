@@ -12,10 +12,7 @@ fi
 pip install -r requirements/common.txt
 
 # bower - frontend
-python manage.py bower install $1
-
-# npm - precompilers
-(cd components ; npm install)
+python code/manage.py bower install $1
 
 # django
-python manage.py migrate $1
+python code/manage.py migrate $1

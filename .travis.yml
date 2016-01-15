@@ -4,11 +4,11 @@ python:
   - "3.5"
 
 install:
-  - sh setup.sh
+  - sh bin/setup.sh
   - pip install coveralls
 
 script:
-  - sh coverage.sh
+  - sh bin/coverage.sh
 
 after_success:
   - coverage html

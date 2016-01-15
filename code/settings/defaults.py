@@ -63,7 +63,7 @@ STATICFILES_FINDERS = (
 )
 
 FIXTURE_DIRS = (
-    'fixtures',
+    '../fixtures',
 )
 
 TEMPLATES = [
@@ -119,8 +119,8 @@ BOWER_INSTALLED_APPS = (
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-STATIC_ROOT = 'static'
-MEDIA_ROOT = 'media'
+STATIC_ROOT = 'static/'
+MEDIA_ROOT = 'media/'
 
 # Bootstrap
 BOOTSTRAP3 = {
