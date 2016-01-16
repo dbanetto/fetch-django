@@ -24,11 +24,7 @@
         {%if series.info_url %}
         <a href="{{ series.info_url }}"><span class="glyphicon glyphicon-info-sign"></span></a>
         {% endif %}
-        {%if series.total_count == 0 %}
-        <span class="label label-default"> {{ series.current_count }}/?</span>
-        {% else %}
-        <span class="label label-default"> {{ series.current_count }}/{{ series.total_count }}</span>
-        {% endif %}
+        <span class="label label-default"> {{ series.current_count }}/{%if series.total_count == 0 %}?{% else %}{{ series.total_count }}{% endif %}</span>
         <span class="label {{ series.bootstrap_label_class }}">{{ series.label_text }}</span>
       </span>
     </p>

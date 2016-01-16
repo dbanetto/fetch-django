@@ -84,7 +84,10 @@ Series - {{ series.title }}
       </tr>
       <tr>
         <td><strong>Episode Count</strong></td>
-        <td>{{ series.current_count }}/{{ series.total_count }}</td>
+        <td>
+            <span><span id="series-current">{{ series.current_count }}</span>/{%if series.total_count == 0 %}?{% else %}{{ series.total_count }}{% endif %}</span>
+            <button id="series-plus" class="btn btn-xs btn-default" type="button">+1</button>
+        </td>
       </tr>
       <tr>
         <td><strong>Release Schedule</strong></td>
@@ -115,7 +118,6 @@ Series - {{ series.title }}
   </div>
 </div>
 
-
 <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -142,10 +144,5 @@ Series - {{ series.title }}
 {% endblock content %}
 
 {% block extra_script %}
-<script>
-  $(window).on('resize', function() {
-    $('.poster-full').css('max-height', $(this).height() - $('.navbar').height() - 10);
-  });
-  $(window).resize();
-</script>
+<script src="{% static 'series/js/view.js' %}"></script>
 {% endblock extra_script%}
