@@ -1,7 +1,7 @@
 db:
   image: postgres
 
-web:
+dev:
   build: .
   command: docker-entrypoint
   volumes:
@@ -12,3 +12,20 @@ web:
     - db
   environment:
     DJANGO_SETTINGS_MODULE: settings.docker
+
+prod_db:
+  image: postgres
+
+prod:
+  build: .
+  command: docker-entrypoint
+  volumes:
+    - ./code:/code
+  ports:
+    - "8000:8000"
+  links:
+    - prod_db
+  environment:
+    DJANGO_SETTINGS_MODULE: settings.production
+  env_file:
+    - ./code/settings/production.env
