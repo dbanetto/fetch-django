@@ -1,0 +1,18 @@
+db:
+  image: postgres
+
+web:
+  build: .
+  command: docker-entrypoint
+  restart: always
+  links:
+    - db
+  ports:
+    - "8000:8000"
+  volumes:
+    - ./media:/web-media
+    - ./static:/static
+  environment:
+    DJANGO_SETTINGS_MODULE: settings.production
+  env_file:
+    - ./code/settings/production.env

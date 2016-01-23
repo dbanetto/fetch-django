@@ -16,6 +16,3 @@ fabfile.py
 # bower & npm
 /components/*
 !/components/package.json
-
-# prod env
-/code/settings/production.env
