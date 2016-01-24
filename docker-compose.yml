@@ -1,11 +1,19 @@
+pg_data:
+  image: busybox
+  volumes:
+    - "/var/lib/postgresql"
+
 db:
   image: postgres
+  volumes_from:
+    - pg_data
 
-dev:
+web:
   build: .
   command: docker-entrypoint
   volumes:
     - ./code:/code
+    - ./media:/web-media
   ports:
     - "8000:8000"
   links:

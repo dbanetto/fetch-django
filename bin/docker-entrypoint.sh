@@ -1,17 +1,20 @@
 #!/bin/bash
 
+# install bower components
+python manage.py bower install
+
 # Collect static files
 echo "Collect static files"
-python /code/manage.py collectstatic --noinput
+python manage.py collectstatic --noinput
 
 # Apply database migrations
 echo "Apply database migrations"
-python /code/manage.py migrate
+python manage.py migrate
 n=$?
 tries=1
 while [ $n -ne 0 ]; do
     sleep $((tries*tries))
-    python /code/manage.py migrate
+    python manage.py migrate
     n=$?
 
     # break out of loop after 5 tries
@@ -24,9 +27,9 @@ done
 
 # Start server
 echo "Starting server"
-if [ "$DJANGO_SETTINGS_MODULE" = "settings.production"]; then
+if [ "$DJANGO_SETTINGS_MODULE" = "settings.production" ]; then
     # todo: change to uwsgi
-    python /code/manage.py runserver 0.0.0.0:8000
+    python manage.py runserver 0.0.0.0:8000
 else
-    python /code/manage.py runserver 0.0.0.0:8000
+    python manage.py runserver 0.0.0.0:8000
 fi

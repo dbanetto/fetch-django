@@ -1,5 +1,12 @@
+pg_data:
+  image: busybox
+  volumes:
+    - "/var/lib/postgresql"
+
 db:
   image: postgres
+  volumes_from:
+    - pg_data
 
 web:
   build: .

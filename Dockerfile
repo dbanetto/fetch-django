@@ -47,5 +47,3 @@ ADD ./code/ /code/
 ADD ./media/ /web-media/
 ADD ./static/ /static/
 ADD ./bin/docker-entrypoint.sh /usr/bin/docker-entrypoint
-
-RUN python manage.py bower install
