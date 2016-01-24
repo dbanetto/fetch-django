@@ -15,7 +15,7 @@ web:
   links:
     - db
   ports:
-    - "8000:8000"
+    - "7283:7283"
   volumes:
     - ./media:/web-media
     - ./static:/static

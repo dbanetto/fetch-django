@@ -1,0 +1,11 @@
+[uwsgi]
+socket = 127.0.0.1:7283
+chdir = /code/
+wsgi-file = app/wsgi.py
+master = true
+harakiri = 30
+processes = 4
+threads = 2
+uid = http
+gid = docker
+stats = 127.0.0.1:9191
