@@ -1,14 +1,5 @@
 #!/bin/bash
 
-# prevent postgres race
-nc -z db 5432
-n=$?
-while [ $n -ne 0 ]; do
-    sleep 1
-    nc -z db 5432
-    n=$?
-done
-
 # Collect static files
 echo "Collect static files"
 python /code/manage.py collectstatic --noinput
@@ -16,6 +7,20 @@ python /code/manage.py collectstatic --noinput
 # Apply database migrations
 echo "Apply database migrations"
 python /code/manage.py migrate
+n=$?
+tries=1
+while [ $n -ne 0 ]; do
+    sleep $((tries*tries))
+    python /code/manage.py migrate
+    n=$?
+
+    # break out of loop after 5 tries
+    tries=$((tries+1))
+    if [ $tries -gt 5 ]; then
+        echo "Failed trying to migrate"
+        exit 1
+    fi
+done
 
 # Start server
 echo "Starting server"

@@ -34,6 +34,7 @@ RUN echo '{ "allow_root": true }' > /root/.bowerrc
 RUN mkdir /code
 RUN mkdir /static
 RUN mkdir /web-media
+RUN mkdir /components
 WORKDIR /code
 
 # install requirements
@@ -45,7 +46,6 @@ RUN pip install -r requirements/production.txt
 ADD ./code/ /code/
 ADD ./media/ /web-media/
 ADD ./static/ /static/
-ADD ./components/ /components/
 ADD ./bin/docker-entrypoint.sh /usr/bin/docker-entrypoint
 
 RUN python manage.py bower install
