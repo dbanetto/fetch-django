@@ -1,10 +1,12 @@
 pg_data:
   image: busybox
+  restart: always
   volumes:
     - "/var/lib/postgresql"
 
 db:
   image: postgres
+  restart: always
   volumes_from:
     - pg_data
 
@@ -16,6 +18,7 @@ web:
     - db
   ports:
     - "7283:7283"
+    - "9191:7284" 
   volumes:
     - ./media:/web-media
     - ./static:/static
