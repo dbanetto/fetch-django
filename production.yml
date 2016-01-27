@@ -1,19 +1,16 @@
 pg_data:
   image: busybox
-  restart: always
   volumes:
     - "/var/lib/postgresql"
 
 db:
   image: postgres
-  restart: always
   volumes_from:
     - pg_data
 
 web:
   build: .
   command: docker-entrypoint
-  restart: always
   links:
     - db
   ports:
