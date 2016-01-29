@@ -17,7 +17,7 @@ RUN set -ex \
   done
 
 ENV NPM_CONFIG_LOGLEVEL info
-ENV NODE_VERSION 5.4.1
+ENV NODE_VERSION 5.5.0
 
 RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
   && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
@@ -30,6 +30,12 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
 RUN npm install -g bower
 RUN echo '{ "allow_root": true }' > /root/.bowerrc
 
+# install requirements
+RUN mkdir /requirements
+ADD requirements/ /requirements
+RUN pip install -r /requirements/common.txt
+RUN pip install -r /requirements/production.txt
+
 # add directories
 RUN mkdir /code
 RUN mkdir /static
@@ -37,15 +43,11 @@ RUN mkdir /web-media
 RUN mkdir /components
 WORKDIR /code
 
-# install requirements
-ADD requirements/ requirements
-RUN pip install -r requirements/common.txt
-RUN pip install -r requirements/production.txt
-
 # setup folder
-ADD ./code/ /code/
 ADD ./media/ /web-media/
 ADD ./static/ /static/
-ADD ./bin/docker-entrypoint.sh /usr/bin/docker-entrypoint
+ADD ./code/ /code/
 
 RUN python3 manage.py bower install --settings=settings.docker
+
+ADD ./bin/docker-entrypoint.sh /usr/bin/docker-entrypoint
