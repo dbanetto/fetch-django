@@ -21,8 +21,6 @@ SECRET_KEY = '8sreml@*n3(_exglrwtbd%&$#)ax*ae51h4-yzrt0-c)kcn-dx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-TEMPLATE_DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
@@ -63,7 +61,7 @@ STATICFILES_FINDERS = (
 )
 
 FIXTURE_DIRS = (
-    '../fixtures',
+    'fixtures',
 )
 
 TEMPLATES = [
@@ -73,6 +71,7 @@ TEMPLATES = [
         ],
         'APP_DIRS': True,
         'OPTIONS': {
+            'debug': True,
             'context_processors': [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.debug',
@@ -119,7 +118,8 @@ BOWER_INSTALLED_APPS = (
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-STATIC_ROOT = 'static/'
+
+STATIC_ROOT = 'staticfiles/'
 MEDIA_ROOT = 'media/'
 
 # Bootstrap

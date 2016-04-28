@@ -1,5 +1,6 @@
 FROM python:3.5
 ENV PYTHONUNBUFFERED 1
+ENV DJANGO_SETTINGS_MODULE=settings.docker
 
 # add nodejs for npm
 RUN set -ex \
@@ -17,7 +18,7 @@ RUN set -ex \
   done
 
 ENV NPM_CONFIG_LOGLEVEL info
-ENV NODE_VERSION 5.5.0
+ENV NODE_VERSION 6.0.0
 
 RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
   && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
@@ -30,24 +31,19 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
 RUN npm install -g bower
 RUN echo '{ "allow_root": true }' > /root/.bowerrc
 
-# install requirements
-RUN mkdir /requirements
-ADD requirements/ /requirements
-RUN pip install -r /requirements/common.txt
-RUN pip install -r /requirements/production.txt
-
-# add directories
+# make directories
 RUN mkdir /code
-RUN mkdir /static
-RUN mkdir /web-media
-RUN mkdir /components
+
+# install requirements
+ADD requirements/ /requirements
+RUN pip install -r /requirements/production.txt
+RUN pip install -r /requirements/common.txt
+
 WORKDIR /code
 
 # setup folder
-ADD ./media/ /web-media/
-ADD ./static/ /static/
-ADD ./code/ /code/
+ADD . /code/
 
-RUN python3 manage.py bower install --settings=settings.docker
+RUN python3 manage.py bower install
 
 ADD ./bin/docker-entrypoint.sh /usr/bin/docker-entrypoint

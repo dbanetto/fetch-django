@@ -1,22 +1,14 @@
-pg_data:
-  image: busybox
-  volumes:
-    - "/var/lib/postgresql"
-
-db:
-  image: postgres
-  volumes_from:
-    - pg_data
-
-web:
-  build: .
-  command: docker-entrypoint
-  volumes:
-    - ./code:/code
-    - ./media:/web-media
-  ports:
-    - "8000:8000"
-  links:
-    - db
-  environment:
-    DJANGO_SETTINGS_MODULE: settings.docker
+version: '2'
+services:
+  db:
+    image: postgres
+  web:
+    build: .
+    command: docker-entrypoint
+    volumes:
+      - .:/code
+      - ./media:/web-media
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db

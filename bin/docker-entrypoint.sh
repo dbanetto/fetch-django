@@ -24,20 +24,4 @@ done
 
 # Start server
 echo "Starting server"
-if [ "$DJANGO_SETTINGS_MODULE" = "settings.production" ]; then
-    chmod 755 -R $(find /static -type d)
-    chmod 755 -R $(find /web-media -type d)
-    chmod 755 -R $(find /components -type d)
-
-    chmod 644 -R $(find /static -type f)
-    chmod 644 -R $(find /web-media -type f)
-    chmod 644 -R $(find /components -type f)
-
-    chown 997:33 -R /web-media
-    chown 997:33 -R /static
-    chown 997:33 -R /components
-
-    uwsgi /code/settings/uwsgi.ini
-else
-    python manage.py runserver 0.0.0.0:8000
-fi
+gunicorn app.wsgi --log-file -
