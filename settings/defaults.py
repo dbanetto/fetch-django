@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'select_multiple_field',
     'bootstrap3',
     'datetimewidget',
+    'corsheaders',
 
     'app',
     'fetcher',
@@ -45,6 +46,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -157,6 +159,9 @@ DATE_FORMAT = 'N j, Y'
 SHORT_DATE_FORMAT = 'd/m/Y'
 DATETIME_FORMAT = 'N j, Y H:i'
 SHORT_DATETIME_FORMAT = 'd/m/Y H:i'
+
+# CORS Headers
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Fetcherd base WebUI url
 FETCHER_URL = 'http://localhost:8181'
