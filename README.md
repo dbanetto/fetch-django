@@ -31,10 +31,21 @@ After writing some code:
 - run `coverage.sh` to get the coverage of the test suite, view the results by
   opening `htmlcov/index.html` in your browser
 
+# Deploying
+
+## [Dokku](https://github.com/dokku/dokku/)
+
+* setup remote `git add remote dokku *user*@*hostname*:fetch`
+
+* setup database on dokku `dokku postgres:create fetch_db`
+
+* link it to the app `dokku postgres:link fetch_db fetch`
+
+* deploy `git push dokku`
+
 ## License
 
 Licensed under MIT, see LICENSE.md for more detail.
-
 
 ## Others Works
 

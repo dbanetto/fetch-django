@@ -2,11 +2,6 @@ language: python
 python:
   - "3.4"
   - "3.5"
-  - "pypy3"
-
-matrix:
-  allow_failures:
-    - python: pypy3
 
 install:
   - sh bin/setup.sh
