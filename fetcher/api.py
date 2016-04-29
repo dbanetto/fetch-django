@@ -7,14 +7,12 @@ import json
 def status():
     try:
         re = requests.get(settings.FETCHER_URL + '/status/')
-        content = re.content.decode('UTF-8')
-        result = json.loads(content)
+        result = json.loads(re.content.decode('UTF-8'))
         result['success'] = True
     except Exception as e:
         result = {
             'success': False,
             'running': False,
-            'content': content,
             'error': '{}'.format(str(e))
         }
     return result
