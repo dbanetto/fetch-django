@@ -9,10 +9,9 @@ logger.debug("Fetcher url: {}".format(settings.FETCHER_URL))
 
 
 def status():
-    result = {success: False}
+    result = {"success": False}
     try:
         re = requests.get(settings.FETCHER_URL + '/status/')
-        logger.debug(re.content)
         result = json.loads(re.content.decode('UTF-8'))
         result['success'] = True
     except Exception as e:
