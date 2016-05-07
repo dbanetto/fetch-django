@@ -6,9 +6,13 @@ services:
     build: .
     command: ./bin/docker-entrypoint.sh
     volumes:
-      - .:/code
       - ./media:/web-media
+      - ./static:/static
     ports:
-      - "8000:8000"
+      - "7238:8000"
+    environment:
+      DJANGO_SETTINGS_MODULE: settings.production
+    env_file:
+      - ../production.env
     depends_on:
       - db

@@ -33,6 +33,7 @@ RUN echo '{ "allow_root": true }' > /root/.bowerrc
 
 # make directories
 RUN mkdir /code
+RUN mkdir /components
 
 # install requirements
 ADD requirements/ /requirements
@@ -45,5 +46,3 @@ WORKDIR /code
 ADD . /code/
 
 RUN python3 manage.py bower install
-
-ADD ./bin/docker-entrypoint.sh /usr/bin/docker-entrypoint

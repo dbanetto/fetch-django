@@ -13,6 +13,8 @@
 # fabric
 fabfile.py
 
+settings/production.env
+
 # bower & npm
 /components/*
 !/components/package.json

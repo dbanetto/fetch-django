@@ -1,5 +1,5 @@
 dj-database-url==0.4.1
-Django==1.9.5
+Django==1.9.6
 django-bootstrap3==7.0.1
 django-bower==5.1.0
 django-datetime-widget==0.9.3
@@ -10,5 +10,5 @@ Pillow==3.2.0
 python-dateutil==2.5.0
 pytz==2016.4
 six==1.10.0
-requests==2.7.0
+requests==2.10.0
 django-cors-headers==1.1.0
