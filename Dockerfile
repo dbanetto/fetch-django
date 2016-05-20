@@ -37,6 +37,7 @@ RUN mkdir /components
 
 # install requirements
 ADD requirements/ /requirements
+RUN pip install --upgrade pip
 RUN pip install -r /requirements/production.txt
 RUN pip install -r /requirements/common.txt
 
