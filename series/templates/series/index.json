@@ -16,6 +16,7 @@
 	"release_schedule": "{{ s.release_schedule|escapejs }}",
 	"release_schedule_options": {{ s.release_schedule_options_json|safe }},
 	"media_type": "{{ s.media_type.name|lower }}",
+	"info_url": "{{ s.info_url }}",
 	"media_type_options": {{ s.media_type_options_json|safe }}
 }{% if forloop.last == False %},{% endif %}
 {% endfor %}
