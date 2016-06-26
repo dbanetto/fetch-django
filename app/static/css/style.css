@@ -89,3 +89,9 @@ div.panel-footer h4 {
 div.col-md-fit {
   width: auto;
 }
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

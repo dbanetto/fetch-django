@@ -7,14 +7,14 @@
     </div>
   </a>
   <div class="panel-footer">
-    <h4>
+    <h4 class="truncate">
       <a title="{{ series.title }}" href="{% url 'series:view' series.id %}">
-        {{ series.title|truncatechars:28 }}
+        {{ series.title }}
       </a>
       <br />
       <a title="{{ series.provider.name }}" href="{% url 'provider:view' series.provider.id %}">
         <small>
-          {{ series.provider.name|truncatechars:28 }}
+          {{ series.provider.name }}
         </small>
       </a>
     </h4>
