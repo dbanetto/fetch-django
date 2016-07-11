@@ -18,6 +18,19 @@ def status():
         logger.error('status: {}'.format(str(e)))
     return result
 
+def log():
+    try:
+        re = requests.get(settings.FETCHER_URL + '/log/')
+        result = json.loads(re.content.decode('UTF-8'))
+        result['success'] = True
+    except Exception as e:
+        logger.error('status: {}'.format(str(e)))
+        result = {
+            'success': False,
+            'error': '{}'.format(str(e))
+        }
+    return result
+
 
 def force_fetch():
     try:

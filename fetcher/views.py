@@ -19,6 +19,12 @@ def status(request):
     else:
         return HttpResponseRedirect(reverse('fetcher:index'))
 
+def log(request):
+    if request.method == 'GET' and request.META.get('CONTENT_TYPE') == 'application/json':
+        return HttpResponse(json.dumps(api.log()), content_type='application/json')
+    else:
+        return HttpResponseRedirect(reverse('fetcher:index'))
+
 @csrf_exempt
 def force_fetch(request):
     if request.method == 'POST' and request.META.get('CONTENT_TYPE') == 'application/json':

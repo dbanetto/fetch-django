@@ -27,13 +27,20 @@
 <p>
 <button id="force-fetch" class="btn btn-default" disabled="true" onclick="force('{% url "fetcher:force_fetch" %}','#force-fetch')">Force Fetch</button>
 <button id="force-sort" class="btn btn-default" disabled="true" onclick="force('{% url "fetcher:force_sort" %}','#force-sort')">Force Sort</button>
+<button id="log-refreash" class="btn btn-default" disabled="true" onclick="refreashLog('{% url "fetcher:log" %}','#log-refreash')">Refresh Log</button>
 </p>
+
+<pre id="log-box">
+
+</pre>
 
 <script>
 $(document).ready(function() {
     status('{% url "fetcher:status" %}');
+    refreashLog('{% url "fetcher:log" %}');
     setInterval(function() {
         status('{% url "fetcher:status" %}');
+        refreashLog('{% url "fetcher:log" %}');
     }, 60*1000);
 });
 </script>
