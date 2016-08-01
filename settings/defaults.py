@@ -34,7 +34,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'djangobower',
-    'select_multiple_field',
     'bootstrap3',
     'datetimewidget',
     'corsheaders',
