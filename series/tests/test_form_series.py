@@ -286,6 +286,7 @@ class SeriesFromTest(TestCase):
             'media_type_options': '{}',
             'release_schedule': 'W',
             'poster_url': 'https://api.travis-ci.org/zyphrus/fetch-django.png',
+            'release_time': datetime.now().time(),
         })
 
         self.assertTrue(form.is_valid(), form.errors)
@@ -309,6 +310,7 @@ class SeriesFromTest(TestCase):
             'media_type_options': '{}',
             'release_schedule': 'W',
             'poster_url': 'https://website.com/image.png',
+            'release_time': datetime.now().time(),
         })
 
         self.assertTrue(form.is_valid(), form.errors)
