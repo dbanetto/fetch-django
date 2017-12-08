@@ -1,7 +1,8 @@
-version: '2'
+version: '3'
+
 services:
   db:
-    image: postgres
+    image: postgres:10.1
   web:
     build: .
     command: ./bin/docker-entrypoint.sh
