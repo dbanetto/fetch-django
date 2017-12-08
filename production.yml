@@ -1,9 +1,7 @@
 version: '3'
 services:
   db:
-    image: postgres:10.1
-    volumes:
-      - /opt/fetch-postgresql:/var/lib/postgresql
+    image: postgres:9.5
   web:
     build: .
     command: ./bin/docker-entrypoint.sh
