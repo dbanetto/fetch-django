@@ -20,7 +20,7 @@ class Series(models.Model):
     Series
     """
 
-    provider = models.ForeignKey(Provider)
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
     title = models.CharField(max_length=160,
                              verbose_name="Name of the series")
 
@@ -53,6 +53,7 @@ class Series(models.Model):
                                null=True)
 
     media_type = models.ForeignKey(MediaType,
+                                   on_delete=models.CASCADE,
                                    help_text="Series' media type")
 
     media_type_options = JSONField(blank=True,

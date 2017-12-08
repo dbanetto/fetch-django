@@ -13,7 +13,7 @@ class Provider(models.Model):
     Does not needed client side implementation
     """
 
-    base_provider = models.ForeignKey(BaseProvider)
+    base_provider = models.ForeignKey(BaseProvider, on_delete=models.CASCADE)
     name = models.CharField(max_length=160,
                             verbose_name="Name of the provider")
     website = models.URLField(help_text="url to the provider's website",

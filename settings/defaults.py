@@ -44,14 +44,14 @@ INSTALLED_APPS = (
     'series',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'corsheaders.middleware.CorsPostCsrfMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -106,6 +106,10 @@ USE_L10N = True
 # add URL_ROOT to ROOT_URLCONF's urlpatterns
 # Should end with a /
 URL_ROOT = ''
+
+# Redirects to url with / if does not hit a valid url, can cause issues with POST's
+# https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-APPEND_SLASH
+APPEND_SLASH = True
 
 # django-bower
 BOWER_PATH = 'bower'
