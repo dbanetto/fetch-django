@@ -37,7 +37,7 @@ function refreashLog(url) {
     },
     success:  function(data) {
       var log = $('#log-box');
-      log.text(data.log.reverse().join(''));
+      log.text(data.log.reverse().join('\n'));
     },
     complete: function() {
       from.html(backup_inner);
