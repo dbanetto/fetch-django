@@ -19,9 +19,6 @@ RUN pip install --upgrade pip && \
 # setup folder
 ADD . /code/
 
-RUN npm install && \
-        python manage.py collectstatic --noinput && \
-        echo "Removing node_modules" && \
-        rm -rf node_modules
+RUN npm install
 
 CMD sh /code/bin/docker-entrypoint.sh
