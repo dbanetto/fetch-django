@@ -1,5 +1,8 @@
 #!/bin/bash
 
+USER=${FETCH_USER:-997}
+GROUP=${FETCH_GROUP:-33}
+
 # Apply database migrations
 echo "Apply database migrations"
 python manage.py migrate
@@ -28,8 +31,8 @@ if [ "$DJANGO_SETTINGS_MODULE" = "settings.production" ]; then
     chmod 644 -R $(find /web-media -type f)
 
     # HACK: uuid/guid are hard coded to work
-    chown 997:33 -R /web-media
-    chown 997:33 -R /static
+    chown $USER:$GROUP -R /web-media
+    chown $USER:$GROUP -R /static
 fi
 
-gunicorn app.wsgi --bind=0.0.0.0:8000 --log-file -
+gunicorn app.wsgi --bind=0.0.0.0:8000 --log-file - --access-logfile - --user $USER --group $GROUP
