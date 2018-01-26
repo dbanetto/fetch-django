@@ -309,7 +309,7 @@ class SeriesFromTest(TestCase):
             'total_count': 1,
             'media_type_options': '{}',
             'release_schedule': 'W',
-            'poster_url': 'https://website.com/image.png',
+            'poster_url': 'http://failure.com/404.png',
             'release_time': datetime.now().time(),
         })
 
