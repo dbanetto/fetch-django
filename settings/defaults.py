@@ -33,7 +33,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'djangobower',
     'bootstrap3',
     'datetimewidget',
     'corsheaders',
@@ -59,7 +58,7 @@ MIDDLEWARE = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'djangobower.finders.BowerFinder',
+    'npm.finders.NpmFinder',
 )
 
 FIXTURE_DIRS = (
@@ -111,14 +110,16 @@ URL_ROOT = ''
 # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-APPEND_SLASH
 APPEND_SLASH = True
 
-# django-bower
-BOWER_PATH = 'bower'
-BOWER_COMPONENTS_ROOT = 'components/'
-BOWER_INSTALLED_APPS = (
-    'jquery',
-    'bootstrap',
-    'jsonform',
-)
+# django-npm
+NPM_STATIC_FILES_PREFIX = os.path.join('lib')
+NPM_FINDER_USE_CACHE = False # allows for node_modules folder to be missing
+NPM_FILE_PATTERNS = {
+    'bootstrap': ["dist/**"],
+    'jquery': ["dist/*.min.*"],
+    'popper': ["dist/*.min.js"],
+    'underscore': ["underscore-min.js"],
+    'json-form': ["lib/*.js", "deps/opt/jsv.js", "deps/underscore.js"],
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/

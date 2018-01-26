@@ -1,0 +1,24 @@
+{
+  "name": "fetch-django",
+  "version": "1.0.0",
+  "description": "Front end packages for fetch-django",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zyphrus/fetch-django.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zyphrus/fetch-django/issues"
+  },
+  "homepage": "https://github.com/zyphrus/fetch-django#readme",
+  "dependencies": {
+    "bootstrap": "3.3.7",
+    "jquery": "^2.2.4",
+    "json-form": "git+https://github.com/joshfire/jsonform.git"
+  }
+}

@@ -17,5 +17,6 @@ settings/production.env
 settings/uwsgi.ini
 
 # bower & npm
+node_modules/
 /components/*
 !/components/package.json

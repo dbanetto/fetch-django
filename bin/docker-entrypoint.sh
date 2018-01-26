@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Collect static files
-echo "Collect static files"
-python manage.py collectstatic --noinput
-
 # Apply database migrations
 echo "Apply database migrations"
 python manage.py migrate
@@ -31,14 +27,9 @@ if [ "$DJANGO_SETTINGS_MODULE" = "settings.production" ]; then
     chmod 644 -R $(find /static -type f)
     chmod 644 -R $(find /web-media -type f)
 
+    # HACK: uuid/guid are hard coded to work
     chown 997:33 -R /web-media
     chown 997:33 -R /static
-
-    if [ "$DJANGO_USE_GUNICORN" = "true" ]; then 
-        gunicorn app.wsgi --bind=0.0.0.0:8000 --log-file -
-    else
-        uwsgi /code/settings/uwsgi.ini
-    fi
-else
-    gunicorn app.wsgi --bind=0.0.0.0:8000 --log-file -
 fi
+
+gunicorn app.wsgi --bind=0.0.0.0:8000 --log-file -
