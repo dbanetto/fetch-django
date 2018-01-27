@@ -28,5 +28,4 @@ if 'DATABASE_URL' in os.environ:
 
 STATIC_ROOT = os.environ['STATIC_ROOT']
 MEDIA_ROOT = os.environ['MEDIA_ROOT']
-BOWER_COMPONENTS_ROOT = os.environ['BOWER_COMPONENTS_ROOT']
 FETCHER_URL = os.environ['FETCHER_URL']
