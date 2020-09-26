@@ -18,7 +18,7 @@
   "homepage": "https://github.com/zyphrus/fetch-django#readme",
   "dependencies": {
     "bootstrap": "3.3.7",
-    "jquery": "^2.2.4",
+    "jquery": "^3.5.0",
     "json-form": "git+https://github.com/joshfire/jsonform.git"
   }
 }
